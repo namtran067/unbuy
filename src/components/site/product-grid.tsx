@@ -26,11 +26,11 @@ export function ProductGrid({ products, onPickProduct }: ProductGridProps) {
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <div className="mb-2 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-gold">
-              <Filter className="h-3.5 w-3.5" />
+            <div className="mb-2 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+              <Filter className="h-3.5 w-3.5 text-gold" />
               Bộ sưu tập
             </div>
-            <h2 className="font-serif text-3xl font-semibold text-champagne sm:text-4xl">
+            <h2 className="font-serif text-3xl font-semibold text-ink sm:text-4xl">
               Cửa hàng — kèm cảnh báo trung thực
             </h2>
             <p className="mt-2 max-w-xl text-sm text-muted-foreground">
@@ -48,8 +48,8 @@ export function ProductGrid({ products, onPickProduct }: ProductGridProps) {
               onClick={() => setCategory(c)}
               className={`rounded-full border px-4 py-1.5 text-sm font-medium transition-colors ${
                 category === c
-                  ? 'border-gold bg-gold/15 text-gold'
-                  : 'border-border text-muted-foreground hover:border-gold/40 hover:text-champagne'
+                  ? 'border-ink bg-secondary text-ink'
+                  : 'border-border text-muted-foreground hover:border-ink/30 hover:text-ink'
               }`}
             >
               {CATEGORY_LABELS[c] ?? c}

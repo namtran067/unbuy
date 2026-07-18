@@ -44,63 +44,64 @@
   --radius-xl: calc(var(--radius) + 4px);
 }
 
-/* === LUXURY DARK + CHAMPAGNE GOLD DIAMOND THEME === */
+/* === LIGHT, MINIMALIST JEWELRY THEME === */
 :root {
   --radius: 0.5rem;
 
-  /* Dark luxury background — warm near-black */
-  --background: oklch(0.16 0.012 75);
-  --foreground: oklch(0.96 0.012 80);
+  /* Warm white / cream background */
+  --background: oklch(0.99 0.004 85);
+  --foreground: oklch(0.22 0.012 60);
 
-  --card: oklch(0.205 0.014 75);
-  --card-foreground: oklch(0.96 0.012 80);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.22 0.012 60);
 
-  --popover: oklch(0.205 0.014 75);
-  --popover-foreground: oklch(0.96 0.012 80);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.22 0.012 60);
 
-  /* Champagne gold as primary */
-  --primary: oklch(0.78 0.09 80);
-  --primary-foreground: oklch(0.18 0.02 75);
+  /* Muted bronze/gold as primary — subtle, not flashy */
+  --primary: oklch(0.45 0.05 65);
+  --primary-foreground: oklch(0.99 0.004 85);
 
-  --secondary: oklch(0.27 0.018 75);
-  --secondary-foreground: oklch(0.95 0.012 80);
+  --secondary: oklch(0.96 0.006 80);
+  --secondary-foreground: oklch(0.3 0.012 60);
 
-  --muted: oklch(0.25 0.015 75);
-  --muted-foreground: oklch(0.7 0.02 75);
+  --muted: oklch(0.97 0.005 80);
+  --muted-foreground: oklch(0.52 0.012 60);
 
-  --accent: oklch(0.3 0.02 75);
-  --accent-foreground: oklch(0.96 0.012 80);
+  --accent: oklch(0.95 0.01 75);
+  --accent-foreground: oklch(0.3 0.012 60);
 
-  --destructive: oklch(0.62 0.18 30);
+  --destructive: oklch(0.55 0.18 28);
 
-  --border: oklch(0.32 0.02 75 / 0.5);
-  --input: oklch(0.28 0.018 75);
-  --ring: oklch(0.78 0.09 80);
+  --border: oklch(0.9 0.006 75);
+  --input: oklch(0.93 0.006 75);
+  --ring: oklch(0.6 0.05 65);
 
-  --chart-1: oklch(0.78 0.09 80);
-  --chart-2: oklch(0.7 0.13 45);
-  --chart-3: oklch(0.65 0.1 150);
-  --chart-4: oklch(0.6 0.15 25);
-  --chart-5: oklch(0.75 0.08 95);
+  --chart-1: oklch(0.55 0.08 65);
+  --chart-2: oklch(0.6 0.1 35);
+  --chart-3: oklch(0.55 0.08 160);
+  --chart-4: oklch(0.55 0.12 25);
+  --chart-5: oklch(0.65 0.06 90);
 
-  --sidebar: oklch(0.19 0.014 75);
-  --sidebar-foreground: oklch(0.96 0.012 80);
-  --sidebar-primary: oklch(0.78 0.09 80);
-  --sidebar-primary-foreground: oklch(0.18 0.02 75);
-  --sidebar-accent: oklch(0.27 0.018 75);
-  --sidebar-accent-foreground: oklch(0.96 0.012 80);
-  --sidebar-border: oklch(0.32 0.02 75 / 0.5);
-  --sidebar-ring: oklch(0.78 0.09 80);
+  --sidebar: oklch(0.985 0.004 80);
+  --sidebar-foreground: oklch(0.22 0.012 60);
+  --sidebar-primary: oklch(0.45 0.05 65);
+  --sidebar-primary-foreground: oklch(0.99 0.004 85);
+  --sidebar-accent: oklch(0.96 0.006 80);
+  --sidebar-accent-foreground: oklch(0.3 0.012 60);
+  --sidebar-border: oklch(0.9 0.006 75);
+  --sidebar-ring: oklch(0.6 0.05 65);
 
   /* Custom semantic colors */
-  --gold: oklch(0.82 0.1 82);
-  --gold-soft: oklch(0.72 0.08 80);
-  --champagne: oklch(0.88 0.06 85);
-  --diamond: oklch(0.95 0.02 220);
-  --warn: oklch(0.7 0.16 45);   /* terracotta/amber for "reasons not to buy" */
-  --warn-soft: oklch(0.4 0.08 45);
-  --good: oklch(0.72 0.15 150); /* emerald for verdict BUY */
-  --bad: oklch(0.62 0.2 25);    /* red for verdict AVOID */
+  --gold: oklch(0.5 0.07 70);
+  --gold-soft: oklch(0.62 0.06 75);
+  --ink: oklch(0.25 0.012 60);
+  --warn: oklch(0.5 0.13 45);   /* warm amber for reasons not to buy */
+  --warn-soft: oklch(0.95 0.03 55);
+  --good: oklch(0.5 0.11 155);  /* muted green for verdict BUY */
+  --good-soft: oklch(0.95 0.02 155);
+  --bad: oklch(0.5 0.16 28);    /* terracotta for verdict AVOID */
+  --bad-soft: oklch(0.95 0.025 30);
 }
 
 @layer base {
@@ -112,8 +113,8 @@
     font-feature-settings: "ss01", "cv01";
   }
   ::selection {
-    background: oklch(0.78 0.09 80 / 0.3);
-    color: oklch(0.98 0.01 80);
+    background: oklch(0.5 0.07 70 / 0.18);
+    color: oklch(0.2 0.012 60);
   }
 }
 
@@ -131,8 +132,8 @@
   .border-gold {
     border-color: var(--gold);
   }
-  .text-champagne {
-    color: var(--champagne);
+  .text-ink {
+    color: var(--ink);
   }
   .text-warn {
     color: var(--warn);
@@ -143,100 +144,75 @@
   .text-bad {
     color: var(--bad);
   }
+  .bg-warn-soft {
+    background-color: var(--warn-soft);
+  }
+  .bg-good-soft {
+    background-color: var(--good-soft);
+  }
+  .bg-bad-soft {
+    background-color: var(--bad-soft);
+  }
   .bg-card-elevated {
-    background-color: oklch(0.235 0.016 75);
+    background-color: oklch(0.98 0.005 80);
   }
 
-  /* Gradient text for gold accents */
-  .text-gradient-gold {
-    background: linear-gradient(
-      135deg,
-      oklch(0.92 0.08 88) 0%,
-      oklch(0.78 0.1 80) 50%,
-      oklch(0.7 0.09 70) 100%
-    );
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    color: transparent;
+  /* Subtle gold text accent (no flashy gradient) */
+  .text-accent-gold {
+    color: var(--gold);
   }
 
-  /* Subtle gold border glow */
-  .glow-gold {
-    box-shadow: 0 0 0 1px oklch(0.78 0.09 80 / 0.25),
-      0 8px 40px -12px oklch(0.78 0.09 80 / 0.35);
-  }
-
-  /* Diamond sparkle radial bg */
-  .bg-diamond-radial {
-    background-image: radial-gradient(
-        ellipse at top,
-        oklch(0.78 0.09 80 / 0.12) 0%,
-        transparent 50%
-      ),
-      radial-gradient(
-        ellipse at bottom right,
-        oklch(0.6 0.1 200 / 0.08) 0%,
-        transparent 45%
-      );
-  }
-
-  /* Diamond grid pattern overlay */
-  .bg-diamond-pattern {
-    background-image: linear-gradient(
-        135deg,
-        oklch(0.78 0.09 80 / 0.04) 25%,
-        transparent 25%,
-        transparent 50%,
-        oklch(0.78 0.09 80 / 0.04) 50%,
-        oklch(0.78 0.09 80 / 0.04) 75%,
-        transparent 75%,
-        transparent
-      );
-    background-size: 28px 28px;
-  }
-
+  /* Hairline divider */
   .hairline {
     background: linear-gradient(
       90deg,
       transparent,
-      oklch(0.78 0.09 80 / 0.5),
+      oklch(0.5 0.07 70 / 0.35),
       transparent
     );
     height: 1px;
   }
+
+  /* Soft elevated card shadow — minimal */
+  .shadow-soft {
+    box-shadow: 0 1px 2px oklch(0.2 0.01 60 / 0.04),
+      0 4px 16px -8px oklch(0.2 0.01 60 / 0.06);
+  }
+  .shadow-soft-lg {
+    box-shadow: 0 2px 4px oklch(0.2 0.01 60 / 0.05),
+      0 12px 40px -12px oklch(0.2 0.01 60 / 0.1);
+  }
 }
 
-/* === Custom scrollbar === */
+/* === Custom scrollbar (subtle) === */
 .scroll-luxe::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 .scroll-luxe::-webkit-scrollbar-track {
-  background: oklch(0.2 0.014 75);
+  background: transparent;
 }
 .scroll-luxe::-webkit-scrollbar-thumb {
-  background: oklch(0.4 0.04 75);
+  background: oklch(0.85 0.006 75);
   border-radius: 4px;
 }
 .scroll-luxe::-webkit-scrollbar-thumb:hover {
-  background: oklch(0.55 0.06 78);
+  background: oklch(0.7 0.01 70);
 }
 
-/* Diamond sparkle animation */
-@keyframes sparkle {
-  0%,
-  100% {
-    opacity: 0.4;
-    transform: scale(1);
+/* Subtle fade-in for content */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
   }
-  50% {
+  to {
     opacity: 1;
-    transform: scale(1.15);
+    transform: translateY(0);
   }
 }
-.animate-sparkle {
-  animation: sparkle 2.4s ease-in-out infinite;
+.animate-fade-up {
+  animation: fadeUp 0.4s ease-out both;
 }
 
 @keyframes shimmer {
@@ -250,9 +226,9 @@
 .animate-shimmer {
   background: linear-gradient(
     90deg,
-    oklch(0.3 0.018 75) 0%,
-    oklch(0.4 0.04 80) 50%,
-    oklch(0.3 0.018 75) 100%
+    oklch(0.96 0.006 80) 0%,
+    oklch(0.92 0.008 78) 50%,
+    oklch(0.96 0.006 80) 100%
   );
   background-size: 200% 100%;
   animation: shimmer 1.6s linear infinite;

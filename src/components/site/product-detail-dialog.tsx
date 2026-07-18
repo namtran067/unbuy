@@ -1,7 +1,6 @@
 'use client'
 
 import {
-  Tag,
   AlertTriangle,
   Gem,
   CheckCircle2,
@@ -31,9 +30,9 @@ interface ProductDetailDialogProps {
 }
 
 const SEVERITY_STYLE = {
-  high: { color: 'text-bad', bg: 'bg-bad/10', border: 'border-bad/30', label: 'Nghiêm trọng' },
-  medium: { color: 'text-warn', bg: 'bg-warn/10', border: 'border-warn/30', label: 'Cần lưu ý' },
-  low: { color: 'text-muted-foreground', bg: 'bg-muted/30', border: 'border-border', label: 'Nhẹ' },
+  high: { color: 'text-bad', bg: 'bg-bad-soft', border: 'border-bad/30', label: 'Nghiêm trọng' },
+  medium: { color: 'text-warn', bg: 'bg-warn-soft', border: 'border-warn/30', label: 'Cần lưu ý' },
+  low: { color: 'text-muted-foreground', bg: 'bg-muted', border: 'border-border', label: 'Nhẹ' },
 } as const
 
 export function ProductDetailDialog({
@@ -50,15 +49,15 @@ export function ProductDetailDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-h-[92vh] overflow-hidden border-border bg-card p-0 sm:max-w-4xl">
+      <DialogContent className="max-h-[92vh] overflow-hidden border-border bg-background p-0 sm:max-w-4xl">
         <DialogHeader className="sr-only">
           <DialogTitle>{product.name}</DialogTitle>
-          <DialogDescription>Chi tiết & giải mã marketing</DialogDescription>
+          <DialogDescription>Chi tiết & lý do không nên mua</DialogDescription>
         </DialogHeader>
 
         <button
           onClick={() => onOpenChange(false)}
-          className="absolute right-4 top-4 z-20 grid h-8 w-8 place-items-center rounded-full border border-border bg-background/80 text-muted-foreground backdrop-blur transition-colors hover:text-champagne"
+          className="absolute right-4 top-4 z-20 grid h-8 w-8 place-items-center rounded-full border border-border bg-background/90 text-muted-foreground backdrop-blur transition-colors hover:text-ink"
           aria-label="Đóng"
         >
           <X className="h-4 w-4" />
@@ -67,7 +66,7 @@ export function ProductDetailDialog({
         <ScrollArea className="scroll-luxe max-h-[92vh]">
           <div className="grid gap-0 md:grid-cols-2">
             {/* Image */}
-            <div className="relative aspect-square bg-background md:aspect-auto">
+            <div className="relative aspect-square bg-secondary md:aspect-auto">
               <img
                 src={product.image}
                 alt={product.name}
@@ -75,12 +74,12 @@ export function ProductDetailDialog({
               />
               <div className="absolute left-4 top-4 flex flex-col gap-1.5">
                 {product.badge && (
-                  <Badge className="border-gold/40 bg-background/80 text-gold backdrop-blur">
+                  <Badge className="border-border bg-background/90 text-ink backdrop-blur">
                     {product.badge}
                   </Badge>
                 )}
                 {discount > 0 && (
-                  <Badge className="border-bad/40 bg-background/80 text-bad backdrop-blur">
+                  <Badge className="border-bad/30 bg-background/90 text-bad backdrop-blur">
                     -{discount}%
                   </Badge>
                 )}
@@ -95,12 +94,12 @@ export function ProductDetailDialog({
                 <span className="text-border">•</span>
                 <span>{product.material}</span>
               </div>
-              <h2 className="mt-1 font-serif text-2xl font-semibold leading-snug text-champagne">
+              <h2 className="mt-1 font-serif text-2xl font-semibold leading-snug text-ink">
                 {product.name}
               </h2>
 
               <div className="mt-3 flex items-baseline gap-2">
-                <span className="font-serif text-2xl font-bold text-gold">
+                <span className="font-serif text-2xl font-bold text-ink">
                   {formatVND(product.price)}
                 </span>
                 {product.oldPrice && (
@@ -115,7 +114,7 @@ export function ProductDetailDialog({
               </p>
 
               {/* Specs */}
-              <div className="mt-4 grid grid-cols-2 gap-2 rounded-lg border border-border bg-card-elevated p-3 text-xs">
+              <div className="mt-4 grid grid-cols-2 gap-2 rounded-lg border border-border bg-secondary/40 p-3 text-xs">
                 {product.carat && <Spec label="Carat" value={`${product.carat}ct`} />}
                 {product.cutGrade && <Spec label="Giác cắt" value={product.cutGrade} />}
                 {product.colorGrade && <Spec label="Màu" value={product.colorGrade} />}
@@ -129,62 +128,29 @@ export function ProductDetailDialog({
               {/* CTA */}
               <Button
                 onClick={() => onAnalyzeWithProduct(product.id)}
-                className="mt-5 bg-gold text-primary-foreground hover:bg-gold/90"
+                className="mt-5 bg-ink text-background hover:bg-ink/90"
               >
                 <Wand2 className="mr-2 h-4 w-4" />
                 Phân tích AI theo nhu cầu của tôi
               </Button>
               <p className="mt-1.5 text-center text-xs text-muted-foreground">
-                Nhập ngân sách & nhu cầu để AI khuyến nghị chính xác hơn
+                Nhập ngân sách &amp; nhu cầu để AI khuyến nghị chính xác hơn
               </p>
             </div>
           </div>
 
           {/* Anti-marketing sections */}
-          <div className="space-y-6 border-t border-border/60 p-6">
+          <div className="space-y-6 border-t border-border/70 p-6">
             {/* Honest verdict — top highlight */}
-            <div className="rounded-xl border border-gold/40 bg-gradient-to-br from-gold/10 to-transparent p-5">
-              <div className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.15em] text-gold">
-                <ShieldCheck className="h-4 w-4" />
+            <div className="rounded-xl border border-border bg-secondary/40 p-5">
+              <div className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.15em] text-ink">
+                <ShieldCheck className="h-4 w-4 text-gold" />
                 Đánh giá trung thực
               </div>
-              <p className="font-serif text-base leading-relaxed text-champagne">
+              <p className="font-serif text-base leading-relaxed text-ink">
                 {product.honestVerdict}
               </p>
             </div>
-
-            {/* Marketing tactics */}
-            {product.marketingTactics.length > 0 && (
-              <Section
-                icon={Tag}
-                title="Chiến lược Marketing đã giải mã"
-                accent="gold"
-              >
-                <div className="space-y-2.5">
-                  {product.marketingTactics.map((t, i) => (
-                    <div
-                      key={i}
-                      className="rounded-lg border border-border bg-card-elevated p-3"
-                    >
-                      <div className="flex items-start gap-2">
-                        <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-gold/15 text-[10px] font-bold text-gold">
-                          {i + 1}
-                        </span>
-                        <div>
-                          <div className="text-sm font-semibold text-champagne">
-                            {t.tactic}
-                          </div>
-                          <div className="mt-0.5 text-xs leading-relaxed text-muted-foreground">
-                            <span className="text-warn">↳ </span>
-                            {t.decoded}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </Section>
-            )}
 
             {/* Reasons not to buy */}
             {product.whyNotToBuy.length > 0 && (
@@ -249,11 +215,11 @@ export function ProductDetailDialog({
                       href={alt.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group rounded-lg border border-border bg-card-elevated p-3 transition-colors hover:border-gold/50"
+                      className="group rounded-lg border border-border bg-card p-3 transition-colors hover:border-ink/30"
                     >
                       <div className="flex items-start justify-between gap-2">
                         <div className="min-w-0">
-                          <div className="truncate text-sm font-semibold text-champagne group-hover:text-gold">
+                          <div className="truncate text-sm font-semibold text-ink group-hover:text-gold">
                             {alt.name}
                           </div>
                           <div className="mt-0.5 text-xs font-medium text-gold">
@@ -262,7 +228,7 @@ export function ProductDetailDialog({
                         </div>
                         <ExternalLink className="h-3.5 w-3.5 shrink-0 text-muted-foreground group-hover:text-gold" />
                       </div>
-                      <div className="mt-1.5 text-xs text-champagne/80">
+                      <div className="mt-1.5 text-xs text-ink/70">
                         {alt.priceRange}
                       </div>
                       <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground">
@@ -286,7 +252,7 @@ function Spec({ label, value }: { label: string; value: string }) {
       <div className="text-[10px] uppercase tracking-wider text-muted-foreground">
         {label}
       </div>
-      <div className="mt-0.5 font-medium text-champagne">{value}</div>
+      <div className="mt-0.5 font-medium text-ink">{value}</div>
     </div>
   )
 }
@@ -308,11 +274,11 @@ function Section({
     <div>
       <div className="mb-3 flex items-center gap-2">
         <span
-          className={`grid h-7 w-7 place-items-center rounded-md border border-border bg-card-elevated ${color}`}
+          className={`grid h-7 w-7 place-items-center rounded-md bg-secondary ${color}`}
         >
           <Icon className="h-3.5 w-3.5" />
         </span>
-        <h3 className="font-serif text-base font-semibold text-champagne">
+        <h3 className="font-serif text-base font-semibold text-ink">
           {title}
         </h3>
       </div>

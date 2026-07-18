@@ -38,7 +38,7 @@ export function ProductCard({ product, onClick }: ProductCardProps) {
   return (
     <button
       onClick={onClick}
-      className="group relative flex flex-col overflow-hidden rounded-xl border border-border bg-card text-left transition-all hover:border-gold/50 hover:shadow-lg hover:shadow-gold/5"
+      className="group relative flex flex-col overflow-hidden rounded-xl border border-border bg-card text-left transition-all hover:border-ink/30 hover:shadow-soft-lg"
     >
       {/* Image */}
       <div className="relative aspect-square overflow-hidden bg-background">
@@ -48,12 +48,12 @@ export function ProductCard({ product, onClick }: ProductCardProps) {
           className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
           loading="lazy"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-card/80 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-card/60 via-transparent to-transparent" />
 
         {/* Top badges */}
         <div className="absolute left-3 top-3 flex flex-col gap-1.5">
           {product.badge && (
-            <Badge className="border-gold/40 bg-background/80 text-gold backdrop-blur">
+            <Badge className="border-border bg-background/90 text-ink backdrop-blur">
               {product.badge}
             </Badge>
           )}
@@ -74,9 +74,9 @@ export function ProductCard({ product, onClick }: ProductCardProps) {
 
         {/* Quick verdict on hover */}
         <div className="absolute inset-x-0 bottom-0 flex translate-y-2 items-center justify-center pb-3 opacity-0 transition-all group-hover:translate-y-0 group-hover:opacity-100">
-          <span className="flex items-center gap-1.5 rounded-full border border-gold/40 bg-background/90 px-3 py-1.5 text-xs font-medium text-gold backdrop-blur">
+          <span className="flex items-center gap-1.5 rounded-full border border-border bg-background/95 px-3 py-1.5 text-xs font-medium text-ink backdrop-blur">
             <Eye className="h-3.5 w-3.5" />
-            Giải mã sản phẩm
+            Xem chi tiết
           </span>
         </div>
       </div>
@@ -89,7 +89,7 @@ export function ProductCard({ product, onClick }: ProductCardProps) {
           <span className="text-border">•</span>
           <span>{product.material}</span>
         </div>
-        <h3 className="font-serif text-base font-semibold leading-snug text-champagne line-clamp-2">
+        <h3 className="font-serif text-base font-semibold leading-snug text-ink line-clamp-2">
           {product.name}
         </h3>
 
@@ -102,7 +102,7 @@ export function ProductCard({ product, onClick }: ProductCardProps) {
 
         <div className="mt-auto pt-3">
           <div className="flex items-baseline gap-2">
-            <span className="font-serif text-lg font-bold text-gold">
+            <span className="font-serif text-lg font-bold text-ink">
               {formatVND(product.price)}
             </span>
             {product.oldPrice && (

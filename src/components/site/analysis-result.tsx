@@ -4,7 +4,6 @@ import {
   ShieldX,
   ShieldAlert,
   ShieldCheck,
-  Tag,
   AlertTriangle,
   Wallet,
   Gem,
@@ -54,9 +53,9 @@ const VERDICT_META = {
 } as const
 
 const SEVERITY_META = {
-  high: { label: 'Nghiêm trọng', color: 'text-bad', bg: 'bg-bad/10', border: 'border-bad/30' },
-  medium: { label: 'Cần lưu ý', color: 'text-warn', bg: 'bg-warn/10', border: 'border-warn/30' },
-  low: { label: 'Nhẹ', color: 'text-muted-foreground', bg: 'bg-muted/30', border: 'border-border' },
+  high: { label: 'Nghiêm trọng', color: 'text-bad', bg: 'bg-bad-soft', border: 'border-bad/30' },
+  medium: { label: 'Cần lưu ý', color: 'text-warn', bg: 'bg-warn-soft', border: 'border-warn/30' },
+  low: { label: 'Nhẹ', color: 'text-muted-foreground', bg: 'bg-muted', border: 'border-border' },
 } as const
 
 export function AnalysisResult({
@@ -72,17 +71,16 @@ export function AnalysisResult({
   const productMap = new Map(analyzedProducts.map((p) => [p.id, p]))
 
   return (
-    <div className="mt-8 space-y-6">
+    <div className="mt-8 space-y-5 animate-fade-up">
       {/* Verdict banner */}
       <div
-        className={`relative overflow-hidden rounded-2xl border ${meta.border} ${meta.bg} p-6 sm:p-8`}
+        className={`relative overflow-hidden rounded-xl border ${meta.border} ${meta.bg} p-6 sm:p-7`}
       >
-        <div className="absolute inset-0 bg-diamond-pattern opacity-20" />
-        <div className="relative flex flex-col items-start gap-4 sm:flex-row sm:items-center">
+        <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center">
           <div
-            className={`grid h-16 w-16 shrink-0 place-items-center rounded-full border ${meta.border} ${meta.bg}`}
+            className={`grid h-14 w-14 shrink-0 place-items-center rounded-full border ${meta.border} ${meta.bg}`}
           >
-            <VerdictIcon className={`h-8 w-8 ${meta.color}`} />
+            <VerdictIcon className={`h-7 w-7 ${meta.color}`} />
           </div>
           <div className="flex-1">
             <div className="flex flex-wrap items-center gap-2">
@@ -96,46 +94,12 @@ export function AnalysisResult({
                 Độ tin cậy: {analysis.confidence}
               </Badge>
             </div>
-            <p className="mt-2 text-base leading-relaxed text-champagne">
+            <p className="mt-2 text-base leading-relaxed text-ink">
               {analysis.summary}
             </p>
           </div>
         </div>
       </div>
-
-      {/* Marketing tactics decoded */}
-      {analysis.marketingTactics.length > 0 && (
-        <Card
-          icon={Tag}
-          title="Chiến lược Marketing đã giải mã"
-          subtitle="Những nhãn & câu chuyện brand dùng để thuyết phục bạn"
-          accent="gold"
-        >
-          <div className="space-y-3">
-            {analysis.marketingTactics.map((t, i) => (
-              <div
-                key={i}
-                className="rounded-lg border border-border bg-card-elevated p-4"
-              >
-                <div className="flex items-start gap-2">
-                  <span className="mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full bg-gold/15 text-xs font-bold text-gold">
-                    {i + 1}
-                  </span>
-                  <div>
-                    <div className="text-sm font-semibold text-champagne">
-                      {t.tactic}
-                    </div>
-                    <div className="mt-1 text-sm leading-relaxed text-muted-foreground">
-                      <span className="text-warn">↳ Giải mã: </span>
-                      {t.decoded}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </Card>
-      )}
 
       {/* Reasons not to buy */}
       {analysis.reasonsNotToBuy.length > 0 && (
@@ -229,7 +193,7 @@ export function AnalysisResult({
               >
                 <div className="flex items-start justify-between gap-2">
                   <div className="min-w-0">
-                    <div className="text-sm font-semibold text-champagne group-hover:text-gold">
+                    <div className="text-sm font-semibold text-ink group-hover:text-gold">
                       {alt.name}
                     </div>
                     <div className="mt-0.5 text-xs font-medium text-gold">
@@ -238,7 +202,7 @@ export function AnalysisResult({
                   </div>
                   <ExternalLink className="h-4 w-4 shrink-0 text-muted-foreground group-hover:text-gold" />
                 </div>
-                <div className="mt-2 text-xs font-medium text-champagne/80">
+                <div className="mt-2 text-xs font-medium text-ink/80">
                   {alt.priceRange}
                 </div>
                 <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
@@ -267,7 +231,7 @@ export function AnalysisResult({
                     key={i}
                     className="rounded-lg border border-border bg-card-elevated p-4"
                   >
-                    <div className="text-sm font-medium text-champagne">
+                    <div className="text-sm font-medium text-ink">
                       {rec.reason}
                     </div>
                   </div>
@@ -284,7 +248,7 @@ export function AnalysisResult({
                     className="h-16 w-16 shrink-0 rounded-md object-cover"
                   />
                   <div className="min-w-0 flex-1">
-                    <div className="truncate text-sm font-semibold text-champagne group-hover:text-good">
+                    <div className="truncate text-sm font-semibold text-ink group-hover:text-good">
                       {p.name}
                     </div>
                     <div className="mt-0.5 text-xs font-medium text-gold">
@@ -303,16 +267,15 @@ export function AnalysisResult({
 
       {/* Final advice */}
       {analysis.finalAdvice && (
-        <div className="relative overflow-hidden rounded-2xl border border-gold/40 bg-gradient-to-br from-gold/10 to-transparent p-6 sm:p-8">
-          <div className="absolute inset-0 bg-diamond-pattern opacity-20" />
+        <div className="relative overflow-hidden rounded-xl border border-border bg-secondary/50 p-6 sm:p-8">
           <div className="relative">
-            <Quote className="h-8 w-8 text-gold/60" />
-            <p className="mt-3 font-serif text-lg leading-relaxed text-champagne sm:text-xl">
+            <Quote className="h-7 w-7 text-gold/50" />
+            <p className="mt-3 font-serif text-lg leading-relaxed text-ink sm:text-xl">
               {analysis.finalAdvice}
             </p>
             <div className="mt-4 flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-gold">
               <Gem className="h-3 w-3" />
-              Lời khuyên từ CLARITY
+              Lời khuyên từ SAIGONXUA
             </div>
           </div>
         </div>
@@ -331,7 +294,7 @@ export function AnalysisResult({
                 href={s.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card-elevated px-3 py-1 text-xs text-muted-foreground transition-colors hover:border-gold/50 hover:text-champagne"
+                className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card-elevated px-3 py-1 text-xs text-muted-foreground transition-colors hover:border-gold/50 hover:text-ink"
               >
                 <ExternalLink className="h-3 w-3" />
                 {s.host}
@@ -362,15 +325,15 @@ function Card({
   const accentColor =
     accent === 'warn' ? 'text-warn' : accent === 'good' ? 'text-good' : 'text-gold'
   return (
-    <div className={`rounded-2xl border border-border bg-card ${compact ? 'p-5' : 'p-6'}`}>
+    <div className={`rounded-xl border border-border bg-card shadow-soft ${compact ? 'p-5' : 'p-6'}`}>
       <div className="mb-4 flex items-start gap-3">
         <span
-          className={`grid h-9 w-9 shrink-0 place-items-center rounded-lg border border-border bg-card-elevated ${accentColor}`}
+          className={`grid h-8 w-8 shrink-0 place-items-center rounded-md bg-secondary ${accentColor}`}
         >
           <Icon className="h-4 w-4" />
         </span>
         <div>
-          <h3 className="font-serif text-lg font-semibold text-champagne">
+          <h3 className="font-serif text-lg font-semibold text-ink">
             {title}
           </h3>
           {subtitle && (

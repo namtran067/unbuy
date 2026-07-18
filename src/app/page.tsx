@@ -7,10 +7,12 @@ import { Analyzer } from '@/components/site/analyzer'
 import { ProductGrid } from '@/components/site/product-grid'
 import { ProductDetailDialog } from '@/components/site/product-detail-dialog'
 import { Footer } from '@/components/site/footer'
+import { AdminLoginDialog } from '@/components/site/admin-login-dialog'
+import { AdminPanel } from '@/components/site/admin-panel'
 import type { Product } from '@/lib/types'
+import { isAdmin } from '@/lib/admin'
 import {
   Search,
-  Brain,
   Scale,
   Sparkles,
   ShieldAlert,
@@ -27,6 +29,15 @@ export default function Home() {
   const [detailOpen, setDetailOpen] = useState(false)
 
   const [prefillProductId, setPrefillProductId] = useState<string | null>(null)
+
+  // Admin state
+  const [adminLoginOpen, setAdminLoginOpen] = useState(false)
+  const [adminPanelOpen, setAdminPanelOpen] = useState(false)
+  const [adminAuthed, setAdminAuthed] = useState(false)
+
+  useEffect(() => {
+    setAdminAuthed(isAdmin())
+  }, [])
 
   // Fetch products
   useEffect(() => {
@@ -87,9 +98,29 @@ export default function Home() {
     [scrollTo]
   )
 
+  // Admin click — if already authed, open panel; else open login
+  const handleAdminClick = useCallback(() => {
+    if (isAdmin()) {
+      setAdminPanelOpen(true)
+    } else {
+      setAdminLoginOpen(true)
+    }
+  }, [])
+
+  // Refetch products (after admin edits)
+  const refetchProducts = useCallback(async () => {
+    try {
+      const res = await fetch('/api/products')
+      const data = await res.json()
+      if (data.success) setProducts(data.products)
+    } catch {
+      // ignore
+    }
+  }, [])
+
   return (
     <div id="top" className="flex min-h-screen flex-col bg-background">
-      <Header onNavigate={scrollTo} />
+      <Header onNavigate={scrollTo} onAdminClick={handleAdminClick} />
 
       <main className="flex-1">
         <Hero
@@ -117,7 +148,7 @@ export default function Home() {
         <HowItWorks />
       </main>
 
-      <Footer onNavigate={scrollTo} />
+      <Footer onNavigate={scrollTo} onAdminClick={handleAdminClick} />
 
       <ProductDetailDialog
         product={selectedProduct}
@@ -125,6 +156,25 @@ export default function Home() {
         onOpenChange={setDetailOpen}
         onAnalyzeWithProduct={handleAnalyzeWithProduct}
       />
+
+      {/* Admin */}
+      <AdminLoginDialog
+        open={adminLoginOpen}
+        onOpenChange={setAdminLoginOpen}
+        onSuccess={() => {
+          setAdminAuthed(true)
+          setAdminLoginOpen(false)
+          setAdminPanelOpen(true)
+        }}
+      />
+      {adminAuthed && (
+        <AdminPanel
+          open={adminPanelOpen}
+          onOpenChange={setAdminPanelOpen}
+          onLogout={() => setAdminAuthed(false)}
+          onProductsChanged={refetchProducts}
+        />
+      )}
     </div>
   )
 }
@@ -160,11 +210,6 @@ function HowItWorks() {
       desc: 'Hệ thống tìm kiếm web các sản phẩm tương tự từ PNJ, DOJI, Jemmia, Tiffany, Lightbox, Charles & Colvard... để đối chiếu.',
     },
     {
-      icon: Brain,
-      title: 'Giải mã chiến lược marketing',
-      desc: 'AI phân tích các nhãn marketing, kỹ thuật định giá, câu chuyện cảm xúc — và nói thẳng ý đồ thực sự.',
-    },
-    {
       icon: Scale,
       title: 'Cân nhắc giá trị thực',
       desc: 'So sánh giá với ngân sách, đánh giá chất liệu (4C, vàng/bạch kim, ngọc trai cultured), chỉ ra markup.',
@@ -177,23 +222,23 @@ function HowItWorks() {
     {
       icon: Sparkles,
       title: 'Điều phối sản phẩm phù hợp',
-      desc: 'Khuyến nghị sản phẩm trong CLARITY hoặc từ thương hiệu khác thật sự phù hợp nhu cầu & ngân sách của bạn.',
+      desc: 'Khuyến nghị sản phẩm trong SAIGONXUA hoặc từ thương hiệu khác thật sự phù hợp nhu cầu & ngân sách của bạn.',
     },
   ]
 
   return (
-    <section id="how" className="scroll-mt-20 border-t border-border/60 bg-card/30">
+    <section id="how" className="scroll-mt-20 border-t border-border/70 bg-secondary/30">
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
         <div className="mx-auto max-w-2xl text-center">
-          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-gold/30 bg-gold/5 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-gold">
-            <Eye className="h-3.5 w-3.5" />
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-border bg-background px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+            <Eye className="h-3.5 w-3.5 text-gold" />
             Minh bạch tuyệt đối
           </div>
-          <h2 className="font-serif text-3xl font-semibold text-champagne sm:text-4xl">
-            Cách CLARITY giải mã cho bạn
+          <h2 className="font-serif text-3xl font-semibold text-ink sm:text-4xl">
+            Cách SAIGONXUA giải mã cho bạn
           </h2>
           <p className="mt-4 text-base leading-relaxed text-muted-foreground">
-            Sáu bước từ lúc bạn mở trang đến lúc ra quyết định — tất cả đều
+            Năm bước từ lúc bạn mở trang đến lúc ra quyết định — tất cả đều
             hướng tới một mục tiêu: bạn không bị lừa.
           </p>
         </div>
@@ -204,16 +249,16 @@ function HowItWorks() {
             return (
               <div
                 key={i}
-                className="group relative overflow-hidden rounded-xl border border-border bg-card p-6 transition-colors hover:border-gold/40"
+                className="group relative overflow-hidden rounded-xl border border-border bg-card p-6 transition-colors hover:border-ink/20"
               >
-                <div className="absolute right-4 top-4 font-serif text-5xl font-bold text-border/40 transition-colors group-hover:text-gold/20">
+                <div className="absolute right-4 top-4 font-serif text-5xl font-bold text-border/50">
                   {String(i + 1).padStart(2, '0')}
                 </div>
                 <div className="relative">
-                  <span className="grid h-11 w-11 place-items-center rounded-lg border border-gold/30 bg-gold/5 text-gold">
+                  <span className="grid h-10 w-10 place-items-center rounded-lg bg-secondary text-gold">
                     <Icon className="h-5 w-5" />
                   </span>
-                  <h3 className="mt-4 font-serif text-lg font-semibold text-champagne">
+                  <h3 className="mt-4 font-serif text-lg font-semibold text-ink">
                     {s.title}
                   </h3>
                   <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
@@ -226,16 +271,16 @@ function HowItWorks() {
         </div>
 
         {/* Manifesto */}
-        <div className="mt-14 overflow-hidden rounded-2xl border border-gold/30 bg-gradient-to-br from-gold/8 via-card to-card p-8 sm:p-12">
+        <div className="mt-14 overflow-hidden rounded-xl border border-border bg-card p-8 sm:p-12">
           <div className="relative">
             <div className="hairline mb-6 w-24" />
-            <p className="font-serif text-xl leading-relaxed text-champagne sm:text-2xl">
+            <p className="font-serif text-xl leading-relaxed text-ink sm:text-2xl">
               &ldquo;Chúng tôi không bán giấc mơ vĩnh cửu. Chúng tôi bán sự thật
               — để bạn mở ví vì hiểu rõ, không phải vì bị thuyết phục.&rdquo;
             </p>
             <div className="mt-5 flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-gold">
               <Sparkles className="h-3.5 w-3.5" />
-              Tuyên ngôn CLARITY
+              Tuyên ngôn SAIGONXUA
             </div>
           </div>
         </div>

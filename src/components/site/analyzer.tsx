@@ -115,16 +115,16 @@ export function Analyzer({
       <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
         {/* Heading */}
         <div className="mx-auto max-w-2xl text-center">
-          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-warn/30 bg-warn/5 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-warn">
-            <ShieldAlert className="h-3.5 w-3.5" />
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-border bg-secondary px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+            <ShieldAlert className="h-3.5 w-3.5 text-warn" />
             Core Feature
           </div>
-          <h2 className="font-serif text-3xl font-semibold text-champagne sm:text-4xl">
-            Giải Mã Marketing — Trước Khi Mở Ví
+          <h2 className="font-serif text-3xl font-semibold text-ink sm:text-4xl">
+            Giải Mã Sản Phẩm — Trước Khi Mở Ví
           </h2>
           <p className="mt-4 text-base leading-relaxed text-muted-foreground">
-            Cho chúng tôi biết ngân sách và nhu cầu của bạn. AI của CLARITY sẽ
-            phân tích sản phẩm, giải mã chiến lược branding, chỉ ra lý do{' '}
+            Cho chúng tôi biết ngân sách và nhu cầu của bạn. SAIGONXUA sẽ phân
+            tích sản phẩm, chỉ ra lý do{' '}
             <span className="text-warn font-medium">tại sao không nên mua</span>,
             và điều phối bạn đến lựa chọn thật sự phù hợp — kể cả từ thương hiệu
             khác.
@@ -132,11 +132,11 @@ export function Analyzer({
         </div>
 
         {/* Form card */}
-        <div className="mt-10 overflow-hidden rounded-2xl border border-border bg-card shadow-xl">
-          <div className="border-b border-border/60 bg-card-elevated px-6 py-4">
+        <div className="mt-10 overflow-hidden rounded-xl border border-border bg-card shadow-soft">
+          <div className="border-b border-border/70 bg-secondary/40 px-6 py-4">
             <div className="flex items-center gap-2">
               <Wand2 className="h-5 w-5 text-gold" />
-              <h3 className="font-serif text-lg font-semibold text-champagne">
+              <h3 className="font-serif text-lg font-semibold text-ink">
                 Thông tin khách hàng
               </h3>
             </div>
@@ -149,7 +149,7 @@ export function Analyzer({
             {/* Budget */}
             <div>
               <div className="mb-3 flex items-center justify-between">
-                <Label className="text-sm font-medium text-champagne">
+                <Label className="text-sm font-medium text-ink">
                   Ngân sách của bạn
                 </Label>
                 <span className="font-serif text-lg font-semibold text-gold">
@@ -171,8 +171,8 @@ export function Analyzer({
                     onClick={() => setBudget(p * 1_000_000)}
                     className={`rounded-full border px-3 py-1 text-xs transition-colors ${
                       budget === p * 1_000_000
-                        ? 'border-gold bg-gold/15 text-gold'
-                        : 'border-border text-muted-foreground hover:border-gold/50 hover:text-champagne'
+                        ? 'border-ink bg-secondary text-ink'
+                        : 'border-border text-muted-foreground hover:border-ink/40 hover:text-ink'
                     }`}
                   >
                     {p}tr
@@ -184,7 +184,7 @@ export function Analyzer({
             {/* Material + Occasion */}
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
-                <Label className="mb-2 block text-sm font-medium text-champagne">
+                <Label className="mb-2 block text-sm font-medium text-ink">
                   Chất liệu ưu tiên
                 </Label>
                 <Select value={material} onValueChange={setMaterial}>
@@ -201,7 +201,7 @@ export function Analyzer({
                 </Select>
               </div>
               <div>
-                <Label className="mb-2 block text-sm font-medium text-champagne">
+                <Label className="mb-2 block text-sm font-medium text-ink">
                   Dịp sử dụng
                 </Label>
                 <Select value={occasion} onValueChange={setOccasion}>
@@ -223,7 +223,7 @@ export function Analyzer({
             <div>
               <Label
                 htmlFor="needs"
-                className="mb-2 block text-sm font-medium text-champagne"
+                className="mb-2 block text-sm font-medium text-ink"
               >
                 Nhu cầu chi tiết{' '}
                 <span className="text-muted-foreground">(tùy chọn — nhưng rất nên điền)</span>
@@ -245,7 +245,7 @@ export function Analyzer({
             <div>
               <button
                 onClick={() => setShowProductPicker((v) => !v)}
-                className="flex w-full items-center justify-between rounded-lg border border-border bg-input/20 px-4 py-3 text-left text-sm font-medium text-champagne transition-colors hover:bg-input/40"
+                className="flex w-full items-center justify-between rounded-lg border border-border bg-input/20 px-4 py-3 text-left text-sm font-medium text-ink transition-colors hover:bg-input/40"
               >
                 <span>
                   {selectedIds.length > 0
@@ -268,8 +268,8 @@ export function Analyzer({
                         onClick={() => toggleProduct(p.id)}
                         className={`flex items-center gap-2 rounded-md border p-2 text-left transition-colors ${
                           active
-                            ? 'border-gold bg-gold/10'
-                            : 'border-border hover:border-gold/40'
+                            ? 'border-ink bg-secondary'
+                            : 'border-border hover:border-ink/40'
                         }`}
                       >
                         <img
@@ -278,7 +278,7 @@ export function Analyzer({
                           className="h-9 w-9 rounded object-cover"
                         />
                         <div className="min-w-0 flex-1">
-                          <div className="truncate text-xs font-medium text-champagne">
+                          <div className="truncate text-xs font-medium text-ink">
                             {p.name}
                           </div>
                           <div className="text-[10px] text-muted-foreground">
@@ -301,7 +301,7 @@ export function Analyzer({
                 onClick={handleAnalyze}
                 disabled={loading}
                 size="lg"
-                className="flex-1 bg-gold text-primary-foreground hover:bg-gold/90"
+                className="flex-1 bg-ink text-background hover:bg-ink/90"
               >
                 {loading ? (
                   <>
@@ -320,7 +320,7 @@ export function Analyzer({
                   onClick={handleReset}
                   size="lg"
                   variant="outline"
-                  className="border-border text-champagne hover:bg-accent"
+                  className="border-border text-ink hover:bg-accent"
                 >
                   <RotateCcw className="mr-2 h-4 w-4" />
                   Phân tích lại

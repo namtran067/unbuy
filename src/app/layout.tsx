@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
+import { Toaster as SonnerToaster } from "@/components/ui/sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -20,16 +21,16 @@ const cormorant = Cormorant_Garamond({
 });
 
 export const metadata: Metadata = {
-  title: "CLARITY — Trang Sức Kim Cương Trung Thực | Anti-Marketing Jewelry",
+  title: "SAIGONXUA — Trang Sức Trung Thực | Anti-Marketing Jewelry",
   description:
-    "Cửa hàng trang sức kim cương đầu tiên nói cho bạn BIẾT TẠI SAO KHÔNG NÊN MUA. Giải mã chiến lược marketing, phân tích giá trị thực, khuyến nghị sản phẩm phù hợp ngân sách & nhu cầu.",
-  keywords: ["kim cương", "trang sức", "nhẫn cầu hôn", "anti-marketing", "CLARITY", "lab-grown", "PNJ", "DOJI"],
-  authors: [{ name: "CLARITY" }],
+    "Cửa hàng trang sức nói cho bạn BIẾT TẠI SAO KHÔNG NÊN MUA. Phân tích giá trị thực, khuyến nghị sản phẩm phù hợp ngân sách & nhu cầu.",
+  keywords: ["trang sức", "kim cương", "nhẫn cầu hôn", "anti-marketing", "SAIGONXUA"],
+  authors: [{ name: "SAIGONXUA" }],
   icons: {
     icon: "/logo.svg",
   },
   openGraph: {
-    title: "CLARITY — Trang Sức Trung Thực",
+    title: "SAIGONXUA — Trang Sức Trung Thực",
     description: "Đừng mua nếu chúng tôi chưa giải mã cho bạn.",
     type: "website",
   },
@@ -41,12 +42,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="vi" className="dark" suppressHydrationWarning>
+    <html lang="vi" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${cormorant.variable} antialiased bg-background text-foreground`}
       >
         {children}
         <Toaster />
+        <SonnerToaster position="bottom-right" />
       </body>
     </html>
   );

@@ -634,6 +634,498 @@ const products: SeedProduct[] = [
     ],
     targetBudget: 'low',
   },
+  // === 8 sản phẩm mới — đa dạng hơn ===
+  {
+    name: 'Nhẫn Vàng 18K Đính Đá CZ',
+    category: 'ring',
+    material: 'Vàng 18K',
+    price: 6500000,
+    oldPrice: 8200000,
+    image: '/products/gold-ring-cz.jpg',
+    images: ['/products/gold-ring-cz.jpg'],
+    description:
+      'Nhẫn vàng 18K đính đá CZ (cubic zirconia) nhỏ, thiết kế thanh lịch tối giản. Phù hợp quà tặng, đeo hàng ngày.',
+    badge: 'Everyday',
+    marketingTactics: [
+      {
+        tactic: '"Đá CZ" thay vì "kim cương" — nhưng trình bày như trang sức cao cấp',
+        decoded:
+          'CZ (cubic zirconia) là đá nhân tạo giá rất rẻ (~50–200k/viên). Bán 6.5tr cho nhẫn vàng 18K + CZ là mức giá hợp lý cho vàng, nhưng khách hay nhầm CZ với kim cương.',
+      },
+    ],
+    whyNotToBuy: [
+      {
+        reason: 'CZ nhanh xỉn và trầy',
+        detail:
+          'CZ mềm hơn kim cương, sau 6–12 tháng sẽ xỉn, trầy và mất độ lấp lánh. Không thể phục hồi. Kim cương/moissanite thì không bao giờ xỉn.',
+        severity: 'medium',
+      },
+      {
+        reason: 'Giá trị đá gần như bằng 0',
+        detail:
+          'Viên CZ giá nhập <100k. Toàn bộ giá 6.5tr là cho vàng 18K (~2 chỉ). Nếu bán lại chỉ thu hồi giá vàng, đá không có giá trị.',
+        severity: 'low',
+      },
+    ],
+    honestVerdict:
+      'Sản phẩm hợp lý về giá vàng, nhưng đá CZ là lựa chọn tồi nếu muốn lấp lánh lâu dài. Nên coi đây là "nhẫn vàng" chứ không phải "nhẫn kim cương".',
+    whenToBuy:
+      'Khi bạn muốn nhẫn vàng thanh lịch đeo hàng ngày, không quan tâm đá lấp lánh lâu dài, ngân sách 5–7tr.',
+    alternatives: [
+      {
+        name: 'Nhẫn vàng 18K không đá',
+        brand: 'PNJ',
+        url: 'https://www.pnj.com.vn/',
+        priceRange: '~4–6 triệu VND',
+        whyBetter:
+          'Cùng ngân sách, vàng nguyên khối giữ giá trị tốt hơn, không rủi ro đá xỉn. Thiết kế tối giản hiện đại.',
+      },
+      {
+        name: 'Nhẫn moissanite 0.5ct',
+        brand: 'Charles & Colvard',
+        url: 'https://www.charlesandcolvard.com/',
+        priceRange: '~3–5 triệu VND',
+        whyBetter:
+          'Moissanite lấp lánh hơn kim cương, không bao giờ xỉn, giá rẻ hơn CZ+vàng. Nếu muốn lấp lánh, moissanite vượt trội.',
+      },
+    ],
+    targetBudget: 'low',
+  },
+  {
+    name: 'Dây Chuyền Vàng 24K Trơn',
+    category: 'necklace',
+    material: 'Vàng 24K',
+    price: 28000000,
+    oldPrice: 30000000,
+    image: '/products/gold-necklace-24k.jpg',
+    images: ['/products/gold-necklace-24k.jpg'],
+    description:
+      'Dây chuyền vàng 24K (999.9) trơn, chuỗi xíp cổ điển. Phù hợp tích trữ và đeo dịp lễ.',
+    badge: 'Investment',
+    marketingTactics: [
+      {
+        tactic: '"Vàng 24K nguyên chất = cao cấp nhất"',
+        decoded:
+          'Đúng về độ tinh khiết cho TÍCH TRỮ, nhưng 24K quá mềm cho dây chuyền đeo. Dây dễ đứt khi vướng, và phí chế tác dây chuyền (10–15%) cao hơn nhẫn.',
+      },
+    ],
+    whyNotToBuy: [
+      {
+        reason: 'Dây 24K dễ đứt, mất cả dây',
+        detail:
+          'Vàng 24K cực mềm. Dây xíp mảnh khi vướng áo/tóc sẽ đứt, và đính kèm cả mặt (nếu có). Mất dây = mất toàn bộ giá trị. Không nên đeo hàng ngày.',
+        severity: 'high',
+      },
+      {
+        reason: 'Phí chế tác dây chuyền cao',
+        detail:
+          'Dây chuyền 24K phí chế tác 10–15% (so với thỏi vàng). 28tr dây = ~24tr vàng + 4tr phí. Nếu chỉ tích trữ, thỏi vàng hoặc nhẫn tròn rẻ hơn.',
+        severity: 'medium',
+      },
+    ],
+    honestVerdict:
+      'Tuyệt vời để TÍCH TRỮ (đúng giá vàng 24K), tồi để ĐEO HÀNG NGÀY (dễ đứt). Nếu muốn đeo, chọn 18K; nếu muốn tích trữ, chọn thỏi vàng.',
+    whenToBuy:
+      'Mua vì ý nghĩa truyền thống/tích trữ, đeo thỉnh thoảng dịp lễ Tết. Không đeo hàng ngày.',
+    alternatives: [
+      {
+        name: 'Thỏi vàng 24K 5 chỉ',
+        brand: 'SJC / DOJI',
+        url: 'https://sjc.com.vn/',
+        priceRange: '~25–30 triệu VND',
+        whyBetter:
+          'Tích trữ thuần, không phí chế tác, dễ mua bán. Nếu mục tiêu là đầu tư thì thỏi vàng là lựa chọn chuẩn.',
+      },
+      {
+        name: 'Dây chuyền vàng 18K',
+        brand: 'PNJ',
+        url: 'https://www.pnj.com.vn/',
+        priceRange: '~15–22 triệu VND',
+        whyBetter:
+          'Cứng hơn, dây không đứt, đeo hàng ngày thoải mái. Thiết kế đa dạng. Đánh đổi là % vàng thấp hơn (75%).',
+      },
+    ],
+    targetBudget: 'mid',
+  },
+  {
+    name: 'Hoa Tai Ngọc Trai Akoya',
+    category: 'earring',
+    material: 'Vàng 14K',
+    price: 9500000,
+    oldPrice: 12000000,
+    image: '/products/pearl-earrings.jpg',
+    images: ['/products/pearl-earrings.jpg'],
+    description:
+      'Hoa tai stud ngọc trai Akoya cultured 7mm, khung vàng 14K. Cổ điển, thanh lịch, phù hợp mọi lứa tuổi.',
+    cutGrade: 'Akoya 7mm',
+    origin: 'Cultured (nuôi)',
+    badge: 'Classic',
+    marketingTactics: [
+      {
+        tactic: 'Không nhấn mạnh "cultured"',
+        decoded:
+          'Ngọc trai cultured (nuôi) chiếm 99% thị trường, marketing thường lảng tránh để khách tưởng gần ngọc trai tự nhiên. Akoya cultured 7mm giá nhập ~1.5–2tr/cặp.',
+      },
+      {
+        tactic: 'Khung vàng 14K + cultured = 9.5tr',
+        decoded:
+          'Markup ~200% trên giá nhập (ngọc trai 2tr + vàng 14K ~1.5tr = 3.5tr). Khung vàng 14K rẻ hơn 18K nhưng được marketing như "bền hơn".',
+      },
+    ],
+    whyNotToBuy: [
+      {
+        reason: 'Markup cao (~200%)',
+        detail:
+          'Giá nhập cặp ngọc trai Akoya 7mm + vàng 14K ~3–4tr. Bán 9.5tr là markup lớn. Có thể tìm sản phẩm tương tự rẻ hơn từ xưởng VN.',
+        severity: 'medium',
+      },
+      {
+        reason: 'Ngọc trai cultured không giữ giá trị bán lại',
+        detail:
+          'Akoya cultured resale chỉ ~20–30% giá mua. Nếu coi là "tài sản" thì đây là lựa chọn tồi.',
+        severity: 'medium',
+      },
+    ],
+    honestVerdict:
+      'Đẹp kiểu cổ điển, nhưng markup cao. Nên tìm phiên bản giá tốt hơn từ các xưởng VN nếu thích ngọc trai Akoya.',
+    whenToBuy:
+      'Khi bạn thích ngọc trai cổ điển, đeo thỉnh thoảng, chấp nhận markup cho trải nghiệm mua sắm thương hiệu.',
+    alternatives: [
+      {
+        name: 'Hoa tai ngọc trai Akoya khung bạc',
+        brand: 'Jemmia',
+        url: 'https://jemmia.vn/',
+        priceRange: '~3–5 triệu VND',
+        whyBetter:
+          'Cùng chất lượng ngọc trai, giá rẻ hơn 50%. Khung bạc sẽ xỉn nhưng cho ngọc trai giá rẻ thì chấp nhận được.',
+      },
+      {
+        name: 'Hoa tai ngọc trai Tahitian (đen)',
+        brand: 'Pearl Paradise',
+        url: 'https://www.pearlparadise.com/',
+        priceRange: '~15–25 triệu VND',
+        whyBetter:
+          'Ngọc trai Tahitian hiếm và độc đáo hơn Akoya trắng. Nếu đã thích ngọc trai, hãy chọn loại hiếm để có giá trị cảm xúc cao.',
+      },
+    ],
+    targetBudget: 'low',
+  },
+  {
+    name: 'Lắc Tay Vàng 18K',
+    category: 'bracelet',
+    material: 'Vàng 18K',
+    price: 22000000,
+    oldPrice: 25000000,
+    image: '/products/gold-bracelet-18k.jpg',
+    images: ['/products/gold-bracelet-18k.jpg'],
+    description:
+      'Lắc tay vàng 18K chuỗi xíp mảnh, thiết kế tối giản hiện đại. Đeo hàng ngày, giữ giá trị vàng.',
+    badge: 'Everyday',
+    marketingTactics: [
+      {
+        tactic: '"Everyday Gold" / "Tối giản hiện đại"',
+        decoded:
+          'Định vị vàng 18K như "phong cách sống" thay vì tích trữ. Che giấu thực tế phí chế tác lắc (15–20%) cao hơn nhẫn.',
+      },
+    ],
+    whyNotToBuy: [
+      {
+        reason: 'Phí chế tác lắc cao (15–20%)',
+        detail:
+          'Lắc tay 18K phí chế tác 15–20% trên giá vàng. 22tr = ~18tr vàng + 4tr phí. Bán lại mất phí chế tác. Nếu tích trữ, nhẫn tròn/thỏi rẻ hơn.',
+        severity: 'medium',
+      },
+      {
+        reason: 'Chuỗi mảnh dễ vướng, đứt',
+        detail:
+          'Lắc chuỗi mảnh thanh lịch nhưng dễ vướng tay áo/cửa. Khi đứt cần hàn lại (phí) và có thể mất một mắt xích.',
+        severity: 'low',
+      },
+    ],
+    honestVerdict:
+      'Lắc vàng 18K đẹp, đeo hàng ngày tốt, nhưng phí chế tác cao. Phù hợp nếu coi là trang sức đeo, không phải đầu tư.',
+    whenToBuy:
+      'Khi bạn muốn lắc vàng đeo hàng ngày, hiểu rằng phí chế tác sẽ mất khi bán lại, không coi là đầu tư.',
+    alternatives: [
+      {
+        name: 'Nhẫn vàng 18K tròn',
+        brand: 'DOJI',
+        url: 'https://doji.vn/',
+        priceRange: '~18–25 triệu VND',
+        whyBetter:
+          'Phí chế tác thấp hơn (~5–8%), giữ giá trị vàng tốt hơn. Đeo hàng ngày + tích trữ tốt hơn lắc.',
+      },
+      {
+        name: 'Lắc tay vàng 14K',
+        brand: 'PNJ',
+        url: 'https://www.pnj.com.vn/',
+        priceRange: '~12–16 triệu VND',
+        whyBetter:
+          'Cứng hơn 18K (ít xước), giá rẻ hơn. Đánh đổi là % vàng thấp hơn (58.5%). Phù hợp đeo hàng ngày.',
+      },
+    ],
+    targetBudget: 'mid',
+  },
+  {
+    name: 'Nhẫn Bạch Kim Lab-Grown 0.5ct',
+    category: 'ring',
+    material: 'Bạch Kim (Platinum)',
+    price: 38000000,
+    oldPrice: 45000000,
+    image: '/products/platinum-lab-ring.jpg',
+    images: ['/products/platinum-lab-ring.jpg'],
+    description:
+      'Nhẫn solitaire 0.5 carat kim cương lab-grown, giác cắt Excellent, màu G, độ tinh khiết VS2, vỏ bạch kim. Carat vừa phải, thông số cao.',
+    carat: 0.5,
+    cutGrade: 'Excellent',
+    colorGrade: 'G',
+    clarityGrade: 'VS2',
+    origin: 'Lab-grown',
+    badge: 'Eco-Friendly',
+    marketingTactics: [
+      {
+        tactic: 'Nhãn "Eco-Friendly"',
+        decoded:
+          'Định vị lab-grown như lựa chọn đạo đức. Thực tế năng lượng nuôi cấy rất lớn; "eco" là marketing. Tuy nhiên giá lab-grown rẻ hơn tự nhiên 60–70% là thật.',
+      },
+      {
+        tactic: 'Bạch kim = "cao cấp"',
+        decoded:
+          'Bạch kim nặng và đắt, nhưng độ sáng kém hơn vàng trắng rhodium. Khách hay trả premium cho bạch kim vì cảm giác "luxury" mà không biết nhược điểm (nặng, dẻo, xỉn).',
+      },
+    ],
+    whyNotToBuy: [
+      {
+        reason: 'Lab-grown mất giá nhanh',
+        detail:
+          'Giá lab-grown giảm ~30%/năm. Mua 38tr hôm nay, 1 năm sau giá thị trường có thể chỉ còn 25–28tr. Giá trị bán lại gần như bằng 0.',
+        severity: 'high',
+      },
+      {
+        reason: '0.5ct khá nhỏ cho 38tr',
+        detail:
+          'Với 38tr lab-grown, bạn có thể có viên 0.8–1ct cùng thông số. 0.5ct ở mức giá này là không tận dụng lợi thế giá rẻ của lab-grown.',
+        severity: 'medium',
+      },
+    ],
+    honestVerdict:
+      'Thông số (G/VS2/Excellent) rất tốt, nhưng 0.5ct lab-grown ở 38tr là chưa tận dụng lợi thế giá. Nên chọn viên lớn hơn với cùng tiền.',
+    whenToBuy:
+      'Khi bạn hiểu lab-grown là "để đeo" không phải "tích sản", và muốn thông số cao (không phải carat lớn).',
+    alternatives: [
+      {
+        name: 'Nhẫn lab-grown 1ct G/VS2',
+        brand: 'Lightbox',
+        url: 'https://lightbox.jewelry/',
+        priceRange: '~35–45 triệu VND',
+        whyBetter:
+          'Cùng ngân sách, viên đá GẤP ĐÔI carat (1ct vs 0.5ct), cùng thông số. Tận dụng tối đa lợi thế giá lab-grown.',
+      },
+      {
+        name: 'Nhẫn moissanite 1ct',
+        brand: 'Charles & Colvard',
+        url: 'https://www.charlesandcolvard.com/',
+        priceRange: '~5–8 triệu VND',
+        whyBetter:
+          'Lấp lánh hơn kim cương, to hơn, giá chỉ 1/5. Nếu chỉ cần "đẹp và lấp lánh" thì moissanite cực kỳ hợp lý.',
+      },
+    ],
+    targetBudget: 'high',
+  },
+  {
+    name: 'Dây Chuyền Mặt Charm Vàng Hồng',
+    category: 'necklace',
+    material: 'Vàng Hồng 14K',
+    price: 12500000,
+    oldPrice: 15000000,
+    image: '/products/charm-necklace.jpg',
+    images: ['/products/charm-necklace.jpg'],
+    description:
+      'Dây chuyền vàng hồng 14K mặt charm hình trái tim nhỏ, phong cách nữ tính. Phù hợp đeo hàng ngày hoặc quà tặng.',
+    badge: 'Trending',
+    marketingTactics: [
+      {
+        tactic: 'Vàng hồng = "Trending" / "Feminine"',
+        decoded:
+          'Tận dụng xu hướng vàng hồng để định giá cao. Hợp kim vàng hồng (vàng + đồng) thực ra rẻ hơn vàng trắng về giá kim loại, nhưng bán đắt hơn vì "trend".',
+      },
+      {
+        tactic: 'Charm nhỏ = "cảm xúc"',
+        decoded:
+          'Charm trái tim nhỏ giá chế tác thấp nhưng được định giá cao vì ý nghĩa cảm xúc. Khách trả tiền cho "câu chuyện" hơn vật liệu.',
+      },
+    ],
+    whyNotToBuy: [
+      {
+        reason: 'Lớp vàng hồng có thể phai',
+        detail:
+          '14K vàng hồng (vàng + đồng) có thể phai màu theo thời gian khi tiếp xúc hóa chất (nước hoa, xà phòng, mồ hôi). Cần xi lại màu định kỳ (~200–500k/lần).',
+        severity: 'medium',
+      },
+      {
+        reason: 'Phí chế tác charm cao',
+        detail:
+          'Charm nhỏ giá chế tác thấp nhưng markup cao. 12.5tr cho dây 14K + charm nhỏ = markup lớn trên giá vật liệu.',
+        severity: 'low',
+      },
+    ],
+    honestVerdict:
+      'Đẹp kiểu nữ tính, hợp trend. Nhưng vàng hồng 14K cần bảo dưỡng (xi màu) và markup cao. Phù hợp nếu thích phong cách, không quan tâm giá trị bán lại.',
+    whenToBuy:
+      'Khi bạn thích phong cách vàng hồng, đeo hàng ngày, chấp nhận xi màu định kỳ.',
+    alternatives: [
+      {
+        name: 'Dây chuyền vàng 18K mặt đơn giản',
+        brand: 'PNJ',
+        url: 'https://www.pnj.com.vn/',
+        priceRange: '~10–14 triệu VND',
+        whyBetter:
+          'Vàng 18K giữ màu tốt hơn vàng hồng 14K, không cần xi. Giá trị vàng cao hơn. Phù hợp đeo lâu dài.',
+      },
+      {
+        name: 'Dây chuyền bạc 925 charm',
+        brand: 'Pandora',
+        url: 'https://www.pandora.net/',
+        priceRange: '~2–4 triệu VND',
+        whyBetter:
+          'Phong cách charm tương tự, giá rẻ hơn nhiều. Bạc xỉn nhưng dễ đánh bóng. Nếu chỉ cần "vibe" charm thì bạc hợp lý.',
+      },
+    ],
+    targetBudget: 'mid',
+  },
+  {
+    name: 'Set Trang Sức Kim Cương (Nhẫn + Dây)',
+    category: 'diamond',
+    material: 'Vàng Trắng 18K',
+    price: 75000000,
+    oldPrice: 92000000,
+    image: '/products/diamond-set.jpg',
+    images: ['/products/diamond-set.jpg'],
+    description:
+      'Set trang sức gồm nhẫn solitaire 0.3ct + dây chuyền mặt 0.2ct kim cương tự nhiên, vỏ vàng trắng 18K. Tổng 0.5ct, thông số trung bình.',
+    carat: 0.5,
+    cutGrade: 'Very Good',
+    colorGrade: 'H',
+    clarityGrade: 'SI1',
+    origin: 'Tự nhiên',
+    badge: 'Gift Set',
+    marketingTactics: [
+      {
+        tactic: '"Set trang sức" = "tiết kiệm" so với mua lẻ',
+        decoded:
+          'Marketing gộp 2 món và nói "tiết kiệm 20%". Thực tế set thường có thông số thấp hơn (mỗi viên nhỏ) và tổng markup vẫn cao. Mua lẻ viên tốt hơn có thể rẻ hơn và đẹp hơn.',
+      },
+      {
+        tactic: 'Tổng 0.5ct spread trên 2 viên',
+        decoded:
+          'Tổng 0.5ct nghe nhiều nhưng chia 2 viên (0.3 + 0.2) thì mỗi viên nhỏ. Spread carat = mỗi viên gần như vô giá trị riêng, tổng diện tích lấp lánh kém hơn 1 viên 0.5ct.',
+      },
+    ],
+    whyNotToBuy: [
+      {
+        reason: 'Spread carat = kém ấn tượng',
+        detail:
+          '0.3ct (nhẫn) + 0.2ct (dây) — mỗi viên nhỏ (4mm + 3.7mm), nhìn như "pha lê". 1 viên 0.5ct (~5mm) ấn tượng hơn rõ rệt với cùng carat.',
+        severity: 'high',
+      },
+      {
+        reason: 'Set markup cao hơn mua lẻ',
+        detail:
+          'Set 75tr cho 0.5ct tổng (H/SI1) markup rất cao. 2 sản phẩm lẻ cùng thông số mua riêng có thể rẻ hơn 30%.',
+        severity: 'high',
+      },
+      {
+        reason: 'Vàng trắng 18K cần xi rhodium',
+        detail:
+          'Vàng trắng 18K thực ra hơi ngả vàng, lớp trắng bóng là rhodium plating. Sau 1–2 năm lớp rhodium mòn, cần xi lại (~300–500k/món).',
+        severity: 'low',
+      },
+    ],
+    honestVerdict:
+      'Set nghe "tiết kiệm" nhưng thực ra markup cao và spread carat kém ấn tượng. Nên mua 1 sản phẩm lẻ viên đá lớn hơn với cùng tiền.',
+    whenToBuy:
+      'Khi bạn cần quà tặng set (ý nghĩa "đôi"), không quan tâm thông số, ngân sách thoải mái.',
+    alternatives: [
+      {
+        name: 'Nhẫn 0.5ct G/VS2 (tự nhiên)',
+        brand: 'PNJ / DOJI',
+        url: 'https://www.pnj.com.vn/',
+        priceRange: '~60–75 triệu VND',
+        whyBetter:
+          '1 viên 0.5ct đẹp hơn 2 viên nhỏ, thông số cao hơn, cùng ngân sách. Đáng tiền hơn set.',
+      },
+      {
+        name: 'Set lab-grown 1ct tổng',
+        brand: 'Lightbox',
+        url: 'https://lightbox.jewelry/',
+        priceRange: '~50–65 triệu VND',
+        whyBetter:
+          'Tổng carat GẤP ĐÔI (1ct vs 0.5ct), thông số tốt hơn, giá rẻ hơn. Nếu đã thích set thì lab-grown cho carat lớn hơn nhiều.',
+      },
+    ],
+    targetBudget: 'high',
+  },
+  {
+    name: 'Nhẫn Vợ Chồng Vàng 14K',
+    category: 'ring',
+    material: 'Vàng 14K',
+    price: 8500000,
+    oldPrice: 9800000,
+    image: '/products/couple-ring.jpg',
+    images: ['/products/couple-ring.jpg'],
+    description:
+      'Đôi nhẫn vợ chồng vàng 14K (1 vàng + 1 vàng trắng), thiết kế đơn giản. Bán theo đôi, giá cho 2 chiếc.',
+    badge: 'Couple',
+    marketingTactics: [
+      {
+        tactic: '"Nhẫn vợ chồng" = cảm xúc + "trọn đời"',
+        decoded:
+          'Gắn nhẫn cưới với tình yêu vĩnh cửu để hợp thức hóa giá. Đôi 14K 2 chiếc giá nhập vàng ~4–5tr (vàng 14K rẻ). Bán 8.5tr là markup ~80%.',
+      },
+      {
+        tactic: '"Vàng 14K bền hơn 18K"',
+        decoded:
+          '14K cứng hơn 18K (đúng) nhưng được chọn chủ yếu để GIẢM GIÁ THÀNH, không phải vì "bền". Vàng 14K giá kim loại thấp hơn 18K ~25%.',
+      },
+    ],
+    whyNotToBuy: [
+      {
+        reason: 'Markup cao (~80%)',
+        detail:
+          'Đôi 14K giá vàng nhập ~4–5tr, bán 8.5tr = markup lớn. Có thể đặt xưởng làm đôi tương tự với 5–6tr.',
+        severity: 'medium',
+      },
+      {
+        reason: '14K giữ giá trị vàng thấp',
+        detail:
+          '14K chỉ 58.5% vàng. Bán lại chỉ thu ~50% giá mua. Nếu coi là "tài sản", 18K hoặc 24k giữ giá trị tốt hơn.',
+        severity: 'low',
+      },
+    ],
+    honestVerdict:
+      'Sản phẩm hợp lý cho nhẫn cưới (đeo hàng ngày, 14K cứng), nhưng markup cao. Nên so sánh giá xưởng nếu muốn tiết kiệm.',
+    whenToBuy:
+      'Khi bạn cần nhẫn cưới đeo hàng ngày, ngân sách 8–10tr/đôi, không quan tâm giá trị bán lại.',
+    alternatives: [
+      {
+        name: 'Đôi nhẫn 18K xưởng',
+        brand: 'PNJ',
+        url: 'https://www.pnj.com.vn/',
+        priceRange: '~10–14 triệu VND/đôi',
+        whyBetter:
+          '18K giữ giá trị vàng tốt hơn 14K, cứng đủ cho đeo hàng ngày. Chỉ đắt hơn chút nhưng % vàng cao hơn.',
+      },
+      {
+        name: 'Đôi nhẫn bạch kim',
+        brand: 'PNJ',
+        url: 'https://www.pnj.com.vn/',
+        priceRange: '~18–25 triệu VND/đôi',
+        whyBetter:
+          'Bạch kim hypoallergenic, không xỉn, giữ dáng tốt. Đắt hơn nhưng là "vĩnh cửu" — phù hợp ý nghĩa nhẫn cưới. Nếu ngân sách cho phép.',
+      },
+    ],
+    targetBudget: 'low',
+  },
 ]
 
 async function main() {
