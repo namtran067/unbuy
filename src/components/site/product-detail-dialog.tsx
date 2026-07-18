@@ -1,6 +1,6 @@
 'use client'
 
-import { AlertTriangle, CheckCircle2, ExternalLink, Sparkles, X, Loader2 } from 'lucide-react'
+import { AlertTriangle, CheckCircle2, ExternalLink, Wand2, Sparkles, X, Loader2 } from 'lucide-react'
 import type { Product } from '@/lib/types'
 import { formatVND, CATEGORY_LABELS } from '@/lib/format'
 import {
