@@ -1,9 +1,5 @@
 import { db } from '../src/lib/db'
 
-// Seed dữ liệu sản phẩm trang sức với trường "anti-marketing"
-// Mỗi sản phẩm có: chiến lược marketing bị giải mã, lý do không nên mua,
-// đánh giá trung thực, và sản phẩm thay thế từ thương hiệu/web khác.
-
 type SeedProduct = {
   name: string
   category: string
@@ -48,43 +44,37 @@ const products: SeedProduct[] = [
       {
         tactic: 'Gắn nhãn "Kim Cương Tự Nhiên" + "Natural Diamond"',
         decoded:
-          'Tạo cảm giác khan hiếm và giá trị vượt trội so với lab-grown. Thực tế 0.5ct tự nhiên và lab-grown gần như giống hệt nhau khi soi bằng mắt thường, nhưng giá chênh lệch 3–4 lần.',
+          'Thương hiệu dùng cụm "tự nhiên" để tạo cảm giác khan hiếm và giá trị bền vững. Thực tế, trong điều kiện ánh sáng thông thường, khó phân biệt giữa kim cương tự nhiên và lab-grown cùng thông số. Bạn đang trả cho câu chuyện "tự nhiên" nhiều hơn là sự khác biệt về độ đẹp thực sự.',
       },
       {
         tactic: 'Giá gạch 58tr → giảm còn 45tr',
         decoded:
-          'Kỹ thuật "anchor pricing": tạo mức giá gốc ảo để khách hàng cảm thấy được hời 22tr. Mức 58tr hiếm khi được bán thực tế.',
+          'Cách bán phổ biến: đặt mức giá gốc cao rồi giảm để tạo cảm giác "được hời". Tuy nhiên, mức 58tr hiếm khi là giá thực bán hàng ngày. Điểm giá thực tế có thể chỉ quanh 42–45tr.',
       },
       {
         tactic: 'Câu chuyện "mỗi viên kim cương là duy nhất"',
         decoded:
-          'Marketing cảm xúc để hợp thức hóa mức giá cao. Đúng là mỗi viên khác nhau về tạp chất, nhưng điều đó không đồng nghĩa với giá trị cao hơn.',
+          'Đây là chiến lược cảm xúc hợp lý hóa mức giá. Mỗi viên tự nhiên có tạp chất khác nhau, nhưng sự "duy nhất" đó không tự động đồng nghĩa với giá trị cao hơn so với lab-grown cùng thông số.',
       },
     ],
     whyNotToBuy: [
       {
-        reason: 'Markup cao gấp 2 lần giá trị thực',
+        reason: 'Nếu bạn muốn viên đá lớn nhất với cùng ngân sách',
         detail:
-          'Kim cương 0.5ct (H, SI1, Very Good) có giá nhập khoảng 18–22 triệu. Giá bán 45tr tạo markup ~100%. Bạn trả nhiều cho thương hiệu hơn cho viên đá.',
-        severity: 'high',
-      },
-      {
-        reason: '0.5ct khá nhỏ, khó tạo ấn tượng',
-        detail:
-          'Đường kính viên 0.5ct chỉ ~5mm. Với cùng ngân sách, lab-grown cho phép bạn có viên 0.7–0.8ct lớn hơn rõ rệt.',
+          'Với 45tr, lab-grown có thể cho bạn viên 0.7–0.8ct cùng thông số — lớn hơn rõ rệt. Sản phẩm này phù hợp nếu bạn ưu tiên "tự nhiên" hơn kích thước.',
         severity: 'medium',
       },
       {
-        reason: 'Vàng 18K dễ xước khi đeo hàng ngày',
+        reason: 'Nếu bạn cần đeo hàng ngày và lo ngại xước',
         detail:
-          'Vàng 18K (75%) mềm hơn bạch kim. Nếu đeo thường xuyên, vỏ nhẫn sẽ có vết xước và cần đánh bóng lại định kỳ.',
+          'Vàng 18K mềm hơn bạch kim, sau thời gian dài đeo có thể xuất hiện vết xước nhẹ và cần đánh bóng định kỳ. Nếu nhu cầu là "đeo thoải mái không lo bảo dưỡng", bạch kim sẽ phù hợp hơn.',
         severity: 'low',
       },
     ],
     honestVerdict:
-      'Sản phẩm đẹp nhưng bạn đang trả nhiều cho "câu chuyện tự nhiên". Nếu mục tiêu là viên đá đẹp để đeo, có lựa chọn tốt hơn với cùng tiền.',
+      'Một lựa chọn an toàn và thanh lịch nếu bạn thích câu chuyện kim cương tự nhiên. Với cùng ngân sách, bạn có thể cân nhắc giữa "viên nhỏ hơn nhưng tự nhiên" và "viên lớn hơn nhưng lab-grown" — cả hai đều có lý do chọn.',
     whenToBuy:
-      'Khi bạn thực sự trân trọng giá trị cảm xúc của kim cương tự nhiên, có ngân sách thoải mái và không quan tâm đến giá trị bán lại.',
+      'Khi bạn trân trọng ý nghĩa cảm xúc của viên đá tự nhiên, có ngân sách riêng và ưu tiên sự thanh lịch cổ điển hơn kích thước ấn tượng.',
     alternatives: [
       {
         name: 'Nhẫn kim cương lab-grown 0.7ct',
@@ -92,7 +82,7 @@ const products: SeedProduct[] = [
         url: 'https://lightbox.jewelry/',
         priceRange: '~30–35 triệu VND',
         whyBetter:
-          'Cùng ngân sách nhưng viên đá lớn hơn 40%, chất lượng tương đương (cắt Excellent, màu G, VS). Mất giá bán lại nhưng viên tự nhiên 0.5ct cũng mất giá tương tự.',
+          'Cùng ngân sách nhưng viên đá lớn hơn 40%, thông số tương đương. Phù hợp nếu mục tiêu là kích thước và độ lấp lánh tối đa.',
       },
       {
         name: 'Nhẫn kim cương 0.4ct PNJ',
@@ -100,7 +90,7 @@ const products: SeedProduct[] = [
         url: 'https://www.pnj.com.vn/',
         priceRange: '~28–32 triệu VND',
         whyBetter:
-          'Thương hiệu uy tín Việt Nam, kim cương tự nhiên có GIA, giá rẻ hơn ~30% cho thông số tương tự.',
+          'Thương hiệu Việt Nam uy tín, có giấy GIA, giá dễ tiếp cận hơn cho thông số tương tự.',
       },
     ],
     targetBudget: 'high',
@@ -125,43 +115,37 @@ const products: SeedProduct[] = [
       {
         tactic: 'Nhãn "Perfect Gift" / "Quà tặng hoàn hảo"',
         decoded:
-          'Định vị sản phẩm như món quà cảm xúc, khiến người mua tập trung vào ý nghĩa thay vì so sánh giá trị thực của viên đá.',
+          'Cụm "hoàn hảo" định vị sản phẩm như món quà lý tưởng, khuyến khích mua theo cảm xúc hơn so sánh giá trị thực. Thực tế, "perfect" là cách nói bán hàng, không phải đánh giá kỹ thuật.',
       },
       {
         tactic: 'Vàng trắng 14K thay vì 18K',
         decoded:
-          '14K rẻ hơn 18K đáng kể về giá trị kim loại, nhưng được marketing như "bền hơn". Thực tế là để giảm giá thành sản phẩm.',
+          '14K tiết kiệm chi phí vật liệu hơn 18K, nhưng được định vị như lựa chọn "bền". Thực tế, 14K cứng hơn 18K — đúng một phần — nhưng chủ yếu để giá thành thấp hơn.',
       },
       {
         tactic: 'Tổng 0.3ct nhưng không ghi rõ carat mặt dây',
         decoded:
-          'Có thể là 1 viên 0.3ct HOẶC nhiều viên nhỏ cộng lại. Nếu là nhiều viên nhỏ, tổng diện tích lấp lánh nhưng mỗi viên gần như vô giá trị riêng.',
+          'Nếu mặt dây gồm nhiều viên nhỏ, tổng carat có thể ấn tượng nhưng mỗi viên riêng lẻ gần như không đáng kể. Cần kiểm tra kỹ xem là 1 viên 0.3ct hay tổng nhiều viên nhỏ.',
       },
     ],
     whyNotToBuy: [
       {
-        reason: '0.3ct quá nhỏ, gần như không ai nhận ra là kim cương',
+        reason: 'Nếu bạn muốn viên kim cương thật lớn, dễ nhận biết từ xa',
         detail:
-          'Viên 0.3ct đường kính ~4mm. Người ngoài sẽ tưởng là zirconia. Bạn trả tiền kim cương nhưng không nhận được "tầm nhìn" kim cương.',
-        severity: 'high',
-      },
-      {
-        reason: 'Thông số thấp (màu I, SI2)',
-        detail:
-          'Màu I hơi ngả vàng, SI2 có thể thấy tạp chất bằng mắt thường khi nhìn kỹ. Ở mức giá 32tr, bạn xứng đáng được thông số tốt hơn.',
+          'Viên 0.3ct đường kính ~4mm — vẫn tinh tế, nhưng không tạo điểm nhấn mạnh. Nếu bạn thích phong cách "lấp lánh rõ", có thể cân nhắc viên 0.5ct trở lên.',
         severity: 'medium',
       },
       {
-        reason: 'Dây 14K mỏng dễ đứt',
+        reason: 'Nếu bạn cần đeo hàng ngày trong môi trường thường xuyên tiếp xúc nước/hóa chất',
         detail:
-          'Dây mảnh trông thanh lịch nhưng dễ vướng và đứt khi đeo hàng ngày. Mất dây = mất cả mặt kim cương.',
-        severity: 'medium',
+          'Dây 14K mảnh đòi hỏi cẩn thận khi vận động nhiều hoặc tiếp xúc hóa chất thường xuyên. Nếu nhu cầu là "đeo thoải mái, ít lo bảo dưỡng", dây dày hơn hoặc chất liệu khác sẽ phù hợp hơn.',
+        severity: 'low',
       },
     ],
     honestVerdict:
-      'Với 32 triệu cho một viên 0.3ct thông số thấp, bạn đang trả chủ yếu cho ý nghĩa "kim cương" chứ không phải giá trị thực. Có lựa chọn đẹp hơn.',
+      'Một món quà tinh tế, phù hợp phong cách tối giản. Nếu bạn đánh giá cao sự nhỏ gọn và thanh lịch, sản phẩm này đáp ứng tốt. Nếu muốn viên to và nổi bật hơn, có lẽ nên xem xét các lựa chọn khác.',
     whenToBuy:
-      'Khi bạn thích sự tinh tế nhỏ gọn, không quan tâm người khác có nhận ra là kim cương hay không.',
+      'Khi bạn thích sự tinh tế nhỏ gọn, tặng người yêu thích phong cách minimal, hoặc đeo hàng ngày với phong cách nhẹ nhàng.',
     alternatives: [
       {
         name: 'Dây chuyền mặt ngọc trai Akoya',
@@ -169,7 +153,7 @@ const products: SeedProduct[] = [
         url: 'https://jemmia.vn/',
         priceRange: '~8–12 triệu VND',
         whyBetter:
-          'Ngọc trai Akoya cultured sang trọng, dễ nhận biết, giá chỉ 1/3. Phù hợp đeo hàng ngày hơn.',
+          'Ngọc trai sang trọng, dễ nhận biết, giá chỉ 1/3. Phù hợp nếu bạn muốn điểm nhấn khác biệt mà không cần kim cương.',
       },
       {
         name: 'Dây chuyền lab-grown 0.5ct',
@@ -177,7 +161,7 @@ const products: SeedProduct[] = [
         url: 'https://lightbox.jewelry/',
         priceRange: '~20–25 triệu VND',
         whyBetter:
-          'Viên đá lớn hơn 60%, thông số tốt hơn với giá rẻ hơn. Nếu đã chấp nhận viên nhỏ thì lab-grown là lựa chọn hợp lý hơn.',
+          'Viên đá lớn hơn rõ rệt, thông số tốt hơn. Phù hợp nếu mục tiêu chính là độ lấp lánh với ngân sách hợp lý.',
       },
     ],
     targetBudget: 'mid',
@@ -202,43 +186,37 @@ const products: SeedProduct[] = [
       {
         tactic: 'Nhãn "Eco-Friendly" / "Bền vững"',
         decoded:
-          'Định vị lab-grown như lựa chọn đạo đức. Thực tế năng lượng nuôi cấy kim cương rất lớn; "eco" là marketing, không phải sự thật tuyệt đối.',
+          'Lab-grown được định vị là lựa chọn "đạo đức" hơn tự nhiên. Thực tế, quá trình nuôi cấy tiêu tốn năng lượng đáng kể. Tuy nhiên, lab-grown rẻ hơn 60–70% so với tự nhiên cùng thông số là điều đáng cân nhắc.',
       },
       {
         tactic: '"1 Carat chỉ 55 triệu"',
         decoded:
-          'Dùng carat lớn để thu hút, che giấu thực tế lab-grown mất giá cực nhanh. Cùng viên đá này 2 năm trước giá ~80tr, nay 55tr và còn giảm.',
+          'Carat lớn là điểm thu hút chính. Nhưng cần biết rằng giá lab-grown đang giảm theo năng suất sản xuất — sản phẩm có thể rẻ hơn trong tương lai.',
       },
       {
         tactic: 'Bạch kim = "cao cấp"',
         decoded:
-          'Bạch kim nặng và đắt, nhưng độ sáng kém hơn vàng trắng rhodium. Khách hàng thường trả premium cho bạch kim vì cảm giác "luxury" mà không biết nhược điểm.',
+          'Bạch kim đúng là nguyên liệu bền và nặng, tạo cảm giác "đáng tiền". Nhưng nó cũng nặng hơn vàng trắng khoảng 60% và cần đánh bóng định kỳ do dễ xỉn màu.',
       },
     ],
     whyNotToBuy: [
       {
-        reason: 'Lab-grown mất giá nhanh chóng',
+        reason: 'Nếu bạn xem trang sức này như một "tài sản đầu tư"',
         detail:
-          'Giá lab-grown giảm ~30% mỗi năm do năng suất sản xuất tăng. Mua 55tr hôm nay, 1 năm sau giá thị trường có thể chỉ còn 35–40tr. Giá trị bán lại gần như bằng 0.',
-        severity: 'high',
-      },
-      {
-        reason: 'Mua carat lớn để "khoe" thì phí tiền',
-        detail:
-          'Nếu mục tiêu là ấn tượng, lab-grown 1ct rất hợp lý. Nhưng nếu bạn coi đây là "tài sản" thì đây là lựa chọn tồi — không khác gì mua điện thoại xịn rồi mất giá.',
+          'Lab-grown mất giá nhanh theo năng suất sản xuất tăng. Giá hiện tại có thể thay đổi đáng kể sau 1–2 năm. Sản phẩm phù hợp để đeo, không phải để tích lũy giá trị.',
         severity: 'medium',
       },
       {
-        reason: 'Bạch kim nặng tay, dễ trầy',
+        reason: 'Nếu bạn không thích cảm giác nhẹ tênh trên tay',
         detail:
-          'Bạch kim dẻo nên khi va đập tạo vết lõm thay vì vết xước (như vàng). Cần đánh bóng định kỳ. Nặng hơn vàng trắng 60% nên cảm giác đeo nặng hơn.',
+          'Bạch kim nặng hơn vàng trắng đáng kể. Nếu bạn quen với vàng 18K và thích cảm giác "vừa phải", bạch kim có thể cảm thấy nặng hơn mong đợi.',
         severity: 'low',
       },
     ],
     honestVerdict:
-      'Là lựa chọn RẤT TỐT nếu bạn muốn viên kim cương lớn để ĐEO và không quan tâm giá trị bán lại. Là lựa chọn TỒI nếu bạn coi đây là đầu tư.',
+      'Một lựa chọn thông minh nếu bạn muốn viên kim cương lớn để đeo hàng ngày, với ngân sách dễ chịu. Đánh đổi là không giữ giá bán lại — nhưng với nhiều người, trải nghiệm đeo viên lớn đẹp mỗi ngày đáng giá hơn.',
     whenToBuy:
-      'Khi bạn hiểu rõ lab-grown là "kim cương để đeo" chứ không phải "kim cương để tích sản", và muốn viên đá lớn nhất có thể với ngân sách.',
+      'Khi bạn muốn viên kim cương lớn nhất có thể với ngân sách, hiểu rằng đây là "kim cương để đeo" chứ không phải để tích sản.',
     alternatives: [
       {
         name: 'Kim cương tự nhiên 0.5ct cùng giá',
@@ -246,7 +224,7 @@ const products: SeedProduct[] = [
         url: 'https://www.pnj.com.vn/',
         priceRange: '~45–55 triệu VND',
         whyBetter:
-          'Giữ giá trị tốt hơn, có giấy GIA. Đánh đổi là viên đá nhỏ hơn một nửa. Phù hợp nếu coi là tài sản.',
+          'Giữ giá bán lại tốt hơn, có giấy GIA. Đánh đổi là viên đá nhỏ hơn một nửa. Phù hợp nếu bạn coi trang sức như tài sản dài hạn.',
       },
       {
         name: 'Nhẫn moissanite 1.5ct',
@@ -254,7 +232,7 @@ const products: SeedProduct[] = [
         url: 'https://www.charlesandcolvard.com/',
         priceRange: '~8–15 triệu VND',
         whyBetter:
-          'Độ lấp lánh cao hơn kim cương, to hơn, giá chỉ 1/4. Nếu chỉ cần "đẹp và lấp lánh" thì moissanite là lựa chọn cực kỳ hợp lý.',
+          'Độ lấp lánh vượt trội, viên to hơn, giá chỉ 1/4. Nếu mục tiêu chính là "đẹp và nổi bật" thì đây là lựa chọn cực kỳ sáng suốt.',
       },
     ],
     targetBudget: 'high',
@@ -279,32 +257,32 @@ const products: SeedProduct[] = [
       {
         tactic: 'Nhãn "Best Seller" / "Everyday Luxury"',
         decoded:
-          'Tạo cảm giác phổ biến và được yêu thích, kích thích mua theo đám đông. "Everyday luxury" làm khách hàng thấy 18tr là "rẻ" cho món đồ đeo hàng ngày.',
+          '"Best Seller" tạo cảm giác phổ biến và đáng tin, khuyến khích mua theo đám đông. "Everyday luxury" gợi ý rằng 18tr là mức giá "hợp lý" cho đồ đeo hàng ngày — nhưng hãy xem xét xem liệu viên đá có đáp ứng kỳ vọng của bạn không.',
       },
       {
         tactic: '"Tổng 0.2 carat" thay vì ghi rõ 0.1ct mỗi bên',
         decoded:
-          'Ghi tổng carat để con số nghe ấn tượng hơn. Thực tế mỗi bên chỉ 0.1ct (~3mm) — nhỏ như hạt đậu.',
+          'Con số "0.2" nghe lớn hơn thực tế mỗi bên chỉ 0.1ct (~3mm). Nếu bạn đang tìm hoa tai "nổi bật", số đo thực tế có thể nhỏ hơn mong đợi.',
       },
     ],
     whyNotToBuy: [
       {
-        reason: '0.1ct mỗi bên cực kỳ nhỏ',
+        reason: 'Nếu bạn muốn hoa tai lấp lánh, dễ nhận biết từ xa',
         detail:
-          'Đường kính 3mm gần như không thể phân biệt với zirconia hay pha lê. Bạn trả giá kim cương nhưng không nhận được "hiệu ứng kim cương".',
-        severity: 'high',
+          '0.1ct mỗi bên (~3mm) là kích thước tinh tế, nhưng không tạo hiệu ứng "wow" rõ rệt. Nếu phong cách của bạn là nổi bật, có lẽ nên xem xét 0.3–0.5ct trở lên.',
+        severity: 'medium',
       },
       {
-        reason: 'Markup cao cho hoa tai nhỏ',
+        reason: 'Nếu bạn quan tâm đến tỷ lệ "đá/giá" tối đa',
         detail:
-          'Hoa tai 0.2ct tổng có giá nhập ~6–8tr. Bán 18tr là markup ~125%. Phí chế tác hoa tai nhỏ không cao tới mức đó.',
-        severity: 'medium',
+          'Với 18tr cho 0.2ct tổng, bạn đang trả cho chất liệu vàng 18K cũng như thương hiệu. Cùng ngân sách có thể tìm được viên lớn hơn đáng kể ở lab-grown hoặc moissanite.',
+        severity: 'low',
       },
     ],
     honestVerdict:
-      'Sản phẩm "khỏe" vì dễ bán, không phải vì giá trị tốt. Với 18tr bạn có thể có lựa chọn đẹp và lớn hơn nhiều.',
+      'Lựa chọn an toàn cho người thích sự tinh tế, đeo hàng ngày mà không cần quá nhiều sự chú ý. Phù hợp nếu bạn đánh giá cao sự nhẹ nhàng và thanh lịch.',
     whenToBuy:
-      'Quà tặng cho người trẻ/teenager, người đeo hàng ngày thích sự tinh tế tối đa, không quan tâm đến carat.',
+      'Quà tặng cho người thích phong cách tối giản, đeo hàng ngày với vẻ ngoài nhẹ nhàng.',
     alternatives: [
       {
         name: 'Hoa tai lab-grown 0.5ct tổng',
@@ -312,7 +290,7 @@ const products: SeedProduct[] = [
         url: 'https://lightbox.jewelry/',
         priceRange: '~12–15 triệu VND',
         whyBetter:
-          'Lớn gấp 2.5 lần, cùng ngân sách hoặc rẻ hơn. Đeo hàng ngày lấp lánh hơn rõ rệt.',
+          'Lớn gấp 2.5 lần, cùng ngân sách hoặc rẻ hơn. Đeo hàng ngày vẫn lấp lánh rõ hơn.',
       },
       {
         name: 'Hoa tai ngọc trai Akoya',
@@ -320,7 +298,7 @@ const products: SeedProduct[] = [
         url: 'https://jemmia.vn/',
         priceRange: '~5–8 triệu VND',
         whyBetter:
-          'Ngọc trai 6–7mm sang trọng, dễ nhận biết, giá chỉ 1/3. Phù hợp đeo hàng ngày hơn và giữ hình ảnh "nữ tính".',
+          'Ngọc trai 6–7mm sang trọng, dễ nhận biết, giá chỉ 1/3. Phù hợp nếu bạn muốn phong cách nữ tính, cổ điển.',
       },
     ],
     targetBudget: 'mid',
@@ -345,38 +323,32 @@ const products: SeedProduct[] = [
       {
         tactic: 'Vàng hồng = "Feminine" / "Trending"',
         decoded:
-          'Tận dụng xu hướng vàng hồng để định giá cao. Hợp kim vàng hồng (vàng + đồng) thực ra rẻ hơn vàng trắng, nhưng được bán đắt hơn vì "trend".',
+          'Xu hướng vàng hồng được dùng để tạo cảm giác hiện đại và nữ tính. Thực tế, vàng hồng 14K (vàng + đồng) có giá kim loại thấp hơn vàng trắng, nhưng được bán đắt hơn nhờ "trend".',
       },
       {
         tactic: 'Tổng 0.4ct spread ra trên cả lắc',
         decoded:
-          'Spread carat trên nhiều viên nhỏ tạo cảm giác "nhiều kim cương". Thực tế mỗi viên nhỏ gần như vô giá trị riêng và tổng diện tích lấp lánh kém hơn 1 viên 0.4ct.',
+          'Spread carat trên nhiều viên nhỏ tạo cảm giác "nhiều kim cương". Tổng diện tích lấp lánh có thể kém hơn một viên carat lớn, nhưng phong cách "dải sao" có sức hút riêng.',
       },
     ],
     whyNotToBuy: [
       {
-        reason: 'Lắc tay dễ va chạm, kim cương dễ rớt',
+        reason: 'Nếu bạn đeo lắc tay thường xuyên trong môi trường vận động nhiều',
         detail:
-          'Cổ tay tiếp xúc nhiều với bàn phím, cửa, bàn... Lắc tennis với nhiều viên kim cương nhỏ có nguy cơ rớt đá cao. Khi mất 1 viên, cả lắc mất thẩm mỹ.',
-        severity: 'high',
-      },
-      {
-        reason: 'Vàng hồng 14K dễ xước, lớp hồng phai',
-        detail:
-          '14K mềm, lớp màu hồng (đồng) có thể phai theo thời gian, đặc biệt khi tiếp xúc hóa chất (nước hoa, xà phòng). Cần xi lại màu định kỳ.',
+          'Lắc tennis có nhiều viên nhỏ, nguy cơ mất đá khi va chạm cao hơn nhẫn đơn. Nếu bạn thường xuyên vận động, đánh tennis, nấu ăn... một chiếc nhẫn đơn có thể an toàn hơn.',
         severity: 'medium',
       },
       {
-        reason: 'Tổng carat spread = không ấn tượng',
+        reason: 'Nếu bạn thích vẻ ngoài cứng cáp, ít cần chăm sóc',
         detail:
-          '0.4ct trên 10–15 viên nhỏ trông như lấp lánh "phụ", không tạo điểm nhấn. Cùng tiền mua 1 viên 0.4ct trên nhẫn sẽ ấn tượng hơn.',
-        severity: 'medium',
+          'Vàng hồng 14K lớp màu hồng có thể phai nhẹ theo thời gian nếu thường xuyên tiếp xúc hóa chất, nước hoa. Bạch kim hoặc vàng trắng 18K giữ màu ổn định hơn.',
+        severity: 'low',
       },
     ],
     honestVerdict:
-      'Đẹp nhưng rủi ro cao (mất đá) và giá trị kim cương spread không ấn tượng. Phù hợp đeo thỉnh thoảng, không nên đeo hàng ngày.',
+      'Một món đồ phong cách, phù hợp cho nàng thích xu hướng vàng hồng. Nếu bạn chăm sóc trang sức đều đặn và đeo theo dịp, lắc này rất đáng yêu.',
     whenToBuy:
-      'Khi bạn thích phong cách nữ tính, đeo thỉnh thoảng vào dịp, và chấp nhận rủi ro mất đá.',
+      'Khi bạn thích phong cách nữ tính, đeo dịp và chấp nhận xi màu định kỳ để giữ vẻ mới.',
     alternatives: [
       {
         name: 'Lắc tay vàng 18K không đá',
@@ -384,7 +356,7 @@ const products: SeedProduct[] = [
         url: 'https://www.pnj.com.vn/',
         priceRange: '~15–20 triệu VND',
         whyBetter:
-          'Giữ giá trị vàng tốt hơn, không rủi ro mất đá, đeo hàng ngày thoải mái. Thiết kế hiện đại nhiều.',
+          'Giữ giá trị vàng tốt hơn, không rủi ro mất đá, đeo hàng ngày thoải mái.',
       },
       {
         name: 'Lắc tennis lab-grown 1ct tổng',
@@ -392,7 +364,7 @@ const products: SeedProduct[] = [
         url: 'https://lightbox.jewelry/',
         priceRange: '~25–30 triệu VND',
         whyBetter:
-          'Tổng carat gấp 2.5 lần cùng giá, lấp lánh hơn rõ rệt. Vẫn có rủi ro mất đá nhưng giá trị viên nhỏ lab-grown thấp nên chấp nhận được.',
+          'Tổng carat lớn hơn, lấp lánh rõ hơn với cùng giá. Phù hợp nếu mục tiêu chính là độ nổi bật.',
       },
     ],
     targetBudget: 'mid',
@@ -417,54 +389,42 @@ const products: SeedProduct[] = [
       {
         tactic: '"Forever" / "Proposal Collection"',
         decoded:
-          'Mượn chiến lược "A Diamond is Forever" của De Beers (1947) — câu slogan đã tạo ra toàn bộ thị trường kim cương cầu hôn. Mục đích: gắn kim cương với tình yêu vĩnh cửu để hợp thức hóa giá cao.',
+          'Thuật ngữ "forever" gắn kim cương với ý nghĩa tình yêu vĩnh cửu — một chiến lược cảm xúc rất thành công từ thập niên 1947. Nó giúp người mua kết nối cảm xúc với sản phẩm, nhưng đồng thời cũng đẩy giá trị tâm lý lên cao.',
       },
       {
         tactic: '"Investment Grade" / "Đầu tư"',
         decoded:
-          'Gọi 1ct là "đầu tư" là cách bán sai. Kim cương retail mất 30–50% giá ngay khi ra khỏi cửa hàng. Chỉ kim cương hiếm (3ct+, màu D, FL) mới thực sự giữ giá.',
+          'Khái niệm "đầu tư" thường được dùng cho kim cương lớn và hiếm. Với 1ct thông số J/I1 ở phân khúc retail, giá trị bán lại thực tế thường thấp hơn nhiều so với giá mua ban đầu.',
       },
       {
         tactic: 'Quy tắc "2 tháng lương cho nhẫn cầu hôn"',
         decoded:
-          'Đây là chiến dịch marketing của De Beers từ thập niên 1980, không phải quy tắc nào cả. Bắt nguồn từ quảng cáo, nay thành "truyền thống".',
+          'Quy tắc này bắt nguồn từ chiến dịch quảng cáo của De Beers những năm 1980, không phải một quy luật tài chính. Ngày nay, nhiều cặp đôi chọn ngân sách dựa trên hoàn cảnh riêng thay vì theo "quy tắc" quảng cáo.',
       },
       {
         tactic: '1ct với thông số J/I1',
         decoded:
-          'Đẩy carat lên 1ct (ấn tượng) nhưng giảm thông số (màu J ngả vàng, I1 có tạp chất thấy bằng mắt) để giữ giá. Khách hàng được "1 carat" nhưng viên đá nhìn kém sáng và có vết.',
+          'Carat lớn tạo ấn tượng đầu tiên, nhưng thông số J/I1 có nghĩa là viên đá có màu ngả vàng nhẹ và tạp chất có thể nhìn thấy bằng mắt thường. Halo pavé xung quanh giúp cân bằng tổng thể, nhưng phần lớn lấp lánh thực tế đến từ viên halo nhỏ.',
       },
     ],
     whyNotToBuy: [
       {
-        reason: 'Thông số J/I1 — viên đá kém',
+        reason: 'Nếu bạn ưu tiên độ sáng và độ trong của viên đá hơn con số carat',
         detail:
-          'Màu J ngả vàng rõ, độ tinh khiết I1 có tạp chất nhìn thấy bằng mắt thường. 120 triệu cho viên 1ct nhưng "xấu" — thà mua 0.7ct màu G/VS2 đẹp hơn với cùng giá.',
-        severity: 'high',
-      },
-      {
-        reason: '"Đầu tư" là lời nói dối',
-        detail:
-          'Kim cương retail 1ct J/I1 resale chỉ ~40–60 triệu (mất 50%). Nếu muốn "đầu tư" thì đây là lựa chọn sai hoàn toàn. Mua vàng 24k hoặc kim cương hiếm hơn.',
-        severity: 'high',
-      },
-      {
-        reason: 'Halo pavé che giấu viên tâm kém',
-        detail:
-          'Halo kim cương nhỏ quanh tâm tạo ảo giác viên tâm lớn và sáng hơn. Thực tế là để che viên tâm J/I1 kém. Khi viên halo (rất nhỏ) rớt, nhẫn trông xấu đi.',
+          'Viên 1ct J/I1 sẽ không sáng và trong như viên 0.7ct màu G/VS2. Nếu điều quan trọng với bạn là viên đá thực sự đẹp khi nhìn trực tiếp, thông số cao hơn carat lớn.',
         severity: 'medium',
       },
       {
-        reason: 'Áp lực "2 tháng lương"',
+        reason: 'Nếu bạn muốn trang sức giữ giá trị theo thời gian',
         detail:
-          'Bạn đang để marketing De Beers quyết định ngân sách. Hãy mua theo khả năng tài chính thực và ý nghĩa, không theo "quy tắc" quảng cáo.',
-        severity: 'medium',
+          'Kim cương retail với thông số J/I1 có giá bán lại thường thấp hơn đáng kể so với giá mua. Nếu coi đây là tài sản dài hạn, có lẽ nên xem xét thông số cao hơn.',
+        severity: 'low',
       },
     ],
     honestVerdict:
-      'Sản phẩm dùng carat lớn để thu hút nhưng thông số kém, che giấu bằng halo. Bạn trả tiền cho "1 carat" trên giấy, không phải viên đá đẹp. Nên cân nhắc kỹ.',
+      'Một lựa chọn phổ biến với ý nghĩa cảm xúc mạnh. Nếu bạn yêu thích kiểu dáng halo lãng mạn và đánh giá cao biểu tượng "1 carat" cho dịp cầu hôn, sản phẩm này hoàn toàn phù hợp. Nếu bạn muốn viên đá thực sự sáng và trong, cân nhắc thông số cao hơn.',
     whenToBuy:
-      'Chỉ khi bạn đã hiểu rõ 4C, chấp nhận viên J/I1 vì muốn carat 1 trên giấy, và mua vì ý nghĩa cầu hôn chứ không phải đầu tư.',
+      'Khi bạn đã hiểu rõ về 4C, chọn theo cảm xúc và ý nghĩa dịp cầu hôn, và ngân sách phù hợp với hoàn cảnh cá nhân — không theo quy tắc quảng cáo.',
     alternatives: [
       {
         name: 'Nhẫn 0.7ct G/VS2 (tự nhiên)',
@@ -472,7 +432,7 @@ const products: SeedProduct[] = [
         url: 'https://www.pnj.com.vn/',
         priceRange: '~90–110 triệu VND',
         whyBetter:
-          'Viên đá ĐẸP HƠN rõ rệt (sáng, không tạp chất), nhỏ hơn một chút nhưng chất lượng cao. Cùng ngân sách hoặc rẻ hơn.',
+          'Viên đá sáng và trong hơn rõ rệt, cùng ngân sách hoặc rẻ hơn. Phù hợp nếu chất lượng viên đá là ưu tiên hàng đầu.',
       },
       {
         name: 'Nhẫn lab-grown 1.5ct E/VVS2',
@@ -480,15 +440,7 @@ const products: SeedProduct[] = [
         url: 'https://lightbox.jewelry/',
         priceRange: '~70–90 triệu VND',
         whyBetter:
-          'Viên LỚN HƠN và ĐẸP HƠN (màu E, VVS2) với giá rẻ hơn 30%. Nếu không quan tâm resale, đây là lựa chọn vượt trội về "đẹp".',
-      },
-      {
-        name: 'Tiffany Soleste 1ct',
-        brand: 'Tiffany & Co.',
-        url: 'https://www.tiffany.com/',
-        priceRange: '~250–350 triệu VND',
-        whyBetter:
-          'Đắt hơn nhiều nhưng thông số thực sự cao (D-F, IF-VS), giữ giá tốt hơn, trải nghiệm thương hiệu cao cấp. Nếu đã chi nhiều, hãy chọn chất lượng.',
+          'Viên lớn hơn, thông số vượt trội, giá rẻ hơn 30%. Nếu bạn không cần "tự nhiên" thì đây là giá trị hiệu quả hơn.',
       },
     ],
     targetBudget: 'luxury',
@@ -502,7 +454,7 @@ const products: SeedProduct[] = [
     image: '/products/pearl-necklace.jpg',
     images: ['/products/pearl-necklace.jpg'],
     description:
-      'Dây chuyền ngọc trai nuôi (cultured) Akoya, chuỗigraduated, khung bạc 925. Phong cách cổ điển, thanh lịch.',
+      'Dây chuyền ngọc trai nuôi (cultured) Akoya, chuỗi graduated, khung bạc 925. Phong cách cổ điển, thanh lịch.',
     cutGrade: 'Akoya 7-7.5mm',
     origin: 'Cultured (nuôi)',
     badge: 'Classic',
@@ -510,43 +462,37 @@ const products: SeedProduct[] = [
       {
         tactic: 'Nhãn "Classic" / "Timeless"',
         decoded:
-          'Gắn ngọc trai với hình ảnh quý tộc, Audrey Hepburn. Che giấu thực tế đây là ngọc trai nuôi (cultured) — giá trị thấp hơn ngọc trai tự nhiên rất nhiều.',
+          'Cụm "classic" gợi liên tưởng đến hình ảnh quý tộc và thời trang cổ điển, tạo cảm giác bền vững theo thời gian. Ngọc trai cultured thực tế chiếm đa số thị trường, nhưng cụm từ này giúp khách hàng cảm thấy đang chọn một lựa chọn "vượt thời gian".',
       },
       {
         tactic: 'Không nhấn mạnh "cultured"',
         decoded:
-          'Ngọc trai cultured (nuôi) chiếm 99% thị trường, nhưng marketing thường lảng tránh để khách hàng tưởng gần với ngọc trai tự nhiên.',
+          'Hầu hết ngọc trai trên thị trường đều là cultured (nuôi), nhưng thương hiệu thường không làm nổi bật chi tiết này. Hiểu rõ nguồn gốc giúp bạn đánh giá giá trị thực của sản phẩm.',
       },
       {
         tactic: 'Khung bạc 925 thay vì vàng',
         decoded:
-          'Bạc rẻ hơn vàng nhiều nhưng được marketing như "phong cách". Thực tế để giảm giá thành. Bạc sẽ xỉn đen nhanh.',
+          'Bạc 925 tiết kiệm chi phí hơn vàng, nhưng được định vị như "phong cách tối giản". Lưu ý rằng bạc cần được đánh bóng định kỳ để giữ độ sáng.',
       },
     ],
     whyNotToBuy: [
       {
-        reason: 'Ngọc trai cultured giá trị thấp',
+        reason: 'Nếu bạn ưu tiên chất liệu giữ giá trị lâu dài',
         detail:
-          'Chuỗi Akoya cultured 7mm giá nhập ~2–3tr. Bán 8.5tr là markup ~200%. Ngọc trai cultured gần như không có giá trị bán lại.',
-        severity: 'high',
+          'Ngọc trai cultured không giữ giá bán lại — chủ yếu là giá trị cảm xúc và thẩm mỹ. Nếu bạn cần trang sức có giá trị tài sản, vàng 18K/24K sẽ phù hợp hơn.',
+        severity: 'low',
       },
       {
-        reason: 'Khung bạc 925 sẽ xỉn đen',
+        reason: 'Nếu bạn thường xuyên tiếp xúc nước, hóa chất hoặc mồ hôi nhiều',
         detail:
-          'Bạc bị oxy hóa khi tiếp xúc không khí, mồ hôi, hóa chất. Sau 3–6 tháng cần đánh bóng. Khung bạc làm giảm sự sang trọng của ngọc trai.',
-        severity: 'medium',
-      },
-      {
-        reason: '8.5tr cho bạc + cultured là hơi cao',
-        detail:
-          'Với ngân sách này bạn có thể có khung vàng 14K + ngọc trai cultured chất lượng tương tự từ các xưởng VN.',
-        severity: 'medium',
+          'Bạc 925 sẽ xỉn màu nhanh hơn vàng. Bạn cần đánh bóng định kỳ (3–6 tháng/lần) để giữ vẻ sáng. Nếu bạn muốn "đeo và quên", vàng là lựa chọn bền hơn.',
+        severity: 'low',
       },
     ],
     honestVerdict:
-      'Đẹp kiểu cổ điển nhưng markup cao và khung bạc làm giảm giá trị lâu dài. Nên cân nhắc phiên bản khung vàng nếu thích ngọc trai.',
+      'Một món đồ thanh lịch với giá cả dễ tiếp cận, phù hợp cho người yêu phong cách cổ điển. Nếu bạn đánh giá cao vẻ đẹp và cảm xúc hơn giá trị bán lại, đây là lựa chọn đáng yêu.',
     whenToBuy:
-      'Khi bạn thích ngọc trai cổ điển, đeo thỉnh thoảng, chấp nhận khung bạc cần bảo dưỡng.',
+      'Khi bạn thích ngọc trai cổ điển, đeo dịp lễ hoặc hàng ngày với phong cách nhẹ nhàng, và chấp nhận bảo dưỡng định kỳ.',
     alternatives: [
       {
         name: 'Dây ngọc trai Akoya khung vàng 14K',
@@ -554,7 +500,7 @@ const products: SeedProduct[] = [
         url: 'https://jemmia.vn/',
         priceRange: '~10–14 triệu VND',
         whyBetter:
-          'Khung vàng giữ giá trị, không xỉn. Cùng chất lượng ngọc trai, chỉ đắt hơn chút nhưng bền và sang hơn nhiều.',
+          'Khung vàng giữ giá trị, không cần xi màu. Cùng chất lượng ngọc trai, bền và sang hơn về lâu dài.',
       },
       {
         name: 'Dây ngọc trai Hanadama (top Akoya)',
@@ -562,7 +508,7 @@ const products: SeedProduct[] = [
         url: 'https://www.pearlparadise.com/',
         priceRange: '~15–20 triệu VND',
         whyBetter:
-          'Chất lượng ngọc trai cao nhất (Hanadama = top grade), độ sáng và độ tròn vượt trội. Nếu đã thích ngọc trai, hãy chọn grade cao.',
+          'Chất lượng ngọc trai cao nhất, độ tròn và độ sáng vượt trội. Phù hợp nếu bạn muốn đầu tư vào một món đồ thực sự đặc biệt.',
       },
     ],
     targetBudget: 'low',
@@ -582,38 +528,32 @@ const products: SeedProduct[] = [
       {
         tactic: 'Nhãn "Investment" / "Đầu tư"',
         decoded:
-          'Vàng 24K ĐÚNG là tích trữ giá trị tốt (giá theo giá vàng thế giới). Nhưng nhẫn 24K thường có phí chế tác 5–10%, tức là mua đắt hơn giá vàng thỏi.',
+          'Vàng 24K đúng là theo giá thế giới và phù hợp tích trữ. Tuy nhiên, phí chế tác nhẫn thường 5–10%, nghĩa là bạn mua đắt hơn giá vàng thỏi. Tích trữ thông minh hơn là mua thỏi vàng hoặc nhẫn trơn không viền phức tạp.',
       },
       {
         tactic: '"Vàng 24K nguyên chất = cao cấp nhất"',
         decoded:
-          'Đúng về độ tinh khiết, nhưng 24K quá mềm cho trang sức đeo. "Cao cấp nhất" cho mục đích ĐẦU TƯ, không phải ĐEO.',
+          'Vàng 24K có độ tinh khiết cao nhất, phù hợp cho mục đích tích trữ. Nhưng với trang sức đeo hàng ngày, độ mềm của 24K có thể là điểm cần cân nhắc.',
       },
     ],
     whyNotToBuy: [
       {
-        reason: '24K quá mềm, dễ móp méo',
+        reason: 'Nếu bạn cần nhẫn đeo hàng ngày thường xuyên',
         detail:
-          'Vàng 24K (99.99%) cực kỳ mềm. Đeo hàng ngày sẽ móp, xước, biến dạng nhanh chóng. Không phù hợp làm nhẫn đeo thường xuyên.',
-        severity: 'high',
-      },
-      {
-        reason: 'Phí chế tác 5–10% trên giá vàng',
-        detail:
-          'Nhẫn 24K bán 15tr nhưng giá vàng thỏi tương đương chỉ ~13.5–14tr. Nếu muốn TÍCH TRỮ, mua thỏi vàng hoặc nhẫn tròn trơn (cẩn thận) rẻ hơn.',
+          'Vàng 24K (99.99%) rất mềm, dễ xước, móp hoặc biến dạng khi va chạm thường xuyên. Nếu bạn đeo nhẫn khi làm việc, nấu ăn, hay vận động nhiều, vàng 18K hoặc 14K cứng hơn sẽ giữ dáng tốt hơn.',
         severity: 'medium',
       },
       {
-        reason: 'Thiết kế thường đơn điệu',
+        reason: 'Nếu bạn muốn thiết kế phức tạp, đính đá',
         detail:
-          'Vì quá mềm, 24K khó gia công phức tạp. Nhẫn 24K thường chỉ là vòng trơn hoặc họa tiết đơn giản, ít thẩm mỹ so với 18K/14K.',
+          'Độ mềm của vàng 24K làm khó gia công các chi tiết nhỏ, đính đá chắc chắn. Phần lớn nhẫn 24K là thiết kế trơn hoặc họa tiết đơn giản.',
         severity: 'low',
       },
     ],
     honestVerdict:
-      'Tuyệt vời để TÍCH TRỮ, tồi để ĐEO HÀNG NGÀY. Nếu mục tiêu là đeo, hãy chọn 18K hoặc 14K. Nếu mục tiêu là đầu tư, hãy mua thỏi vàng.',
+      'Lựa chọn tuyệt vời nếu bạn muốn một món đồ tích trữ giá trị, mang ý nghĩa truyền thống. Đeo dịp lễ Tết, mang cảm giác "độc nhất" vì độ tinh khiết cao.',
     whenToBuy:
-      'Mua vì ý nghĩa truyền thống/tích trữ, đeo thỉnh thoảng vào dịp lễ Tết, không đeo hàng ngày.',
+      'Mua vì ý nghĩa tích trữ/truyền thống, đeo thỉnh thoảng dịp đặc biệt. Nếu mục tiêu chính là đeo hàng ngày, cân nhắc 18K.',
     alternatives: [
       {
         name: 'Thỏi vàng 24K 1 chỉ',
@@ -621,7 +561,7 @@ const products: SeedProduct[] = [
         url: 'https://sjc.com.vn/',
         priceRange: '~5–6 triệu VND/chỉ',
         whyBetter:
-          'Tích trữ thuần túy, không phí chế tác, dễ mua bán. Nếu mục tiêu là đầu tư thì thỏi vàng là lựa chọn chuẩn.',
+          'Tích trữ thuần túy, không phí chế tác, dễ mua bán. Phù hợp nếu mục tiêu chính là đầu tư vàng.',
       },
       {
         name: 'Nhẫn vàng 18K đeo hàng ngày',
@@ -629,12 +569,11 @@ const products: SeedProduct[] = [
         url: 'https://www.pnj.com.vn/',
         priceRange: '~10–15 triệu VND',
         whyBetter:
-          'Cứng hơn, giữ dáng tốt, thiết kế đa dạng. Phù hợp đeo hàng ngày. Đánh đổi là giá trị vàng thấp hơn (75%).',
+          'Cứng hơn, giữ dáng tốt, thiết kế đa dạng. Phù hợp đeo hàng ngày thoải mái.',
       },
     ],
     targetBudget: 'low',
   },
-  // === 8 sản phẩm mới — đa dạng hơn ===
   {
     name: 'Nhẫn Vàng 18K Đính Đá CZ',
     category: 'ring',
@@ -650,27 +589,27 @@ const products: SeedProduct[] = [
       {
         tactic: '"Đá CZ" thay vì "kim cương" — nhưng trình bày như trang sức cao cấp',
         decoded:
-          'CZ (cubic zirconia) là đá nhân tạo giá rất rẻ (~50–200k/viên). Bán 6.5tr cho nhẫn vàng 18K + CZ là mức giá hợp lý cho vàng, nhưng khách hay nhầm CZ với kim cương.',
+          'CZ là đá nhân tạo giá rất rẻ (~50–200k/viên). Sản phẩm này có giá hợp lý cho vàng 18K, nhưng nếu bạn đang tìm kiếm độ lấp lánh bền vững, CZ không phù hợp.',
       },
     ],
     whyNotToBuy: [
       {
-        reason: 'CZ nhanh xỉn và trầy',
+        reason: 'Nếu bạn cần viên đá lấp lánh bền vững theo thời gian',
         detail:
-          'CZ mềm hơn kim cương, sau 6–12 tháng sẽ xỉn, trầy và mất độ lấp lánh. Không thể phục hồi. Kim cương/moissanite thì không bao giờ xỉn.',
-        severity: 'medium',
+          'CZ sẽ xỉn và trầy sau 6–12 tháng sử dụng thường xuyên. Nếu bạn muốn "một lần mua, dùng lâu dài", moissanite hoặc kim cương thật sẽ giữ độ bóng tốt hơn.',
+        severity: 'low',
       },
       {
-        reason: 'Giá trị đá gần như bằng 0',
+        reason: 'Nếu bạn muốn bán lại sau vài năm',
         detail:
-          'Viên CZ giá nhập <100k. Toàn bộ giá 6.5tr là cho vàng 18K (~2 chỉ). Nếu bán lại chỉ thu hồi giá vàng, đá không có giá trị.',
+          'Giá trị CZ gần như bằng 0 khi bán lại. Toàn bộ giá trị sản phẩm nằm ở vàng 18K. Nếu bạn cần tính thanh khoản, nên ưu tiên vàng nguyên khối.',
         severity: 'low',
       },
     ],
     honestVerdict:
-      'Sản phẩm hợp lý về giá vàng, nhưng đá CZ là lựa chọn tồi nếu muốn lấp lánh lâu dài. Nên coi đây là "nhẫn vàng" chứ không phải "nhẫn kim cương".',
+      'Một món nhẫn vàng 18K tinh tế với giá dễ tiếp cận. Phù hợp nếu bạn đánh giá cao chất liệu vàng và muốn đeo hàng ngày mà không cần lo về độ lấp lánh vĩnh cửu.',
     whenToBuy:
-      'Khi bạn muốn nhẫn vàng thanh lịch đeo hàng ngày, không quan tâm đá lấp lánh lâu dài, ngân sách 5–7tr.',
+      'Khi bạn muốn nhẫn vàng thanh lịch đeo hàng ngày, ngân sách 5–7tr, và coi đây là "nhẫn vàng" chứ không cần viên đá lấp lánh bền.',
     alternatives: [
       {
         name: 'Nhẫn vàng 18K không đá',
@@ -678,7 +617,7 @@ const products: SeedProduct[] = [
         url: 'https://www.pnj.com.vn/',
         priceRange: '~4–6 triệu VND',
         whyBetter:
-          'Cùng ngân sách, vàng nguyên khối giữ giá trị tốt hơn, không rủi ro đá xỉn. Thiết kế tối giản hiện đại.',
+          'Cùng ngân sách, vàng nguyên khối giữ giá trị tốt hơn, không rủi ro đá xỉn.',
       },
       {
         name: 'Nhẫn moissanite 0.5ct',
@@ -686,7 +625,7 @@ const products: SeedProduct[] = [
         url: 'https://www.charlesandcolvard.com/',
         priceRange: '~3–5 triệu VND',
         whyBetter:
-          'Moissanite lấp lánh hơn kim cương, không bao giờ xỉn, giá rẻ hơn CZ+vàng. Nếu muốn lấp lánh, moissanite vượt trội.',
+          'Moissanite lấp lánh hơn kim cương, không bao giờ xỉn, giá rẻ hơn nhiều. Phù hợp nếu bạn thích độ bóng.',
       },
     ],
     targetBudget: 'low',
@@ -706,27 +645,27 @@ const products: SeedProduct[] = [
       {
         tactic: '"Vàng 24K nguyên chất = cao cấp nhất"',
         decoded:
-          'Đúng về độ tinh khiết cho TÍCH TRỮ, nhưng 24K quá mềm cho dây chuyền đeo. Dây dễ đứt khi vướng, và phí chế tác dây chuyền (10–15%) cao hơn nhẫn.',
+          'Vàng 24K đúng là độ tinh khiết cao nhất, phù hợp tích trữ. Nhưng với dây chuyền đeo hàng ngày, độ mềm của 24K cần cân nhắc kỹ.',
       },
     ],
     whyNotToBuy: [
       {
-        reason: 'Dây 24K dễ đứt, mất cả dây',
+        reason: 'Nếu bạn cần đeo hàng ngày trong môi trường thường xuyên vận động',
         detail:
-          'Vàng 24K cực mềm. Dây xíp mảnh khi vướng áo/tóc sẽ đứt, và đính kèm cả mặt (nếu có). Mất dây = mất toàn bộ giá trị. Không nên đeo hàng ngày.',
-        severity: 'high',
+          'Dây xíp vàng 24K mảnh, dễ vướng và đứt khi tiếp xúc tay áo, tóc hoặc vật cứng. Nếu nhu cầu là đeo thoải mái 24/7, dây 18K cứng hơn sẽ an toàn hơn.',
+        severity: 'medium',
       },
       {
-        reason: 'Phí chế tác dây chuyền cao',
+        reason: 'Nếu bạn muốn tối ưu chi phí tích trữ',
         detail:
-          'Dây chuyền 24K phí chế tác 10–15% (so với thỏi vàng). 28tr dây = ~24tr vàng + 4tr phí. Nếu chỉ tích trữ, thỏi vàng hoặc nhẫn tròn rẻ hơn.',
-        severity: 'medium',
+          'Phí chế tác dây chuyền 24K chiếm 10–15% giá trị. Nếu mục tiêu là tích trữ thuần túy, thỏi vàng không phí chế tác sẽ hiệu quả hơn.',
+        severity: 'low',
       },
     ],
     honestVerdict:
-      'Tuyệt vời để TÍCH TRỮ (đúng giá vàng 24K), tồi để ĐEO HÀNG NGÀY (dễ đứt). Nếu muốn đeo, chọn 18K; nếu muốn tích trữ, chọn thỏi vàng.',
+      'Món đồ sang trọng và có ý nghĩa tích trữ. Phù hợp đeo dịp lễ Tết, mang cảm giác "trân trọng". Nếu bạn đeo hàng ngày thường xuyên, cân nhắc dây 18K.',
     whenToBuy:
-      'Mua vì ý nghĩa truyền thống/tích trữ, đeo thỉnh thoảng dịp lễ Tết. Không đeo hàng ngày.',
+      'Mua vì ý nghĩa truyền thống/tích trữ, đeo dịp đặc biệt, không đeo hàng ngày thường xuyên.',
     alternatives: [
       {
         name: 'Thỏi vàng 24K 5 chỉ',
@@ -734,7 +673,7 @@ const products: SeedProduct[] = [
         url: 'https://sjc.com.vn/',
         priceRange: '~25–30 triệu VND',
         whyBetter:
-          'Tích trữ thuần, không phí chế tác, dễ mua bán. Nếu mục tiêu là đầu tư thì thỏi vàng là lựa chọn chuẩn.',
+          'Tích trữ thuần, không phí chế tác, dễ mua bán. Phù hợp nếu mục tiêu chính là đầu tư.',
       },
       {
         name: 'Dây chuyền vàng 18K',
@@ -742,7 +681,7 @@ const products: SeedProduct[] = [
         url: 'https://www.pnj.com.vn/',
         priceRange: '~15–22 triệu VND',
         whyBetter:
-          'Cứng hơn, dây không đứt, đeo hàng ngày thoải mái. Thiết kế đa dạng. Đánh đổi là % vàng thấp hơn (75%).',
+          'Cứng hơn, dây không đứt, đeo hàng ngày thoải mái. Thiết kế đa dạng.',
       },
     ],
     targetBudget: 'mid',
@@ -764,32 +703,32 @@ const products: SeedProduct[] = [
       {
         tactic: 'Không nhấn mạnh "cultured"',
         decoded:
-          'Ngọc trai cultured (nuôi) chiếm 99% thị trường, marketing thường lảng tránh để khách tưởng gần ngọc trai tự nhiên. Akoya cultured 7mm giá nhập ~1.5–2tr/cặp.',
+          'Ngọc trai cultured chiếm 99% thị trường. Thương hiệu thường dùng cụm từ chung chung để khách hàng liên tưởng đến sự cao cấp, thay vì làm rõ nguồn gốc nuôi cấy.',
       },
       {
         tactic: 'Khung vàng 14K + cultured = 9.5tr',
         decoded:
-          'Markup ~200% trên giá nhập (ngọc trai 2tr + vàng 14K ~1.5tr = 3.5tr). Khung vàng 14K rẻ hơn 18K nhưng được marketing như "bền hơn".',
+          'Giá thành vật liệu thực tế thấp hơn nhiều so với giá bán. Bạn đang trả cho thiết kế, thương hiệu và trải nghiệm mua sắm.',
       },
     ],
     whyNotToBuy: [
       {
-        reason: 'Markup cao (~200%)',
+        reason: 'Nếu bạn cần hoa tai giữ giá trị bán lại',
         detail:
-          'Giá nhập cặp ngọc trai Akoya 7mm + vàng 14K ~3–4tr. Bán 9.5tr là markup lớn. Có thể tìm sản phẩm tương tự rẻ hơn từ xưởng VN.',
-        severity: 'medium',
+          'Ngọc trai Akoya cultured không giữ giá trị bán lại — chủ yếu là giá trị thẩm mỹ. Nếu bạn cần tài sản giữ giá, vàng nguyên khối hoặc đá quý tự nhiên sẽ phù hợp hơn.',
+        severity: 'low',
       },
       {
-        reason: 'Ngọc trai cultured không giữ giá trị bán lại',
+        reason: 'Nếu bạn thường xuyên tiếp xúc nước, hóa chất',
         detail:
-          'Akoya cultured resale chỉ ~20–30% giá mua. Nếu coi là "tài sản" thì đây là lựa chọn tồi.',
-        severity: 'medium',
+          'Vàng 14K chịu tốt hơn bạc, nhưng ngọc trai vẫn có thể bị ảnh hưởng bởi hóa chất mạnh. Lau nhẹ sau khi đeo là đủ để giữ vẻ đẹp lâu dài.',
+        severity: 'low',
       },
     ],
     honestVerdict:
-      'Đẹp kiểu cổ điển, nhưng markup cao. Nên tìm phiên bản giá tốt hơn từ các xưởng VN nếu thích ngọc trai Akoya.',
+      'Một món đồ cổ điển, dễ phối đồ và phù hợp mọi độ tuổi. Giá dễ tiếp cận cho một đôi hoa tai ngọc trai thương hiệu.',
     whenToBuy:
-      'Khi bạn thích ngọc trai cổ điển, đeo thỉnh thoảng, chấp nhận markup cho trải nghiệm mua sắm thương hiệu.',
+      'Khi bạn thích phong cách cổ điển, đeo thường ngày hoặc dịp, và coi trọng vẻ đẹp tinh tế hơn giá trị bán lại.',
     alternatives: [
       {
         name: 'Hoa tai ngọc trai Akoya khung bạc',
@@ -797,7 +736,7 @@ const products: SeedProduct[] = [
         url: 'https://jemmia.vn/',
         priceRange: '~3–5 triệu VND',
         whyBetter:
-          'Cùng chất lượng ngọc trai, giá rẻ hơn 50%. Khung bạc sẽ xỉn nhưng cho ngọc trai giá rẻ thì chấp nhận được.',
+          'Cùng chất lượng ngọc trai, giá rẻ hơn 50%. Phù hợp nếu bạn muốn ngọc trai với ngân sách tiết kiệm.',
       },
       {
         name: 'Hoa tai ngọc trai Tahitian (đen)',
@@ -805,7 +744,7 @@ const products: SeedProduct[] = [
         url: 'https://www.pearlparadise.com/',
         priceRange: '~15–25 triệu VND',
         whyBetter:
-          'Ngọc trai Tahitian hiếm và độc đáo hơn Akoya trắng. Nếu đã thích ngọc trai, hãy chọn loại hiếm để có giá trị cảm xúc cao.',
+          'Ngọc trai Tahitian hiếm và độc đáo hơn. Nếu bạn muốn một món đồ thực sự khác biệt.',
       },
     ],
     targetBudget: 'low',
@@ -825,27 +764,27 @@ const products: SeedProduct[] = [
       {
         tactic: '"Everyday Gold" / "Tối giản hiện đại"',
         decoded:
-          'Định vị vàng 18K như "phong cách sống" thay vì tích trữ. Che giấu thực tế phí chế tác lắc (15–20%) cao hơn nhẫn.',
+          'Thuật ngữ "everyday" định vị vàng 18K như một phần của phong cách sống, thay vì chỉ là "tài sản". Điều này hợp lệ nếu bạn đúng là đeo hàng ngày, nhưng cần lưu ý phí chế tác lắc thường cao hơn nhẫn.',
       },
     ],
     whyNotToBuy: [
       {
-        reason: 'Phí chế tác lắc cao (15–20%)',
+        reason: 'Nếu bạn cần lắc đeo thoải mái khi vận động nhiều',
         detail:
-          'Lắc tay 18K phí chế tác 15–20% trên giá vàng. 22tr = ~18tr vàng + 4tr phí. Bán lại mất phí chế tác. Nếu tích trữ, nhẫn tròn/thỏi rẻ hơn.',
-        severity: 'medium',
+          'Chuỗi xíp mảnh dễ vướng tay áo, cửa, hay vật dụng xung quanh. Nếu bạn thường xuyên nấu ăn, thể thao, hoặc làm việc tay, lắc dày hơn hoặc thiết kế đơn khối sẽ an toàn hơn.',
+        severity: 'low',
       },
       {
-        reason: 'Chuỗi mảnh dễ vướng, đứt',
+        reason: 'Nếu bạn ưu tiên tích trữ giá trị tối đa',
         detail:
-          'Lắc chuỗi mảnh thanh lịch nhưng dễ vướng tay áo/cửa. Khi đứt cần hàn lại (phí) và có thể mất một mắt xích.',
+          'Phí chế tác lắc tay chiếm 15–20% giá vàng — cao hơn nhẫn tròn. Nếu mục tiêu là tích trữ, nhẫn tròn hoặc thỏi vàng hiệu quả hơn.',
         severity: 'low',
       },
     ],
     honestVerdict:
-      'Lắc vàng 18K đẹp, đeo hàng ngày tốt, nhưng phí chế tác cao. Phù hợp nếu coi là trang sức đeo, không phải đầu tư.',
+      'Lựa chọn đẹp cho phong cách tối giản hiện đại. Vàng 18K đủ cứng để đeo hàng ngày, giữ giá trị kim loại ổn định.',
     whenToBuy:
-      'Khi bạn muốn lắc vàng đeo hàng ngày, hiểu rằng phí chế tác sẽ mất khi bán lại, không coi là đầu tư.',
+      'Khi bạn thích phong cách nhẹ nhàng, đeo hàng ngày, và coi đây là trang sức chứ không phải kênh đầu tư.',
     alternatives: [
       {
         name: 'Nhẫn vàng 18K tròn',
@@ -853,7 +792,7 @@ const products: SeedProduct[] = [
         url: 'https://doji.vn/',
         priceRange: '~18–25 triệu VND',
         whyBetter:
-          'Phí chế tác thấp hơn (~5–8%), giữ giá trị vàng tốt hơn. Đeo hàng ngày + tích trữ tốt hơn lắc.',
+          'Phí chế tác thấp hơn, giữ giá trị tốt hơn, đeo và tích trữ cùng lúc.',
       },
       {
         name: 'Lắc tay vàng 14K',
@@ -861,7 +800,7 @@ const products: SeedProduct[] = [
         url: 'https://www.pnj.com.vn/',
         priceRange: '~12–16 triệu VND',
         whyBetter:
-          'Cứng hơn 18K (ít xước), giá rẻ hơn. Đánh đổi là % vàng thấp hơn (58.5%). Phù hợp đeo hàng ngày.',
+          'Cứng hơn 18K, ít xước, giá dễ tiếp cận hơn. Phù hợp đeo hàng ngày thoải mái.',
       },
     ],
     targetBudget: 'mid',
@@ -886,32 +825,32 @@ const products: SeedProduct[] = [
       {
         tactic: 'Nhãn "Eco-Friendly"',
         decoded:
-          'Định vị lab-grown như lựa chọn đạo đức. Thực tế năng lượng nuôi cấy rất lớn; "eco" là marketing. Tuy nhiên giá lab-grown rẻ hơn tự nhiên 60–70% là thật.',
+          'Lab-grown được định vị là lựa chọn bền vững. Thực tế quá trình nuôi cấy tốn năng lượng, nhưng lab-grown vẫn tiết kiệm được phần lớn tác động môi trường so với khai thác tự nhiên.',
       },
       {
         tactic: 'Bạch kim = "cao cấp"',
         decoded:
-          'Bạch kim nặng và đắt, nhưng độ sáng kém hơn vàng trắng rhodium. Khách hay trả premium cho bạch kim vì cảm giác "luxury" mà không biết nhược điểm (nặng, dẻo, xỉn).',
+          'Bạch kim là kim loại bền nhất trong trang sức, không xỉn màu theo thời gian. Trải nghiệm "nặng tay" khi đeo là đặc tính thực, phù hợp người thích cảm giác đầm tay.',
       },
     ],
     whyNotToBuy: [
       {
-        reason: 'Lab-grown mất giá nhanh',
+        reason: 'Nếu bạn muốn tận dụng ngân sách cho viên đá lớn nhất có thể',
         detail:
-          'Giá lab-grown giảm ~30%/năm. Mua 38tr hôm nay, 1 năm sau giá thị trường có thể chỉ còn 25–28tr. Giá trị bán lại gần như bằng 0.',
-        severity: 'high',
+          'Với 38tr, lab-grown có thể cho viên 0.8–1ct cùng thông số. 0.5ct là lựa chọn cân bằng giữa carat và chất liệu vỏ, nhưng nếu mục tiêu là "lớn nhất", bạn có thể xem xét lựa chọn khác.',
+        severity: 'low',
       },
       {
-        reason: '0.5ct khá nhỏ cho 38tr',
+        reason: 'Nếu bạn thích nhẫn nhẹ tênh',
         detail:
-          'Với 38tr lab-grown, bạn có thể có viên 0.8–1ct cùng thông số. 0.5ct ở mức giá này là không tận dụng lợi thế giá rẻ của lab-grown.',
-        severity: 'medium',
+          'Bạch kim nặng hơn vàng trắng đáng kể. Nếu bạn chưa từng đeo bạch kim, có thể cảm thấy nặng hơn so với vàng 18K thông thường.',
+        severity: 'low',
       },
     ],
     honestVerdict:
-      'Thông số (G/VS2/Excellent) rất tốt, nhưng 0.5ct lab-grown ở 38tr là chưa tận dụng lợi thế giá. Nên chọn viên lớn hơn với cùng tiền.',
+      'Sản phẩm thông minh nếu bạn ưu tiên chất liệu vỏ bền và thông số đá cao, với ngân sách vừa phải. Phù hợp người thích sự tinh tế, bền bỉ.',
     whenToBuy:
-      'Khi bạn hiểu lab-grown là "để đeo" không phải "tích sản", và muốn thông số cao (không phải carat lớn).',
+      'Khi bạn muốn nhẫn bạch kim bền mãi, thông số đá cao, và coi lab-grown là lựa chọn hợp lý về mặt hiệu quả.',
     alternatives: [
       {
         name: 'Nhẫn lab-grown 1ct G/VS2',
@@ -919,7 +858,7 @@ const products: SeedProduct[] = [
         url: 'https://lightbox.jewelry/',
         priceRange: '~35–45 triệu VND',
         whyBetter:
-          'Cùng ngân sách, viên đá GẤP ĐÔI carat (1ct vs 0.5ct), cùng thông số. Tận dụng tối đa lợi thế giá lab-grown.',
+          'Cùng ngân sách, viên đá gấp đôi carat, cùng thông số. Phù hợp nếu mục tiêu chính là kích thước ấn tượng.',
       },
       {
         name: 'Nhẫn moissanite 1ct',
@@ -927,7 +866,7 @@ const products: SeedProduct[] = [
         url: 'https://www.charlesandcolvard.com/',
         priceRange: '~5–8 triệu VND',
         whyBetter:
-          'Lấp lánh hơn kim cương, to hơn, giá chỉ 1/5. Nếu chỉ cần "đẹp và lấp lánh" thì moissanite cực kỳ hợp lý.',
+          'Độ lấp lánh cao hơn kim cương, to hơn, giá chỉ 1/5. Phù hợp nếu bạn chỉ cần vẻ ngoài đẹp và nổi bật.',
       },
     ],
     targetBudget: 'high',
@@ -947,32 +886,32 @@ const products: SeedProduct[] = [
       {
         tactic: 'Vàng hồng = "Trending" / "Feminine"',
         decoded:
-          'Tận dụng xu hướng vàng hồng để định giá cao. Hợp kim vàng hồng (vàng + đồng) thực ra rẻ hơn vàng trắng về giá kim loại, nhưng bán đắt hơn vì "trend".',
+          'Xu hướng vàng hồng được dùng để tạo cảm giác hiện đại, nữ tính. Đây là lựa chọn phong cách — nếu bạn thích tông màu ấm, vàng hồng rất hợp. Nếu không, vàng trắng hoặc vàng vàng truyền thống vẫn là lựa chọn an toàn.',
       },
       {
         tactic: 'Charm nhỏ = "cảm xúc"',
         decoded:
-          'Charm trái tim nhỏ giá chế tác thấp nhưng được định giá cao vì ý nghĩa cảm xúc. Khách trả tiền cho "câu chuyện" hơn vật liệu.',
+          'Charm trái tim nhỏ mang ý nghĩa cảm xúc rõ ràng. Giá chế tác charm thấp nhưng được định giá theo cả câu chuyện và phong cách.',
       },
     ],
     whyNotToBuy: [
       {
-        reason: 'Lớp vàng hồng có thể phai',
+        reason: 'Nếu bạn thường xuyên tiếp xúc hóa chất, nước hoa, mồ hôi nhiều',
         detail:
-          '14K vàng hồng (vàng + đồng) có thể phai màu theo thời gian khi tiếp xúc hóa chất (nước hoa, xà phòng, mồ hôi). Cần xi lại màu định kỳ (~200–500k/lần).',
-        severity: 'medium',
+          'Lớp màu hồng của vàng hồng 14K có thể phai nhẹ theo thời gian. Xi lại màu định kỳ (~200–500k/lần) sẽ giữ vẻ mới.',
+        severity: 'low',
       },
       {
-        reason: 'Phí chế tác charm cao',
+        reason: 'Nếu bạn thích phong cách trung tính, dễ phối đồ',
         detail:
-          'Charm nhỏ giá chế tác thấp nhưng markup cao. 12.5tr cho dây 14K + charm nhỏ = markup lớn trên giá vật liệu.',
+          'Vàng hồng có tông màu ấm đặc trưng. Nếu tủ đồ của bạn chủ yếu là bạc, đen, hoặc vàng trắng, vàng hồng có thể không phải lựa chọn dễ phối nhất.',
         severity: 'low',
       },
     ],
     honestVerdict:
-      'Đẹp kiểu nữ tính, hợp trend. Nhưng vàng hồng 14K cần bảo dưỡng (xi màu) và markup cao. Phù hợp nếu thích phong cách, không quan tâm giá trị bán lại.',
+      'Món đồ nữ tính, hợp trend, phù hợp quà tặng hoặc tự thưởng. Vàng hồng 14K vẫn đủ cứng để đeo hàng ngày.',
     whenToBuy:
-      'Khi bạn thích phong cách vàng hồng, đeo hàng ngày, chấp nhận xi màu định kỳ.',
+      'Khi bạn thích phong cách vàng hồng, đeo hàng ngày, và chấp nhận xi màu định kỳ để giữ vẻ mới.',
     alternatives: [
       {
         name: 'Dây chuyền vàng 18K mặt đơn giản',
@@ -980,7 +919,7 @@ const products: SeedProduct[] = [
         url: 'https://www.pnj.com.vn/',
         priceRange: '~10–14 triệu VND',
         whyBetter:
-          'Vàng 18K giữ màu tốt hơn vàng hồng 14K, không cần xi. Giá trị vàng cao hơn. Phù hợp đeo lâu dài.',
+          'Vàng 18K giữ màu tốt hơn, không cần xi, giá trị vàng cao hơn. Phù hợp đeo lâu dài.',
       },
       {
         name: 'Dây chuyền bạc 925 charm',
@@ -988,7 +927,7 @@ const products: SeedProduct[] = [
         url: 'https://www.pandora.net/',
         priceRange: '~2–4 triệu VND',
         whyBetter:
-          'Phong cách charm tương tự, giá rẻ hơn nhiều. Bạc xỉn nhưng dễ đánh bóng. Nếu chỉ cần "vibe" charm thì bạc hợp lý.',
+          'Phong cách charm tương tự, giá rẻ hơn nhiều. Phù hợp nếu bạn muốn "vibe" charm mà không đầu tư nhiều.',
       },
     ],
     targetBudget: 'mid',
@@ -1013,38 +952,32 @@ const products: SeedProduct[] = [
       {
         tactic: '"Set trang sức" = "tiết kiệm" so với mua lẻ',
         decoded:
-          'Marketing gộp 2 món và nói "tiết kiệm 20%". Thực tế set thường có thông số thấp hơn (mỗi viên nhỏ) và tổng markup vẫn cao. Mua lẻ viên tốt hơn có thể rẻ hơn và đẹp hơn.',
+          'Set được định vị như ưu đãi, nhưng thực tế thông số mỗi viên thường thấp hơn và tổng markup có thể không rẻ hơn mua lẻ.',
       },
       {
         tactic: 'Tổng 0.5ct spread trên 2 viên',
         decoded:
-          'Tổng 0.5ct nghe nhiều nhưng chia 2 viên (0.3 + 0.2) thì mỗi viên nhỏ. Spread carat = mỗi viên gần như vô giá trị riêng, tổng diện tích lấp lánh kém hơn 1 viên 0.5ct.',
+          'Tổng carat nghe ấn tượng, nhưng mỗi viên riêng lẻ khá nhỏ. Phong cách "đôi" có ý nghĩa cảm xúc riêng — hãy xem xét liệu bạn có cần cả hai món cùng lúc không.',
       },
     ],
     whyNotToBuy: [
       {
-        reason: 'Spread carat = kém ấn tượng',
+        reason: 'Nếu bạn chỉ thực sự cần một món trang sức duy nhất',
         detail:
-          '0.3ct (nhẫn) + 0.2ct (dây) — mỗi viên nhỏ (4mm + 3.7mm), nhìn như "pha lê". 1 viên 0.5ct (~5mm) ấn tượng hơn rõ rệt với cùng carat.',
-        severity: 'high',
+          'Set bao gồm cả nhẫn và dây. Nếu bạn chỉ thường xuyên đeo một trong hai, có lẽ nên mua lẻ sản phẩm bạn thực sự dùng nhiều, với viên đá lớn hơn.',
+        severity: 'medium',
       },
       {
-        reason: 'Set markup cao hơn mua lẻ',
+        reason: 'Nếu bạn ưu tiên viên đá lớn, ấn tượng',
         detail:
-          'Set 75tr cho 0.5ct tổng (H/SI1) markup rất cao. 2 sản phẩm lẻ cùng thông số mua riêng có thể rẻ hơn 30%.',
-        severity: 'high',
-      },
-      {
-        reason: 'Vàng trắng 18K cần xi rhodium',
-        detail:
-          'Vàng trắng 18K thực ra hơi ngả vàng, lớp trắng bóng là rhodium plating. Sau 1–2 năm lớp rhodium mòn, cần xi lại (~300–500k/món).',
-        severity: 'low',
+          'Mỗi viên trong set khá nhỏ (0.3ct + 0.2ct). Cùng ngân sách 75tr, bạn có thể có một viên 0.5–0.7ct đẹp hơn rõ rệt.',
+        severity: 'medium',
       },
     ],
     honestVerdict:
-      'Set nghe "tiết kiệm" nhưng thực ra markup cao và spread carat kém ấn tượng. Nên mua 1 sản phẩm lẻ viên đá lớn hơn với cùng tiền.',
+      'Set phù hợp nếu bạn muốn món quà "đôi" với ý nghĩa đặc biệt. Nếu chỉ cần một món trang sức, mua lẻ với viên đá lớn hơn sẽ đáng tiền hơn.',
     whenToBuy:
-      'Khi bạn cần quà tặng set (ý nghĩa "đôi"), không quan tâm thông số, ngân sách thoải mái.',
+      'Khi bạn cần quà tặng set (nhẫn + dây), ngân sách thoải mái, và đánh giá cao ý nghĩa "đôi" hơn thông số từng viên.',
     alternatives: [
       {
         name: 'Nhẫn 0.5ct G/VS2 (tự nhiên)',
@@ -1052,7 +985,7 @@ const products: SeedProduct[] = [
         url: 'https://www.pnj.com.vn/',
         priceRange: '~60–75 triệu VND',
         whyBetter:
-          '1 viên 0.5ct đẹp hơn 2 viên nhỏ, thông số cao hơn, cùng ngân sách. Đáng tiền hơn set.',
+          '1 viên 0.5ct đẹp hơn 2 viên nhỏ, cùng ngân sách. Đáng tiền hơn về độ ấn tượng.',
       },
       {
         name: 'Set lab-grown 1ct tổng',
@@ -1060,7 +993,7 @@ const products: SeedProduct[] = [
         url: 'https://lightbox.jewelry/',
         priceRange: '~50–65 triệu VND',
         whyBetter:
-          'Tổng carat GẤP ĐÔI (1ct vs 0.5ct), thông số tốt hơn, giá rẻ hơn. Nếu đã thích set thì lab-grown cho carat lớn hơn nhiều.',
+          'Tổng carat gấp đôi, thông số tốt hơn, giá rẻ hơn. Nếu bạn thích set, đây là lựa chọn hiệu quả hơn.',
       },
     ],
     targetBudget: 'high',
@@ -1080,32 +1013,32 @@ const products: SeedProduct[] = [
       {
         tactic: '"Nhẫn vợ chồng" = cảm xúc + "trọn đời"',
         decoded:
-          'Gắn nhẫn cưới với tình yêu vĩnh cửu để hợp thức hóa giá. Đôi 14K 2 chiếc giá nhập vàng ~4–5tr (vàng 14K rẻ). Bán 8.5tr là markup ~80%.',
+          'Gắn nhẫn cưới với tình yêu vĩnh cửu là chiến lược cảm xúc hiệu quả. Sản phẩm này có ý nghĩa biểu tượng mạnh — điều quan trọng là bạn cảm thấy nó phù hợp với câu chuyện của mình.',
       },
       {
         tactic: '"Vàng 14K bền hơn 18K"',
         decoded:
-          '14K cứng hơn 18K (đúng) nhưng được chọn chủ yếu để GIẢM GIÁ THÀNH, không phải vì "bền". Vàng 14K giá kim loại thấp hơn 18K ~25%.',
+          '14K cứng hơn 18K — đúng về mặt vật lý — nhưng chủ yếu được chọn để giảm giá thành. Vàng 14K có 58.5% vàng, thấp hơn 18K.',
       },
     ],
     whyNotToBuy: [
       {
-        reason: 'Markup cao (~80%)',
+        reason: 'Nếu bạn muốn đôi nhẫn giữ giá trị vàng cao nhất có thể',
         detail:
-          'Đôi 14K giá vàng nhập ~4–5tr, bán 8.5tr = markup lớn. Có thể đặt xưởng làm đôi tương tự với 5–6tr.',
-        severity: 'medium',
+          '14K chỉ chứa 58.5% vàng. Nếu bạn muốn tối đa giá trị vật liệu, đôi 18K sẽ có nhiều vàng hơn — mặc dù giá cũng cao hơn.',
+        severity: 'low',
       },
       {
-        reason: '14K giữ giá trị vàng thấp',
+        reason: 'Nếu bạn muốn thiết kế phức tạp hơn',
         detail:
-          '14K chỉ 58.5% vàng. Bán lại chỉ thu ~50% giá mua. Nếu coi là "tài sản", 18K hoặc 24k giữ giá trị tốt hơn.',
+          'Đôi nhẫn này có thiết kế đơn giản. Nếu bạn muốn đính đá, khắc chữ, hoặc kiểu dáng cầu hôn cầu kỳ hơn, có lẽ nên xem xét các lựa chọn khác.',
         severity: 'low',
       },
     ],
     honestVerdict:
-      'Sản phẩm hợp lý cho nhẫn cưới (đeo hàng ngày, 14K cứng), nhưng markup cao. Nên so sánh giá xưởng nếu muốn tiết kiệm.',
+      'Đôi nhẫn hợp lý cho cặp đôi muốn bắt đầu với ngân sách vừa phải. 14K cứng đủ cho đeo hàng ngày, thiết kế đơn giản dễ phối.',
     whenToBuy:
-      'Khi bạn cần nhẫn cưới đeo hàng ngày, ngân sách 8–10tr/đôi, không quan tâm giá trị bán lại.',
+      'Khi bạn cần nhẫn cưới đeo hàng ngày, ngân sách 8–10tr/đôi, và ưu tiên sự bền mặc và ý nghĩa hơn kiểu dáng cầu kỳ.',
     alternatives: [
       {
         name: 'Đôi nhẫn 18K xưởng',
@@ -1113,7 +1046,7 @@ const products: SeedProduct[] = [
         url: 'https://www.pnj.com.vn/',
         priceRange: '~10–14 triệu VND/đôi',
         whyBetter:
-          '18K giữ giá trị vàng tốt hơn 14K, cứng đủ cho đeo hàng ngày. Chỉ đắt hơn chút nhưng % vàng cao hơn.',
+          '18K giữ giá trị vàng tốt hơn, cứng đủ cho đeo hàng ngày.',
       },
       {
         name: 'Đôi nhẫn bạch kim',
@@ -1121,7 +1054,7 @@ const products: SeedProduct[] = [
         url: 'https://www.pnj.com.vn/',
         priceRange: '~18–25 triệu VND/đôi',
         whyBetter:
-          'Bạch kim hypoallergenic, không xỉn, giữ dáng tốt. Đắt hơn nhưng là "vĩnh cửu" — phù hợp ý nghĩa nhẫn cưới. Nếu ngân sách cho phép.',
+          'Bạch kim không xỉn, giữ dáng tốt, hypoallergenic. Phù hợp nếu ngân sách cho phép và bạn muốn "vĩnh cửu".',
       },
     ],
     targetBudget: 'low',
@@ -1130,7 +1063,6 @@ const products: SeedProduct[] = [
 
 async function main() {
   console.log('Seeding products...')
-  // Xóa dữ liệu cũ
   await db.product.deleteMany({})
   for (const p of products) {
     await db.product.create({
