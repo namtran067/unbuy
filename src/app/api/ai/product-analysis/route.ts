@@ -98,7 +98,7 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    const model = process.env.OPENROUTER_MODEL || 'google/gemini-2.5-flash-exp:free'
+    const model = process.env.OPENROUTER_MODEL || 'google/gemini-2.5-flash-lite'
 
     const systemPrompt = `Bạn là "NGƯỜI TƯ VẤN TRANG SỨC TRUNG THỰC" của SAIGONXUA.
 
