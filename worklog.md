@@ -106,3 +106,42 @@ Stage Summary:
   * Admin edit + save → toast success + DB updated (verified via /api/products)
   * Admin API auth: wrong key → 401, correct key → 400 on invalid id (protected)
   * Analyze API works on light theme: RECONSIDER verdict, 2 reasons, 3 alternatives, 8 web sources, no marketingTactics in output
+
+---
+Task ID: 8
+Agent: main (Z.ai Code)
+Task: Redesign "Giải Mã Sản Phẩm" — customer inputs budget+needs, AI auto-recommends buy/avoid lists (clear CTA, no product picker confusion)
+
+Work Log:
+- Identified UX problem: customer entered info but didn't know which button to press; old flow analyzed 1 product at a time
+- Rewrote types.ts: removed old verdict-based AntiMarketingAnalysis; added RecommendedProduct (fitScore, reason, caveat) + AvoidedProduct (reason, detail, severity) ranked-list structure
+- Rewrote /api/anti-marketing/analyze SYSTEM_PROMPT: AI now walks ENTIRE catalog (filtered by budget ±50%), outputs ranked "NÊN MUA" list + "KHÔNG NÊN MUA" list with reasons; 3 pillars (budget, material, needs-fit); removed single-product verdict concept
+- API now returns catalogProducts (all evaluated) instead of analyzedProducts; AI picks products for the customer (no self-selection needed)
+- Rewrote Analyzer component:
+  * Removed confusing optional product picker entirely
+  * 4 numbered fields: 1.Budget (slider+preset) 2.Material 3.Occasion 4.Needs textarea (with quick-fill hint chips)
+  * Single prominent CTA in a highlighted box: "Phân Tích & Khuyến Nghị" with explanatory text + time estimate
+  * Auto-scroll to result after analysis
+  * "Phân tích lại" button to reset
+- Rewrote AnalysisResult component:
+  * Top: summary card + reset button
+  * "Sản phẩm NÊN MUA" section (green): ranked cards #1/#2/#3 with image, name, price, fit badge, reason, caveat — clickable to open product detail
+  * "Sản phẩm KHÔNG NÊN MUA" section (red): cards with severity badge, reason, detail — clickable
+  * Budget + Material analysis cards
+  * External alternatives (web-sourced)
+  * Final advice quote
+  * Web sources
+- Updated HowItWorks section: 4 steps reflecting new flow (input needs → AI walks catalog → buy/avoid classification → final recommendation)
+- Removed unused ShieldAlert import
+- Updated Analyzer props in page.tsx (removed `products` prop, kept onPickProduct + prefill)
+- ESLint clean
+
+Stage Summary:
+- Agent Browser + curl verified:
+  * API returns correct structure: summary, budgetAnalysis, materialAnalysis, recommendedProducts (ranked, with fitScore+reason+caveat), avoidProducts (with severity+reason+detail), alternatives, finalAdvice
+  * Test query "nhẫn cầu hôn 50tr kim cương to lấp lánh đeo hàng ngày": AI recommended 2 (lab-grown 1ct high-fit, 0.5ct platinum medium-fit), avoided 5 (24K gold, earrings, bracelet, etc.) with NGHIÊM TRỌNG severity
+  * UI: two lists clearly separated green (NÊN MUA) vs red (KHÔNG NÊN MUA), VLM confirms clean readable cards
+  * Click recommended product → opens product detail dialog correctly
+  * Mobile 390px: no overflow, CTA prominent and visible, form usable stacked
+  * VLM mobile check: button prominent, no layout issues
+- Customer UX now crystal clear: fill 4 fields → press ONE button → get buy/avoid recommendation lists

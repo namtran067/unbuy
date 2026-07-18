@@ -120,24 +120,29 @@ function safeParse<T>(s: string | null | undefined, fallback: T): T {
 }
 
 // === AI analysis response shape ===
-export type Verdict = 'BUY' | 'RECONSIDER' | 'AVOID'
+// Cấu trúc mới: AI tự chọn từ catalog sản phẩm NÊN mua (ranked) và KHÔNG NÊN mua (kèm lý do)
+export interface RecommendedProduct {
+  productId: string
+  fitScore: 'high' | 'medium' // mức độ phù hợp
+  reason: string // tại sao sản phẩm này phù hợp nhu cầu + ngân sách
+  caveat?: string // lưu ý nhỏ (nếu có)
+}
+
+export interface AvoidedProduct {
+  productId: string
+  reason: string // lý do ngắn tại sao không nên mua cho khách này
+  detail: string // giải thích cụ thể
+  severity: Severity
+}
 
 export interface AntiMarketingAnalysis {
-  verdict: Verdict
-  confidence: 'high' | 'medium' | 'low'
-  summary: string
-  marketingTactics: MarketingTactic[]
-  reasonsNotToBuy: {
-    reason: string
-    detail: string
-    severity: Severity
-  }[]
-  budgetAnalysis: string
-  materialAnalysis: string
-  whenItIsWorthBuying: string
-  alternatives: Alternative[]
-  recommendedProducts: { productId: string; reason: string }[]
-  finalAdvice: string
+  summary: string // 1-2 câu tóm tắt khuyến nghị
+  budgetAnalysis: string // phân tích ngân sách khách
+  materialAnalysis: string // phân tích chất liệu phù hợp nhu cầu
+  recommendedProducts: RecommendedProduct[] // danh sách NÊN mua (ranked, từ catalog)
+  avoidProducts: AvoidedProduct[] // danh sách KHÔNG NÊN mua (từ catalog, kèm lý do)
+  alternatives: Alternative[] // gợi ý thay thế từ web/brand khác
+  finalAdvice: string // lời khuyên cuối 1-2 câu
 }
 
 export interface AnalyzeRequest {

@@ -6,65 +6,75 @@ import { mapProduct, type AnalyzeRequest, type AntiMarketingAnalysis } from '@/l
 export const dynamic = 'force-dynamic'
 export const maxDuration = 60
 
-const SYSTEM_PROMPT = `Bạn là "NGƯỜI GIẢI MÃ MARKETING" (The Marketing Decoder) — một cố vấn trang sức trung thực từng làm việc trong ngành kim cương & trang sức hơn 15 năm, ở cả phía bán lẻ và phía nhập khẩu. Bạn biết mọi thủ thuật marketing mà các thương hiệu trang sức sử dụng để thuyết phục khách hàng mua.
+const SYSTEM_PROMPT = `Bạn là "NGƯỜI TƯ VẤN TRANG SỨC TRUNG THỰC" của SAIGONXUA — cố vấn từng làm việc trong ngành kim cương & trang sức hơn 15 năm, ở cả phía bán lẻ và phía nhập khẩu.
 
-TRIẾT LÝ CỦA BẠN:
-- TRUNG THỰC TRƯỚC TIÊN. Website này KHÔNG bán hàng bằng cảm xúc. Mục tiêu là giúp khách hàng ra quyết định sáng suốt, kể cả khi điều đó nghĩa là KHÔNG mua sản phẩm này.
-- Bạn KHÔNG sợ mất doanh thu. Bạn sợ khách hàng bị lừa.
-- Bạn tôn trọng thương hiệu nhưng phân tích khách quan các chiến lược branding mà họ dùng.
+TRIẾT LÝ:
+- TRUNG THỰC TRƯỚC TIÊN. Mục tiêu: giúp khách ra quyết định sáng suốt, kể cả khi nghĩa là KHÔNG mua sản phẩm nào trong catalog.
+- Bạn KHÔNG sợ mất doanh thu. Bạn sợ khách bị lừa.
+- Khách hàng nhập ngân sách + nhu cầu → NHIỆM VỤ CỦA BẠN là đi qua TOÀN BỘ catalog, rồi đưa ra 2 danh sách rõ ràng:
+  1. "NÊN MUA" — những sản phẩm thực sự phù hợp nhu cầu + ngân sách, xếp hạng theo độ phù hợp (fit cao → vừa).
+  2. "KHÔNG NÊN MUA" — những sản phẩm khách ĐỪNG mua với nhu cầu này, kèm lý do cụ thể + mức độ nghiêm trọng.
 
-KHI PHÂN TÍCH TẠI SAO KHÔNG NÊN MUA, DỰA VÀO 3 TRỤ CỘT:
+TIÊU CHÍ ĐÁNH GIÁ (3 trụ cột):
 
-1. PHÙ HỢP NGÂN SÁCH (Budget Reality):
-   - So sánh giá sản phẩm với ngân sách khách hàng đưa ra.
-   - Đánh giá liệu khách hàng có đang bị vượt tay vì marketing, hay thực sự thoải mái chi.
-   - Nếu sản phẩm rẻ hơn ngân sách nhiều, có thể gợi ý sản phẩm tốt hơn tận dụng ngân sách.
-   - Nếu đắt hơn, cảnh báo rõ ràng.
+1. PHÙ HỢP NGÂN SÁCH:
+   - Sản phẩm có nằm trong (hoặc gần) ngân sách khách không?
+   - Nếu đắt hơn nhiều → KHÔNG NÊN MUA (severity high).
+   - Nếu rẻ hơn nhiều nhưng không tận dụng được → có thể vào NÊN MUA với caveat.
+   - Khách có đang bị "vượt tay" vì marketing không?
 
-2. CHẤT LIỆU & GIÁ TRỊ THỰC (Material & Real Value):
-   - Kim cương tự nhiên vs lab-grown: sự khác biệt giá vs sự khác biệt thị giác (gần như không phân biệt bằng mắt).
-   - 4C (Carat, Cut, Color, Clarity): giải mã thông số, chỉ ra khi nào carat lớn nhưng thông số kém = "đánh lừa".
-   - Vàng 10K/14K/18K/24K: thực tế độ cứng, giá trị kim loại, phù hợp đeo hay tích trữ.
-   - Bạch kim vs vàng trắng rhodium: nhược điểm bạch kim (nặng, dẻo, xỉn).
-   - Ngọc trai cultured vs tự nhiên: 99% thị trường là cultured.
+2. CHẤT LIỆU & GIÁ TRỊ THỰC:
+   - Kim cương tự nhiên vs lab-grown: khác biệt giá vs khác biệt thị giác.
+   - 4C: carat lớn nhưng thông số kém = "đánh lừa".
+   - Vàng 10K/14K/18K/24K: độ cứng, giá trị kim loại, phù hợp đeo hay tích trữ.
+   - Bạch kim vs vàng trắng rhodium; ngọc trai cultured vs tự nhiên.
 
-3. ALTERNATIVES (Gợi ý thay thế từ thương hiệu/web khác):
-   - Dựa trên kết quả tìm kiếm web, gợi ý sản phẩm tương tự từ PNJ, DOJI, Jemmia, Tiffany, Lightbox (lab-grown De Beers), Charles & Colvard (moissanite), Pearl Paradise...
-   - Chỉ ra TẠI SAO lựa chọn thay thế TỐT HƠN (giá, thông số, phù hợp nhu cầu).
-   - Nếu sản phẩm đang xét THỰC SỰ đáng mua, hãy nói rõ.
+3. PHÙ HỢP NHU CẦU CỤ THỂ:
+   - Đây là trụ cột QUAN TRỌNG NHẤT. Khách nhập nhu cầu (vd: "nhẫn cầu hôn, cô ấy thích kim cương to lấp lánh, đeo hàng ngày") → bạn phải đối chiếu từng sản phẩm với nhu cầu đó.
+   - Sản phẩm dù rẻ/đẹp nhưng sai mục đích (vd: hoa tai khi khách cần nhẫn cầu hôn) → KHÔNG NÊN MUA.
+   - Sản phẩm phù hợp nhu cầu nhưng thông số kém → KHÔNG NÊN MUA hoặc NÊN MUA với caveat.
 
 NGUYÊN TẮC OUTPUT:
 - LUÔN trả về JSON hợp lệ, KHÔNG kèm markdown fence, KHÔNG kèm văn bản thừa.
 - Tiếng Việt, giọng điệu trực tiếp, trung thực, không rao bán.
-- Cụ thể: dẫn chứng giá, thông số, so sánh rõ ràng. Tránh chung chung.
-- Không miệt thị thương hiệu — phân tích khách quan.
-- Khi sản phẩm thực sự ĐÁNG MUA (vì lý do chính đáng), verdict = "BUY" và giải thích rõ.
+- Cụ thể: dẫn chứng giá, thông số, so sánh. Tránh chung chung.
+- Đi qua TẤT CẢ sản phẩm trong catalog được cung cấp, quyết định mỗi sản phẩm vào NÊN MUA / KHÔNG NÊN MUA / bỏ qua (nếu trung lập).
+- NÊN MUA: ít nhất 1 sản phẩm nếu catalog có sản phẩm phù hợp. Xếp hạng theo độ phù hợp (fit cao trước). Mỗi sản phẩm kèm reason + caveat (nếu có).
+- KHÔNG NÊN MUA: những sản phẩm thực sự không phù hợp nhu cầu/ngân sách, kèm lý do cụ thể + severity.
+- Nếu KHÔNG có sản phẩm nào trong catalog phù hợp, NÊN MUA = [] và giải thích trong summary + finalAdvice, gợi ý khách ra ngoài (alternatives).
 
 FORMAT JSON BẮT BUỘC:
 {
-  "verdict": "BUY" | "RECONSIDER" | "AVOID",
-  "confidence": "high" | "medium" | "low",
-  "summary": "1-2 câu tóm tắt đánh giá trung thực",
-  "reasonsNotToBuy": [
-    { "reason": "lý do ngắn", "detail": "giải thích cụ thể với số liệu", "severity": "high|medium|low" }
-  ],
-  "budgetAnalysis": "phân tích ngân sách: sản phẩm có phù hợp không, khách hàng có đang bị vượt tay không",
-  "materialAnalysis": "phân tích chất liệu & giá trị thực",
-  "whenItIsWorthBuying": "kịch bản sản phẩm này thực sự đáng mua",
-  "alternatives": [
-    { "name": "tên SP thay thế", "brand": "thương hiệu", "url": "link web", "priceRange": "khoảng giá VND", "whyBetter": "tại sao tốt hơn" }
-  ],
+  "summary": "1-2 câu tóm tắt: khách nên mua gì, tránh gì",
+  "budgetAnalysis": "phân tích ngân sách khách — mức giá hợp lý cho nhu cầu này, khách có đang đặt ngân sách quá thấp/cao",
+  "materialAnalysis": "phân tích chất liệu phù hợp nhu cầu (vd: cầu hôn nên bạch kim/18K, tích trữ nên 24K...)",
   "recommendedProducts": [
-    { "productId": "id sản phẩm trong catalog của chúng tôi phù hợp hơn", "reason": "tại sao" }
+    {
+      "productId": "id từ catalog",
+      "fitScore": "high" | "medium",
+      "reason": "tại sao sản phẩm này phù hợp nhu cầu + ngân sách của khách",
+      "caveat": "lưu ý nhỏ nếu có (vd: 'cần xi rhodium định kỳ')"
+    }
   ],
-  "finalAdvice": "lời khuyên cuối cùng 1-2 câu, trực tiếp"
+  "avoidProducts": [
+    {
+      "productId": "id từ catalog",
+      "reason": "lý do ngắn tại sao khách KHÔNG nên mua sản phẩm này",
+      "detail": "giải thích cụ thể với số liệu",
+      "severity": "high" | "medium" | "low"
+    }
+  ],
+  "alternatives": [
+    { "name": "tên SP thay thế", "brand": "thương hiệu", "url": "link web", "priceRange": "khoảng giá VND", "whyBetter": "tại sao tốt hơn cho khách" }
+  ],
+  "finalAdvice": "lời khuyên cuối 1-2 câu, trực tiếp"
 }
 
-LƯU Ý QUAN TRỌNG:
-- "reasonsNotToBuy" có thể rỗng [] nếu sản phẩm thực sự đáng mua (verdict BUY).
-- "alternatives" nên có ít nhất 1-2 gợi ý nếu verdict không phải BUY. Dùng kết quả tìm kiếm web được cung cấp.
-- "recommendedProducts" chỉ chứa productId thực sự tồn tại trong danh sách sản phẩm được cung cấp trong context. Nếu không có, trả mảng rỗng [].
-- KHÔNG bịa ra URL. Chỉ dùng URL từ kết quả tìm kiếm web được cung cấp, hoặc từ dữ liệu alternatives của sản phẩm.`
+LƯU Ý:
+- "recommendedProducts" và "avoidProducts" chỉ chứa productId THẬT sự tồn tại trong catalog được cung cấp.
+- "alternatives" dùng URL thật từ kết quả tìm kiếm web được cung cấp hoặc từ DB. KHÔNG bịa URL.
+- "caveat" là optional, chỉ thêm khi có lưu ý thực sự.
+- Không cần đưa TẤT CẢ sản phẩm vào 2 danh sách — chỉ những sản phẩm có lý do rõ ràng (nên mua hoặc không nên mua). Sản phẩm trung lập có thể bỏ qua.`
 
 interface WebSearchResult {
   url: string
@@ -76,32 +86,24 @@ interface WebSearchResult {
 export async function POST(req: NextRequest) {
   try {
     const body = (await req.json()) as AnalyzeRequest
-    const { budget, material, occasion, needsText, productIds } = body
+    const { budget, material, occasion, needsText } = body
 
-    // 1. Lấy sản phẩm ứng viên
+    // 1. Lấy TOÀN BỘ catalog để AI đánh giá (khách không cần tự chọn)
+    // Lọc sơ theo ngân sách ±50% để giới hạn context, nhưng vẫn đủ rộng
     let candidateRows
-    if (productIds && productIds.length > 0) {
+    if (budget && budget > 0) {
+      const lo = Math.round(budget * 0.3)
+      const hi = Math.round(budget * 2)
       candidateRows = await db.product.findMany({
-        where: { id: { in: productIds } },
-      })
-    } else {
-      // Lọc theo ngân sách nếu có
-      const where: Record<string, unknown> = {}
-      if (budget && budget > 0) {
-        where.price = { lte: Math.round(budget * 1.3) } // cho phép vượt 30%
-      }
-      if (material) {
-        where.material = { contains: material }
-      }
-      candidateRows = await db.product.findMany({
-        where,
+        where: { price: { gte: lo, lte: hi } },
         orderBy: { price: 'asc' },
-        take: 6,
       })
-      // Nếu không đủ, lấy thêm tất cả
-      if (candidateRows.length < 3) {
+      // Nếu quá ít, mở rộng lấy all
+      if (candidateRows.length < 4) {
         candidateRows = await db.product.findMany({ orderBy: { price: 'asc' } })
       }
+    } else {
+      candidateRows = await db.product.findMany({ orderBy: { price: 'asc' } })
     }
 
     if (!candidateRows || candidateRows.length === 0) {
@@ -113,22 +115,19 @@ export async function POST(req: NextRequest) {
 
     const candidates = candidateRows.map(mapProduct)
 
-    // 2. Web search tìm sản phẩm thay thế nếu có needsText hoặc occasion
+    // 2. Web search tìm sản phẩm thay thế
     let webResults: WebSearchResult[] = []
     try {
       const zai = await ZAI.create()
       const queries: string[] = []
       if (needsText && needsText.trim().length > 0) {
-        queries.push(`${needsText} kim cương trang sức giá tốt PNJ DOJI Jemmia`)
-        queries.push(`best value diamond jewelry alternative ${needsText}`)
+        queries.push(`${needsText} trang sức kim cương giá tốt PNJ DOJI Jemmia`)
+        queries.push(`best value diamond jewelry ${needsText}`)
       } else if (occasion) {
         queries.push(`trang sức ${occasion} giá tốt PNJ DOJI Jemmia Tiffany`)
       } else {
-        // search chung dựa trên sản phẩm ứng viên đầu
         const first = candidates[0]
-        queries.push(
-          `${first.material} ${first.category} kim cương giá tốt thay thế PNJ DOJI`
-        )
+        queries.push(`${first.material} ${first.category} kim cương thay thế PNJ DOJI`)
       }
 
       const searchPromises = queries.slice(0, 2).map((q) =>
@@ -143,27 +142,25 @@ export async function POST(req: NextRequest) {
       console.error('[anti-marketing] web search failed (non-fatal)', e)
     }
 
-    // 3. Xây context cho LLM
-    const productContext = candidates
-      .map((p, i) => ({
-        index: i + 1,
-        productId: p.id,
-        name: p.name,
-        category: p.category,
-        material: p.material,
-        price: p.price,
-        oldPrice: p.oldPrice,
-        carat: p.carat,
-        cutGrade: p.cutGrade,
-        colorGrade: p.colorGrade,
-        clarityGrade: p.clarityGrade,
-        origin: p.origin,
-        badge: p.badge,
-        description: p.description,
-        marketingTacticsFromDB: p.marketingTactics,
-        whyNotToBuyFromDB: p.whyNotToBuy,
-        alternativesFromDB: p.alternatives,
-      }))
+    // 3. Xây context cho LLM — gọn gàng, đủ thông tin để đánh giá
+    const productContext = candidates.map((p, i) => ({
+      index: i + 1,
+      productId: p.id,
+      name: p.name,
+      category: p.category,
+      material: p.material,
+      price: p.price,
+      oldPrice: p.oldPrice,
+      carat: p.carat,
+      cutGrade: p.cutGrade,
+      colorGrade: p.colorGrade,
+      clarityGrade: p.clarityGrade,
+      origin: p.origin,
+      badge: p.badge,
+      description: p.description,
+      whyNotToBuyFromDB: p.whyNotToBuy, // context có sẵn để AI tham khảo
+      alternativesFromDB: p.alternatives,
+    }))
 
     const webContext = webResults
       .map(
@@ -172,27 +169,26 @@ export async function POST(req: NextRequest) {
       )
       .join('\n\n')
 
-    const userMessage = `KHÁCH HÀNG CUNG CẤP THÔNG TIN:
+    const userMessage = `THÔNG TIN KHÁCH HÀNG:
 - Ngân sách: ${budget ? budget.toLocaleString('vi-VN') + ' VND' : 'Không xác định'}
 - Chất liệu ưu tiên: ${material || 'Không xác định'}
 - Dịp sử dụng: ${occasion || 'Không xác định'}
-- Nhu cầu chi tiết (khách hàng tự nhập): ${needsText || '(khách chưa nhập thêm)'}
+- Nhu cầu chi tiết (khách tự nhập): ${needsText || '(khách chưa nhập — đánh giá chung)'}
 
-DANH SÁCH SẢN PHẨM CẦN PHÂN TÍCH (từ catalog của chúng tôi):
+CATALOG SẢN PHẨM (đi qua từng sản phẩm, quyết định NÊN MUA / KHÔNG NÊN MUA dựa trên nhu cầu + ngân sách khách):
 ${JSON.stringify(productContext, null, 2)}
 
-KẾT QUẢ TÌM KIẾM WEB (sản phẩm thay thế từ thương hiệu/web khác):
+KẾT QUẢ TÌM KIẾM WEB (sản phẩm thay thế từ thương hiệu khác, dùng URL thật cho alternatives):
 ${webContext || '(không có kết quả tìm kiếm)'}
 
 NHIỆM VỤ:
-Phân tích từng sản phẩm (hoặc sản phẩm nổi bật nhất) theo 4 trụ cột. Ưu tiên dùng nhu cầu chi tiết của khách hàng (nếu có) để điều phối khuyến nghị chính xác. 
-- Nếu khách hàng nhập nhu cầu cụ thể, hãy đối chiếu sản phẩm với nhu cầu đó và đưa ra recommendedProducts (productId từ danh sách trên) phù hợp nhất.
-- Giải mã marketingTactics dựa trên badge và mô tả sản phẩm (có thể bổ sung thêm từ DB).
-- reasonsNotToBuy phải cụ thể, có số liệu.
-- alternatives nên kết hợp cả alternativesFromDB của sản phẩm VÀ kết quả tìm kiếm web (chỉ dùng URL thật).
-- finalAdvice phải trực tiếp, giúp khách ra quyết định.
+- Đối chiếu TỪNG sản phẩm trong catalog với nhu cầu + ngân sách khách.
+- "recommendedProducts": những sản phẩm thực sự phù hợp, xếp hạng theo độ phù hợp (fit cao trước). Lý do phải cụ thể theo nhu cầu khách.
+- "avoidProducts": những sản phẩm khách KHÔNG nên mua với nhu cầu này (sai mục đích, quá đắt, thông số kém...). Lý do + severity cụ thể.
+- "alternatives": kết hợp alternativesFromDB + kết quả web (URL thật), gợi ý thay thế phù hợp nhu cầu khách.
+- "summary" và "finalAdvice": trực tiếp, giúp khách ra quyết định nhanh.
 
-Trả về JSON đúng format đã quy định. KHÔNG kèm markdown, KHÔNG kèm giải thích ngoài JSON.`
+Trả về JSON đúng format. KHÔNG kèm markdown, KHÔNG kèm giải thích ngoài JSON.`
 
     // 4. Gọi LLM
     const zai = await ZAI.create()
@@ -206,7 +202,7 @@ Trả về JSON đúng format đã quy định. KHÔNG kèm markdown, KHÔNG kè
 
     const raw = completion.choices[0]?.message?.content ?? ''
 
-    // 5. Parse JSON (chấp nhận có markdown fence)
+    // 5. Parse JSON
     const analysis = parseJsonLoose<AntiMarketingAnalysis>(raw)
 
     if (!analysis) {
@@ -220,21 +216,26 @@ Trả về JSON đúng format đã quy định. KHÔNG kèm markdown, KHÔNG kè
       )
     }
 
-    // 6. Lọc recommendedProducts chỉ giữ productId thật sự tồn tại
+    // 6. Lọc productId không hợp lệ
     const validIds = new Set(candidates.map((p) => p.id))
     analysis.recommendedProducts = (analysis.recommendedProducts || []).filter(
+      (r) => validIds.has(r.productId)
+    )
+    analysis.avoidProducts = (analysis.avoidProducts || []).filter(
       (r) => validIds.has(r.productId)
     )
 
     return NextResponse.json({
       success: true,
       analysis,
-      analyzedProductIds: candidates.map((p) => p.id),
-      analyzedProducts: candidates.map((p) => ({
+      catalogProductIds: candidates.map((p) => p.id),
+      catalogProducts: candidates.map((p) => ({
         id: p.id,
         name: p.name,
         price: p.price,
         image: p.image,
+        material: p.material,
+        category: p.category,
       })),
       webSearchUsed: webResults.length > 0,
       webSources: webResults.map((r) => ({ name: r.name, url: r.url, host: r.host_name })),
@@ -250,11 +251,9 @@ Trả về JSON đúng format đã quy định. KHÔNG kèm markdown, KHÔNG kè
 
 function parseJsonLoose<T>(raw: string): T | null {
   if (!raw) return null
-  // strip markdown fences
   let s = raw.trim()
   const fence = s.match(/```(?:json)?\s*([\s\S]*?)```/i)
   if (fence) s = fence[1].trim()
-  // find first { ... last }
   const first = s.indexOf('{')
   const last = s.lastIndexOf('}')
   if (first === -1 || last === -1) return null

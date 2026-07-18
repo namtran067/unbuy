@@ -2,12 +2,11 @@
 
 import { useState, useEffect } from 'react'
 import {
-  ShieldAlert,
   Loader2,
   Sparkles,
   Wand2,
   RotateCcw,
-  ChevronDown,
+  ChevronRight,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
@@ -21,36 +20,39 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { formatVND, MATERIAL_OPTIONS, OCCASION_OPTIONS } from '@/lib/format'
-import type { AnalyzeRequest, AntiMarketingAnalysis, Product } from '@/lib/types'
+import type { AnalyzeRequest, AntiMarketingAnalysis } from '@/lib/types'
 import { AnalysisResult } from './analysis-result'
 
 interface AnalyzerProps {
-  products: Product[]
-  onPickProduct: (id: string) => void
   prefillProductId?: string | null
   onPrefillConsumed?: () => void
+  onPickProduct: (id: string) => void
 }
 
 const BUDGET_PRESETS = [10, 25, 50, 80, 120, 200]
 
 export function Analyzer({
-  products,
-  onPickProduct,
   prefillProductId,
   onPrefillConsumed,
+  onPickProduct,
 }: AnalyzerProps) {
   const [budget, setBudget] = useState<number>(50_000_000)
   const [material, setMaterial] = useState<string>('')
   const [occasion, setOccasion] = useState<string>('')
   const [needsText, setNeedsText] = useState<string>('')
-  const [selectedIds, setSelectedIds] = useState<string[]>([])
-  const [showProductPicker, setShowProductPicker] = useState(false)
 
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [analysis, setAnalysis] = useState<AntiMarketingAnalysis | null>(null)
-  const [analyzedProducts, setAnalyzedProducts] = useState<
-    { id: string; name: string; price: number; image: string }[]
+  const [catalogProducts, setCatalogProducts] = useState<
+    {
+      id: string
+      name: string
+      price: number
+      image: string
+      material: string
+      category: string
+    }[]
   >([])
   const [webSources, setWebSources] = useState<
     { name: string; url: string; host: string }[]
@@ -58,11 +60,9 @@ export function Analyzer({
 
   useEffect(() => {
     if (prefillProductId) {
-      setSelectedIds((prev) =>
-        prev.includes(prefillProductId) ? prev : [prefillProductId]
-      )
-      setShowProductPicker(true)
       onPrefillConsumed?.()
+      const el = document.getElementById('analyzer')
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }
   }, [prefillProductId, onPrefillConsumed])
 
@@ -76,7 +76,6 @@ export function Analyzer({
         material: material || undefined,
         occasion: occasion || undefined,
         needsText: needsText.trim() || undefined,
-        productIds: selectedIds.length > 0 ? selectedIds : undefined,
       }
       const res = await fetch('/api/anti-marketing/analyze', {
         method: 'POST',
@@ -88,8 +87,13 @@ export function Analyzer({
         throw new Error(data.error || 'Phân tích thất bại')
       }
       setAnalysis(data.analysis as AntiMarketingAnalysis)
-      setAnalyzedProducts(data.analyzedProducts || [])
+      setCatalogProducts(data.catalogProducts || [])
       setWebSources(data.webSources || [])
+      // scroll to result
+      setTimeout(() => {
+        const el = document.getElementById('analysis-result')
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }, 100)
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Lỗi không xác định')
     } finally {
@@ -100,34 +104,30 @@ export function Analyzer({
   function handleReset() {
     setAnalysis(null)
     setError(null)
-    setAnalyzedProducts([])
+    setCatalogProducts([])
     setWebSources([])
   }
 
-  function toggleProduct(id: string) {
-    setSelectedIds((prev) =>
-      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
-    )
-  }
+  const canAnalyze = budget > 0 && !loading
 
   return (
     <section id="analyzer" className="scroll-mt-20 bg-background">
-      <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
+      <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
         {/* Heading */}
         <div className="mx-auto max-w-2xl text-center">
           <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-border bg-secondary px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-            <ShieldAlert className="h-3.5 w-3.5 text-warn" />
+            <Sparkles className="h-3.5 w-3.5 text-gold" />
             Core Feature
           </div>
           <h2 className="font-serif text-3xl font-semibold text-ink sm:text-4xl">
-            Giải Mã Sản Phẩm — Trước Khi Mở Ví
+            Nhập nhu cầu — AI khuyến nghị nên mua gì
           </h2>
           <p className="mt-4 text-base leading-relaxed text-muted-foreground">
-            Cho chúng tôi biết ngân sách và nhu cầu của bạn. SAIGONXUA sẽ phân
-            tích sản phẩm, chỉ ra lý do{' '}
-            <span className="text-warn font-medium">tại sao không nên mua</span>,
-            và điều phối bạn đến lựa chọn thật sự phù hợp — kể cả từ thương hiệu
-            khác.
+            Bạn không cần tự chọn sản phẩm. Hãy cho SAIGONXUA biết ngân sách &
+            nhu cầu — AI sẽ đi qua toàn bộ catalog, đưa ra danh sách{' '}
+            <span className="font-medium text-good">NÊN MUA</span> và{' '}
+            <span className="font-medium text-bad">KHÔNG NÊN MUA</span> (kèm lý
+            do), rồi điều phối bạn đến lựa chọn tốt nhất.
           </p>
         </div>
 
@@ -137,22 +137,22 @@ export function Analyzer({
             <div className="flex items-center gap-2">
               <Wand2 className="h-5 w-5 text-gold" />
               <h3 className="font-serif text-lg font-semibold text-ink">
-                Thông tin khách hàng
+                Thông tin của bạn
               </h3>
             </div>
             <p className="mt-1 text-sm text-muted-foreground">
-              Càng chi tiết, phân tích càng chính xác.
+              Càng chi tiết nhu cầu, AI khuyến nghị càng chính xác.
             </p>
           </div>
 
-          <div className="space-y-6 p-6 sm:p-8">
-            {/* Budget */}
+          <div className="space-y-7 p-6 sm:p-8">
+            {/* Budget — prominent */}
             <div>
               <div className="mb-3 flex items-center justify-between">
-                <Label className="text-sm font-medium text-ink">
-                  Ngân sách của bạn
+                <Label className="text-sm font-semibold text-ink">
+                  1. Ngân sách của bạn
                 </Label>
-                <span className="font-serif text-lg font-semibold text-gold">
+                <span className="font-serif text-xl font-bold text-ink">
                   {formatVND(budget)}
                 </span>
               </div>
@@ -172,7 +172,7 @@ export function Analyzer({
                     className={`rounded-full border px-3 py-1 text-xs transition-colors ${
                       budget === p * 1_000_000
                         ? 'border-ink bg-secondary text-ink'
-                        : 'border-border text-muted-foreground hover:border-ink/40 hover:text-ink'
+                        : 'border-border text-muted-foreground hover:border-ink/30 hover:text-ink'
                     }`}
                   >
                     {p}tr
@@ -184,11 +184,11 @@ export function Analyzer({
             {/* Material + Occasion */}
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
-                <Label className="mb-2 block text-sm font-medium text-ink">
-                  Chất liệu ưu tiên
+                <Label className="mb-2 block text-sm font-semibold text-ink">
+                  2. Chất liệu ưu tiên
                 </Label>
                 <Select value={material} onValueChange={setMaterial}>
-                  <SelectTrigger className="w-full bg-input/40">
+                  <SelectTrigger className="w-full bg-background">
                     <SelectValue placeholder="Không xác định" />
                   </SelectTrigger>
                   <SelectContent>
@@ -201,11 +201,11 @@ export function Analyzer({
                 </Select>
               </div>
               <div>
-                <Label className="mb-2 block text-sm font-medium text-ink">
-                  Dịp sử dụng
+                <Label className="mb-2 block text-sm font-semibold text-ink">
+                  3. Dịp sử dụng
                 </Label>
                 <Select value={occasion} onValueChange={setOccasion}>
-                  <SelectTrigger className="w-full bg-input/40">
+                  <SelectTrigger className="w-full bg-background">
                     <SelectValue placeholder="Không xác định" />
                   </SelectTrigger>
                   <SelectContent>
@@ -219,117 +219,79 @@ export function Analyzer({
               </div>
             </div>
 
-            {/* Needs text */}
+            {/* Needs text — the KEY input */}
             <div>
               <Label
                 htmlFor="needs"
-                className="mb-2 block text-sm font-medium text-ink"
+                className="mb-2 block text-sm font-semibold text-ink"
               >
-                Nhu cầu chi tiết{' '}
-                <span className="text-muted-foreground">(tùy chọn — nhưng rất nên điền)</span>
+                4. Nhu cầu chi tiết{' '}
+                <span className="font-normal text-muted-foreground">
+                  (rất quan trọng — kể cho AI nghe bạn muốn gì)
+                </span>
               </Label>
               <Textarea
                 id="needs"
                 value={needsText}
                 onChange={(e) => setNeedsText(e.target.value)}
-                placeholder="Vd: Tôi muốn nhẫn cầu hôn khoảng 50 triệu, cô ấy thích kim cương lấp lánh to một chút, đeo hàng ngày, tay nhỏ. Tôi phân vân giữa kim cương tự nhiên và lab-grown..."
-                className="min-h-[110px] resize-y bg-input/40"
+                placeholder="Ví dụ: Tôi muốn nhẫn cầu hôn khoảng 50 triệu, cô ấy thích kim cương to lấp lánh, đeo hàng ngày, tay nhỏ. Tôi phân vân giữa kim cương tự nhiên và lab-grown..."
+                className="min-h-[120px] resize-y bg-background"
               />
-              <p className="mt-1.5 text-xs text-muted-foreground">
-                AI sẽ tìm kiếm sản phẩm tương tự trên web và khuyến nghị chính
-                xác hơn khi biết nhu cầu cụ thể.
-              </p>
+              <div className="mt-2 flex flex-wrap gap-1.5">
+                {[
+                  'Nhẫn cầu hôn kim cương to',
+                  'Dây chuyền đeo hàng ngày',
+                  'Quà tặng kỷ niệm ngọc trai',
+                  'Nhẫn cưới đôi vàng 18K',
+                  'Tích trữ vàng 24K',
+                ].map((hint) => (
+                  <button
+                    key={hint}
+                    onClick={() => setNeedsText(hint)}
+                    className="rounded-full border border-border bg-secondary/50 px-2.5 py-1 text-[11px] text-muted-foreground transition-colors hover:border-ink/30 hover:text-ink"
+                  >
+                    {hint}
+                  </button>
+                ))}
+              </div>
             </div>
 
-            {/* Optional product picker */}
-            <div>
-              <button
-                onClick={() => setShowProductPicker((v) => !v)}
-                className="flex w-full items-center justify-between rounded-lg border border-border bg-input/20 px-4 py-3 text-left text-sm font-medium text-ink transition-colors hover:bg-input/40"
-              >
-                <span>
-                  {selectedIds.length > 0
-                    ? `Đã chọn ${selectedIds.length} sản phẩm cụ thể để giải mã`
-                    : 'Chọn sản phẩm cụ thể để giải mã (tùy chọn)'}
-                </span>
-                <ChevronDown
-                  className={`h-4 w-4 transition-transform ${
-                    showProductPicker ? 'rotate-180' : ''
-                  }`}
-                />
-              </button>
-              {showProductPicker && (
-                <div className="mt-3 grid grid-cols-2 gap-2 rounded-lg border border-border bg-card-elevated p-3 sm:grid-cols-3 lg:grid-cols-4">
-                  {products.map((p) => {
-                    const active = selectedIds.includes(p.id)
-                    return (
-                      <button
-                        key={p.id}
-                        onClick={() => toggleProduct(p.id)}
-                        className={`flex items-center gap-2 rounded-md border p-2 text-left transition-colors ${
-                          active
-                            ? 'border-ink bg-secondary'
-                            : 'border-border hover:border-ink/40'
-                        }`}
-                      >
-                        <img
-                          src={p.image}
-                          alt=""
-                          className="h-9 w-9 rounded object-cover"
-                        />
-                        <div className="min-w-0 flex-1">
-                          <div className="truncate text-xs font-medium text-ink">
-                            {p.name}
-                          </div>
-                          <div className="text-[10px] text-muted-foreground">
-                            {formatVND(p.price)}
-                          </div>
-                        </div>
-                      </button>
-                    )
-                  })}
+            {/* CTA — big, obvious, single */}
+            <div className="rounded-lg border border-ink/15 bg-secondary/30 p-4">
+              <div className="flex flex-col items-center gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <div className="text-center sm:text-left">
+                  <div className="text-sm font-semibold text-ink">
+                    Sẵn sàng? AI sẽ đi qua toàn bộ catalog và khuyến nghị
+                  </div>
+                  <div className="text-xs text-muted-foreground">
+                    Phân tích mất ~15-25 giây (bao gồm tìm kiếm web sản phẩm thay
+                    thế)
+                  </div>
                 </div>
-              )}
-              <p className="mt-1.5 text-xs text-muted-foreground">
-                Nếu không chọn, AI sẽ tự chọn sản phẩm phù hợp ngân sách của bạn.
-              </p>
-            </div>
-
-            {/* Action */}
-            <div className="flex flex-col gap-3 pt-2 sm:flex-row">
-              <Button
-                onClick={handleAnalyze}
-                disabled={loading}
-                size="lg"
-                className="flex-1 bg-ink text-background hover:bg-ink/90"
-              >
-                {loading ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Đang giải mã & tìm kiếm sản phẩm thay thế...
-                  </>
-                ) : (
-                  <>
-                    <Sparkles className="mr-2 h-4 w-4" />
-                    Giải Mã & Khuyến Nghị
-                  </>
-                )}
-              </Button>
-              {analysis && (
                 <Button
-                  onClick={handleReset}
+                  onClick={handleAnalyze}
+                  disabled={!canAnalyze}
                   size="lg"
-                  variant="outline"
-                  className="border-border text-ink hover:bg-accent"
+                  className="w-full bg-ink text-background hover:bg-ink/90 sm:w-auto"
                 >
-                  <RotateCcw className="mr-2 h-4 w-4" />
-                  Phân tích lại
+                  {loading ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Đang phân tích...
+                    </>
+                  ) : (
+                    <>
+                      <Sparkles className="mr-2 h-4 w-4" />
+                      Phân Tích & Khuyến Nghị
+                      <ChevronRight className="ml-1 h-4 w-4" />
+                    </>
+                  )}
                 </Button>
-              )}
+              </div>
             </div>
 
             {error && (
-              <div className="rounded-lg border border-bad/40 bg-bad/10 px-4 py-3 text-sm text-bad">
+              <div className="rounded-lg border border-bad/40 bg-bad-soft px-4 py-3 text-sm text-bad">
                 {error}
               </div>
             )}
@@ -338,23 +300,27 @@ export function Analyzer({
 
         {/* Loading skeleton */}
         {loading && (
-          <div className="mt-8 space-y-4">
-            <div className="h-24 animate-pulse rounded-xl animate-shimmer" />
+          <div className="mt-6 space-y-4">
+            <div className="h-20 animate-pulse animate-shimmer rounded-xl" />
             <div className="grid gap-4 sm:grid-cols-2">
-              <div className="h-40 animate-pulse rounded-xl animate-shimmer" />
-              <div className="h-40 animate-pulse rounded-xl animate-shimmer" />
+              <div className="h-48 animate-pulse animate-shimmer rounded-xl" />
+              <div className="h-48 animate-pulse animate-shimmer rounded-xl" />
             </div>
+            <div className="h-32 animate-pulse animate-shimmer rounded-xl" />
           </div>
         )}
 
         {/* Results */}
         {!loading && analysis && (
-          <AnalysisResult
-            analysis={analysis}
-            analyzedProducts={analyzedProducts}
-            webSources={webSources}
-            onPickProduct={onPickProduct}
-          />
+          <div id="analysis-result">
+            <AnalysisResult
+              analysis={analysis}
+              catalogProducts={catalogProducts}
+              webSources={webSources}
+              onPickProduct={onPickProduct}
+              onReset={handleReset}
+            />
+          </div>
         )}
       </div>
     </section>

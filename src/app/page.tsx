@@ -15,7 +15,6 @@ import {
   Search,
   Scale,
   Sparkles,
-  ShieldAlert,
   Eye,
   MessageCircleQuestion,
 } from 'lucide-react'
@@ -129,7 +128,6 @@ export default function Home() {
         />
 
         <Analyzer
-          products={products}
           onPickProduct={openProduct}
           prefillProductId={prefillProductId}
           onPrefillConsumed={() => setPrefillProductId(null)}
@@ -201,28 +199,23 @@ function HowItWorks() {
   const steps = [
     {
       icon: MessageCircleQuestion,
-      title: 'Bạn chia sẻ nhu cầu',
-      desc: 'Ngân sách, chất liệu, dịp sử dụng, và đặc biệt là nhu cầu chi tiết bằng chữ tự nhiên. Càng cụ thể, AI càng chuẩn.',
+      title: 'Bạn nhập nhu cầu',
+      desc: 'Ngân sách + chất liệu + dịp sử dụng + nhu cầu chi tiết. Không cần tự chọn sản phẩm — AI sẽ làm việc đó.',
     },
     {
       icon: Search,
-      title: 'AI tìm kiếm sản phẩm thay thế',
-      desc: 'Hệ thống tìm kiếm web các sản phẩm tương tự từ PNJ, DOJI, Jemmia, Tiffany, Lightbox, Charles & Colvard... để đối chiếu.',
+      title: 'AI đi qua toàn bộ catalog',
+      desc: 'Hệ thống đối chiếu từng sản phẩm với nhu cầu + ngân sách của bạn, đồng thời tìm kiếm web sản phẩm thay thế từ PNJ, DOJI, Jemmia, Tiffany, Lightbox...',
     },
     {
       icon: Scale,
-      title: 'Cân nhắc giá trị thực',
-      desc: 'So sánh giá với ngân sách, đánh giá chất liệu (4C, vàng/bạch kim, ngọc trai cultured), chỉ ra markup.',
-    },
-    {
-      icon: ShieldAlert,
-      title: 'Chỉ ra lý do không nên mua',
-      desc: 'Danh sách lý do cụ thể theo mức độ nghiêm trọng, kèm số liệu. Không chung chung, không éo le.',
+      title: 'Phân loại NÊN MUA / KHÔNG NÊN MUA',
+      desc: 'Mỗi sản phẩm được đánh giá: phù hợp nhu cầu thì vào danh sách NÊN MUA (xếp hạng), không phù hợp thì vào KHÔNG NÊN MUA (kèm lý do + mức độ).',
     },
     {
       icon: Sparkles,
-      title: 'Điều phối sản phẩm phù hợp',
-      desc: 'Khuyến nghị sản phẩm trong SAIGONXUA hoặc từ thương hiệu khác thật sự phù hợp nhu cầu & ngân sách của bạn.',
+      title: 'Khuyến nghị cuối cùng',
+      desc: 'AI tóm tắt nên mua gì, tránh gì, và gợi ý thay thế từ thương hiệu khác nếu catalog không có sản phẩm phù hợp.',
     },
   ]
 
@@ -235,10 +228,10 @@ function HowItWorks() {
             Minh bạch tuyệt đối
           </div>
           <h2 className="font-serif text-3xl font-semibold text-ink sm:text-4xl">
-            Cách SAIGONXUA giải mã cho bạn
+            Cách SAIGONXUA khuyến nghị cho bạn
           </h2>
           <p className="mt-4 text-base leading-relaxed text-muted-foreground">
-            Năm bước từ lúc bạn mở trang đến lúc ra quyết định — tất cả đều
+            Bốn bước từ lúc bạn nhập nhu cầu đến lúc ra quyết định — tất cả đều
             hướng tới một mục tiêu: bạn không bị lừa.
           </p>
         </div>
