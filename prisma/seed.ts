@@ -59,7 +59,7 @@ const products: SeedProduct[] = [
     ],
     whyNotToBuy: [
       {
-        reason: 'Nếu bạn muốn viên đá lớn nhất với cùng ngân sách',
+        reason: 'Nếu bạn đang so sánh để tìm viên lớn nhất với cùng ngân sách',
         detail:
           'Với 45tr, lab-grown có thể cho bạn viên 0.7–0.8ct cùng thông số — lớn hơn rõ rệt. Sản phẩm này phù hợp nếu bạn ưu tiên "tự nhiên" hơn kích thước.',
         severity: 'medium',
@@ -130,7 +130,7 @@ const products: SeedProduct[] = [
     ],
     whyNotToBuy: [
       {
-        reason: 'Nếu bạn muốn viên kim cương thật lớn, dễ nhận biết từ xa',
+        reason: 'Nếu bạn đang tìm kiếm viên kim cương tạo điểm nhấn rõ ràng',
         detail:
           'Viên 0.3ct đường kính ~4mm — vẫn tinh tế, nhưng không tạo điểm nhấn mạnh. Nếu bạn thích phong cách "lấp lánh rõ", có thể cân nhắc viên 0.5ct trở lên.',
         severity: 'medium',
@@ -201,13 +201,13 @@ const products: SeedProduct[] = [
     ],
     whyNotToBuy: [
       {
-        reason: 'Nếu bạn xem trang sức này như một "tài sản đầu tư"',
+        reason: 'Nếu bạn đang tìm kiếm trang sức giữ giá trị dài hạn',
         detail:
-          'Lab-grown mất giá nhanh theo năng suất sản xuất tăng. Giá hiện tại có thể thay đổi đáng kể sau 1–2 năm. Sản phẩm phù hợp để đeo, không phải để tích lũy giá trị.',
+          'Lab-grown có giá hiệu quả cao cho đeo hàng ngày, nhưng giá có thể thay đổi theo năng suất sản xuất. Nếu mục tiêu là "tài sản", vàng hoặc kim cương tự nhiên thông số cao có thể phù hợp hơn.',
         severity: 'medium',
       },
       {
-        reason: 'Nếu bạn không thích cảm giác nhẹ tênh trên tay',
+        reason: 'Nếu bạn thích nhẫn nhẹ tênh, không quá nặng tay',
         detail:
           'Bạch kim nặng hơn vàng trắng đáng kể. Nếu bạn quen với vàng 18K và thích cảm giác "vừa phải", bạch kim có thể cảm thấy nặng hơn mong đợi.',
         severity: 'low',
@@ -267,13 +267,13 @@ const products: SeedProduct[] = [
     ],
     whyNotToBuy: [
       {
-        reason: 'Nếu bạn muốn hoa tai lấp lánh, dễ nhận biết từ xa',
+        reason: 'Nếu bạn đang tìm kiếm hoa tai tạo hiệu ứng nổi bật',
         detail:
           '0.1ct mỗi bên (~3mm) là kích thước tinh tế, nhưng không tạo hiệu ứng "wow" rõ rệt. Nếu phong cách của bạn là nổi bật, có lẽ nên xem xét 0.3–0.5ct trở lên.',
         severity: 'medium',
       },
       {
-        reason: 'Nếu bạn quan tâm đến tỷ lệ "đá/giá" tối đa',
+        reason: 'Nếu bạn muốn tối ưu tỷ lệ "đá/giá"',
         detail:
           'Với 18tr cho 0.2ct tổng, bạn đang trả cho chất liệu vàng 18K cũng như thương hiệu. Cùng ngân sách có thể tìm được viên lớn hơn đáng kể ở lab-grown hoặc moissanite.',
         severity: 'low',
@@ -333,7 +333,7 @@ const products: SeedProduct[] = [
     ],
     whyNotToBuy: [
       {
-        reason: 'Nếu bạn đeo lắc tay thường xuyên trong môi trường vận động nhiều',
+        reason: 'Nếu bạn thường xuyên vận động, nấu ăn hoặc làm việc tay',
         detail:
           'Lắc tennis có nhiều viên nhỏ, nguy cơ mất đá khi va chạm cao hơn nhẫn đơn. Nếu bạn thường xuyên vận động, đánh tennis, nấu ăn... một chiếc nhẫn đơn có thể an toàn hơn.',
         severity: 'medium',
@@ -409,7 +409,7 @@ const products: SeedProduct[] = [
     ],
     whyNotToBuy: [
       {
-        reason: 'Nếu bạn ưu tiên độ sáng và độ trong của viên đá hơn con số carat',
+        reason: 'Nếu bạn đánh giá cao độ sáng và độ trong của viên đá hơn con số carat',
         detail:
           'Viên 1ct J/I1 sẽ không sáng và trong như viên 0.7ct màu G/VS2. Nếu điều quan trọng với bạn là viên đá thực sự đẹp khi nhìn trực tiếp, thông số cao hơn carat lớn.',
         severity: 'medium',
@@ -477,9 +477,9 @@ const products: SeedProduct[] = [
     ],
     whyNotToBuy: [
       {
-        reason: 'Nếu bạn ưu tiên chất liệu giữ giá trị lâu dài',
+        reason: 'Nếu bạn cần trang sức có khả năng giữ giá trị theo thời gian',
         detail:
-          'Ngọc trai cultured không giữ giá bán lại — chủ yếu là giá trị cảm xúc và thẩm mỹ. Nếu bạn cần trang sức có giá trị tài sản, vàng 18K/24K sẽ phù hợp hơn.',
+          'Ngọc trai cultured chủ yếu mang giá trị thẩmỹ và cảm xúc. Nếu bạn cần tài sản có thể bán lại, vàng 18K/24K hoặc đá quý tự nhiên sẽ phù hợp hơn.',
         severity: 'low',
       },
       {
@@ -538,7 +538,7 @@ const products: SeedProduct[] = [
     ],
     whyNotToBuy: [
       {
-        reason: 'Nếu bạn cần nhẫn đeo hàng ngày thường xuyên',
+        reason: 'Nếu bạn đang tìm nhẫn đeo hàng ngày thoải mái',
         detail:
           'Vàng 24K (99.99%) rất mềm, dễ xước, móp hoặc biến dạng khi va chạm thường xuyên. Nếu bạn đeo nhẫn khi làm việc, nấu ăn, hay vận động nhiều, vàng 18K hoặc 14K cứng hơn sẽ giữ dáng tốt hơn.',
         severity: 'medium',
@@ -594,7 +594,7 @@ const products: SeedProduct[] = [
     ],
     whyNotToBuy: [
       {
-        reason: 'Nếu bạn cần viên đá lấp lánh bền vững theo thời gian',
+        reason: 'Nếu bạn cần viên đá giữ độ bóng lâu dài',
         detail:
           'CZ sẽ xỉn và trầy sau 6–12 tháng sử dụng thường xuyên. Nếu bạn muốn "một lần mua, dùng lâu dài", moissanite hoặc kim cương thật sẽ giữ độ bóng tốt hơn.',
         severity: 'low',
@@ -650,7 +650,7 @@ const products: SeedProduct[] = [
     ],
     whyNotToBuy: [
       {
-        reason: 'Nếu bạn cần đeo hàng ngày trong môi trường thường xuyên vận động',
+        reason: 'Nếu bạn cần dây chuyền đeo thoải mái 24/7',
         detail:
           'Dây xíp vàng 24K mảnh, dễ vướng và đứt khi tiếp xúc tay áo, tóc hoặc vật cứng. Nếu nhu cầu là đeo thoải mái 24/7, dây 18K cứng hơn sẽ an toàn hơn.',
         severity: 'medium',
@@ -713,9 +713,9 @@ const products: SeedProduct[] = [
     ],
     whyNotToBuy: [
       {
-        reason: 'Nếu bạn cần hoa tai giữ giá trị bán lại',
+        reason: 'Nếu bạn đang tìm hoa tai có khả năng giữ giá trị',
         detail:
-          'Ngọc trai Akoya cultured không giữ giá trị bán lại — chủ yếu là giá trị thẩm mỹ. Nếu bạn cần tài sản giữ giá, vàng nguyên khối hoặc đá quý tự nhiên sẽ phù hợp hơn.',
+          'Ngọc trai Akoya cultured chủ yếu mang giá trị thẩmỹ. Nếu bạn cần tài sản có thể bán lại, vàng nguyên khối hoặc đá quý tự nhiên sẽ phù hợp hơn.',
         severity: 'low',
       },
       {
@@ -769,7 +769,7 @@ const products: SeedProduct[] = [
     ],
     whyNotToBuy: [
       {
-        reason: 'Nếu bạn cần lắc đeo thoải mái khi vận động nhiều',
+        reason: 'Nếu bạn thường xuyên nấu ăn, thể thao hoặc làm việc tay',
         detail:
           'Chuỗi xíp mảnh dễ vướng tay áo, cửa, hay vật dụng xung quanh. Nếu bạn thường xuyên nấu ăn, thể thao, hoặc làm việc tay, lắc dày hơn hoặc thiết kế đơn khối sẽ an toàn hơn.',
         severity: 'low',
@@ -835,7 +835,7 @@ const products: SeedProduct[] = [
     ],
     whyNotToBuy: [
       {
-        reason: 'Nếu bạn muốn tận dụng ngân sách cho viên đá lớn nhất có thể',
+        reason: 'Nếu bạn đang so sánh để tìm viên đá lớn nhất với ngân sách',
         detail:
           'Với 38tr, lab-grown có thể cho viên 0.8–1ct cùng thông số. 0.5ct là lựa chọn cân bằng giữa carat và chất liệu vỏ, nhưng nếu mục tiêu là "lớn nhất", bạn có thể xem xét lựa chọn khác.',
         severity: 'low',
@@ -962,7 +962,7 @@ const products: SeedProduct[] = [
     ],
     whyNotToBuy: [
       {
-        reason: 'Nếu bạn chỉ thực sự cần một món trang sức duy nhất',
+        reason: 'Nếu bạn thường xuyên đeo chỉ một trong hai món',
         detail:
           'Set bao gồm cả nhẫn và dây. Nếu bạn chỉ thường xuyên đeo một trong hai, có lẽ nên mua lẻ sản phẩm bạn thực sự dùng nhiều, với viên đá lớn hơn.',
         severity: 'medium',
@@ -1023,7 +1023,7 @@ const products: SeedProduct[] = [
     ],
     whyNotToBuy: [
       {
-        reason: 'Nếu bạn muốn đôi nhẫn giữ giá trị vàng cao nhất có thể',
+        reason: 'Nếu bạn ưu tiên tối đa giá trị vàng trong đôi nhẫn',
         detail:
           '14K chỉ chứa 58.5% vàng. Nếu bạn muốn tối đa giá trị vật liệu, đôi 18K sẽ có nhiều vàng hơn — mặc dù giá cũng cao hơn.',
         severity: 'low',
