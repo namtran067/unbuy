@@ -1,0 +1,259 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-serif: var(--font-serif);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+/* === LUXURY DARK + CHAMPAGNE GOLD DIAMOND THEME === */
+:root {
+  --radius: 0.5rem;
+
+  /* Dark luxury background — warm near-black */
+  --background: oklch(0.16 0.012 75);
+  --foreground: oklch(0.96 0.012 80);
+
+  --card: oklch(0.205 0.014 75);
+  --card-foreground: oklch(0.96 0.012 80);
+
+  --popover: oklch(0.205 0.014 75);
+  --popover-foreground: oklch(0.96 0.012 80);
+
+  /* Champagne gold as primary */
+  --primary: oklch(0.78 0.09 80);
+  --primary-foreground: oklch(0.18 0.02 75);
+
+  --secondary: oklch(0.27 0.018 75);
+  --secondary-foreground: oklch(0.95 0.012 80);
+
+  --muted: oklch(0.25 0.015 75);
+  --muted-foreground: oklch(0.7 0.02 75);
+
+  --accent: oklch(0.3 0.02 75);
+  --accent-foreground: oklch(0.96 0.012 80);
+
+  --destructive: oklch(0.62 0.18 30);
+
+  --border: oklch(0.32 0.02 75 / 0.5);
+  --input: oklch(0.28 0.018 75);
+  --ring: oklch(0.78 0.09 80);
+
+  --chart-1: oklch(0.78 0.09 80);
+  --chart-2: oklch(0.7 0.13 45);
+  --chart-3: oklch(0.65 0.1 150);
+  --chart-4: oklch(0.6 0.15 25);
+  --chart-5: oklch(0.75 0.08 95);
+
+  --sidebar: oklch(0.19 0.014 75);
+  --sidebar-foreground: oklch(0.96 0.012 80);
+  --sidebar-primary: oklch(0.78 0.09 80);
+  --sidebar-primary-foreground: oklch(0.18 0.02 75);
+  --sidebar-accent: oklch(0.27 0.018 75);
+  --sidebar-accent-foreground: oklch(0.96 0.012 80);
+  --sidebar-border: oklch(0.32 0.02 75 / 0.5);
+  --sidebar-ring: oklch(0.78 0.09 80);
+
+  /* Custom semantic colors */
+  --gold: oklch(0.82 0.1 82);
+  --gold-soft: oklch(0.72 0.08 80);
+  --champagne: oklch(0.88 0.06 85);
+  --diamond: oklch(0.95 0.02 220);
+  --warn: oklch(0.7 0.16 45);   /* terracotta/amber for "reasons not to buy" */
+  --warn-soft: oklch(0.4 0.08 45);
+  --good: oklch(0.72 0.15 150); /* emerald for verdict BUY */
+  --bad: oklch(0.62 0.2 25);    /* red for verdict AVOID */
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "ss01", "cv01";
+  }
+  ::selection {
+    background: oklch(0.78 0.09 80 / 0.3);
+    color: oklch(0.98 0.01 80);
+  }
+}
+
+/* === Custom utilities === */
+@layer utilities {
+  .font-serif {
+    font-family: var(--font-serif), Georgia, serif;
+  }
+  .text-gold {
+    color: var(--gold);
+  }
+  .bg-gold {
+    background-color: var(--gold);
+  }
+  .border-gold {
+    border-color: var(--gold);
+  }
+  .text-champagne {
+    color: var(--champagne);
+  }
+  .text-warn {
+    color: var(--warn);
+  }
+  .text-good {
+    color: var(--good);
+  }
+  .text-bad {
+    color: var(--bad);
+  }
+  .bg-card-elevated {
+    background-color: oklch(0.235 0.016 75);
+  }
+
+  /* Gradient text for gold accents */
+  .text-gradient-gold {
+    background: linear-gradient(
+      135deg,
+      oklch(0.92 0.08 88) 0%,
+      oklch(0.78 0.1 80) 50%,
+      oklch(0.7 0.09 70) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+
+  /* Subtle gold border glow */
+  .glow-gold {
+    box-shadow: 0 0 0 1px oklch(0.78 0.09 80 / 0.25),
+      0 8px 40px -12px oklch(0.78 0.09 80 / 0.35);
+  }
+
+  /* Diamond sparkle radial bg */
+  .bg-diamond-radial {
+    background-image: radial-gradient(
+        ellipse at top,
+        oklch(0.78 0.09 80 / 0.12) 0%,
+        transparent 50%
+      ),
+      radial-gradient(
+        ellipse at bottom right,
+        oklch(0.6 0.1 200 / 0.08) 0%,
+        transparent 45%
+      );
+  }
+
+  /* Diamond grid pattern overlay */
+  .bg-diamond-pattern {
+    background-image: linear-gradient(
+        135deg,
+        oklch(0.78 0.09 80 / 0.04) 25%,
+        transparent 25%,
+        transparent 50%,
+        oklch(0.78 0.09 80 / 0.04) 50%,
+        oklch(0.78 0.09 80 / 0.04) 75%,
+        transparent 75%,
+        transparent
+      );
+    background-size: 28px 28px;
+  }
+
+  .hairline {
+    background: linear-gradient(
+      90deg,
+      transparent,
+      oklch(0.78 0.09 80 / 0.5),
+      transparent
+    );
+    height: 1px;
+  }
+}
+
+/* === Custom scrollbar === */
+.scroll-luxe::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+.scroll-luxe::-webkit-scrollbar-track {
+  background: oklch(0.2 0.014 75);
+}
+.scroll-luxe::-webkit-scrollbar-thumb {
+  background: oklch(0.4 0.04 75);
+  border-radius: 4px;
+}
+.scroll-luxe::-webkit-scrollbar-thumb:hover {
+  background: oklch(0.55 0.06 78);
+}
+
+/* Diamond sparkle animation */
+@keyframes sparkle {
+  0%,
+  100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+}
+.animate-sparkle {
+  animation: sparkle 2.4s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+.animate-shimmer {
+  background: linear-gradient(
+    90deg,
+    oklch(0.3 0.018 75) 0%,
+    oklch(0.4 0.04 80) 50%,
+    oklch(0.3 0.018 75) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.6s linear infinite;
+}

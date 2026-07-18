@@ -1,0 +1,48 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// Sản phẩm trang sức - mỗi sản phẩm có các trường "anti-marketing"
+// để giải mã chiến lược branding và lý do không nên mua
+model Product {
+  id          String   @id @default(cuid())
+  name        String
+  category    String   // diamond | ring | necklace | earring | bracelet | pearl
+  material    String   // vàng 18k, vàng 14k, bạch kim, bạc, vàng hồng...
+  price       Int      // giá VND
+  oldPrice    Int?     // giá gốc (để show markup)
+  image       String
+  images      String   // JSON array of additional image paths
+  description String
+  carat       Float?   // số carat kim cương
+  cutGrade    String?  // giác cắt
+  colorGrade  String?  // màu
+  clarityGrade String? // độ tinh khiết
+  origin      String?  // tự nhiên / lab-grown
+  badge       String?  // nhãn marketing vd: "Limited Edition", "Best Seller"
+
+  // === ANTI-MARKETING FIELDS ===
+  // Chiến lược branding/marketing được dùng trên sản phẩm này (JSON array)
+  marketingTactics String // [{tactic, decoded}]
+  // Lý do tại sao không nên mua (JSON array)
+  whyNotToBuy      String // [{reason, detail, severity}]
+  // Đánh giá trung thực tổng thể
+  honestVerdict    String
+  // Đánh giá kịch bản nên mua
+  whenToBuy        String
+  // Sản phẩm thay thế từ thương hiệu/web khác (JSON array)
+  alternatives     String // [{name, brand, url, priceRange, whyBetter}]
+  // Mức giá phù hợp (budget range)
+  targetBudget     String // "low" | "mid" | "high" | "luxury"
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
