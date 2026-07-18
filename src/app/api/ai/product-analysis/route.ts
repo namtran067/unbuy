@@ -3,6 +3,7 @@ import { db } from '@/lib/db'
 import { mapProduct, type Product } from '@/lib/types'
 import { performWebSearch } from '@/lib/search'
 import { CATEGORY_LABELS } from '@/lib/format'
+import { getAICompletion } from '@/lib/ai'
 
 export const dynamic = 'force-dynamic'
 export const maxDuration = 30

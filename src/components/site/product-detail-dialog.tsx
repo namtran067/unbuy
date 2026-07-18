@@ -187,47 +187,7 @@ export function ProductDetailDialog({
                 <Spec label="Chất liệu" value={product.material} />
               </div>
 
-              {/* AI needs input */}
-              <div className="mt-5 space-y-2">
-                <label className="text-xs font-medium text-muted-foreground">
-                  Nhu cầu của bạn (để AI tư vấn riêng cho bạn)
-                </label>
-                <textarea
-                  value={userNeeds}
-                  onChange={(e) => setUserNeeds(e.target.value)}
-                  placeholder="Ví dụ: Tôi cần nhẫn cầu hôn, bạn gái thích kim cương to, đeo hàng ngày, ngân sách 50tr..."
-                  className="h-24 w-full rounded-lg border border-border bg-secondary/40 p-3 text-sm text-ink placeholder:text-muted-foreground/70 focus:border-ink/30 focus:outline-none"
-                />
-                <Button
-                  onClick={handleAIAnalysis}
-                  disabled={loading}
-                  className="w-full bg-ink text-background hover:bg-ink/90 font-medium py-2.5 rounded-lg transition-all duration-300 active:scale-[0.98] cursor-pointer shadow-sm hover:shadow"
-                >
-                  {loading ? (
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  ) : (
-                    <Sparkles className="mr-2 h-4 w-4" />
-                  )}
-                  {loading ? 'Đang phân tích...' : 'Giải Mã Riêng Cho Bạn Bằng AI'}
-                </Button>
-              </div>
-
-              {error && (
-                <div className="mt-2 rounded-lg border border-bad/30 bg-bad-soft p-3 text-xs text-bad">
-                  {error}
-                </div>
-              )}
-
-              {/* Original CTA */}
-              <Link
-                href={`/so-sanh?prefill=${product.id}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full mt-3 inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg border border-border bg-background shadow-xs hover:bg-secondary/50 text-muted-foreground hover:text-ink py-2.5 transition-all duration-300 font-medium active:scale-[0.98] text-sm"
-              >
-                <ExternalLink className="mr-2 h-4 w-4" />
-                So Sánh & Phân Tích Toàn Bộ Catalog (AI)
-              </Link>
+              {/* Needs input moved below "Khi nào sản phẩm này đáng mua?" */}
             </div>
           </div>
 
@@ -281,6 +241,47 @@ export function ProductDetailDialog({
                   </p>
                 </div>
               )}
+
+              {/* AI needs input */}
+              <div className="space-y-2.5 rounded-xl border border-border bg-secondary/30 p-5">
+                <label className="text-xs font-semibold uppercase tracking-[0.1em] text-gold">
+                  Nhu cầu của bạn (để AI tư vấn riêng cho bạn)
+                </label>
+                <textarea
+                  value={userNeeds}
+                  onChange={(e) => setUserNeeds(e.target.value)}
+                  placeholder="Ví dụ: Tôi cần nhẫn cầu hôn, bạn gái thích kim cương to, đeo hàng ngày, ngân sách 50tr..."
+                  className="h-20 w-full rounded-lg border border-border bg-background p-3 text-sm text-ink placeholder:text-muted-foreground/70 focus:border-ink/30 focus:outline-none"
+                />
+                <div className="flex flex-col gap-2 sm:flex-row">
+                  <Button
+                    onClick={handleAIAnalysis}
+                    disabled={loading}
+                    className="flex-1 bg-ink text-background hover:bg-ink/90 font-medium py-2.5 rounded-lg transition-all duration-300 active:scale-[0.98] cursor-pointer shadow-sm hover:shadow"
+                  >
+                    {loading ? (
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    ) : (
+                      <Sparkles className="mr-2 h-4 w-4" />
+                    )}
+                    {loading ? 'Đang phân tích...' : 'Giải Mã Riêng Cho Bạn Bằng AI'}
+                  </Button>
+                  <Link
+                    href={`/so-sanh?prefill=${product.id}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex sm:w-auto w-full items-center justify-center gap-2 whitespace-nowrap rounded-lg border border-border bg-background shadow-xs hover:bg-secondary/50 text-muted-foreground hover:text-ink px-4 py-2.5 transition-all duration-300 font-medium active:scale-[0.98] text-sm"
+                  >
+                    <ExternalLink className="h-4 w-4" />
+                    So Sánh & Phân Tích Toàn Bộ Catalog (AI)
+                  </Link>
+                </div>
+                {error && (
+                  <div className="mt-2 rounded-lg border border-bad/30 bg-bad-soft p-3 text-xs text-bad">
+                    {error}
+                  </div>
+                )}
+              </div>
 
               {/* Similar Products - own catalog */}
               {aiAnalysis.similarProducts?.length > 0 && (
@@ -434,6 +435,47 @@ export function ProductDetailDialog({
                   </p>
                 </div>
               )}
+
+              {/* AI needs input */}
+              <div className="space-y-2.5 rounded-xl border border-border bg-secondary/30 p-5">
+                <label className="text-xs font-semibold uppercase tracking-[0.1em] text-gold">
+                  Nhu cầu của bạn (để AI tư vấn riêng cho bạn)
+                </label>
+                <textarea
+                  value={userNeeds}
+                  onChange={(e) => setUserNeeds(e.target.value)}
+                  placeholder="Ví dụ: Tôi cần nhẫn cầu hôn, bạn gái thích kim cương to, đeo hàng ngày, ngân sách 50tr..."
+                  className="h-20 w-full rounded-lg border border-border bg-background p-3 text-sm text-ink placeholder:text-muted-foreground/70 focus:border-ink/30 focus:outline-none"
+                />
+                <div className="flex flex-col gap-2 sm:flex-row">
+                  <Button
+                    onClick={handleAIAnalysis}
+                    disabled={loading}
+                    className="flex-1 bg-ink text-background hover:bg-ink/90 font-medium py-2.5 rounded-lg transition-all duration-300 active:scale-[0.98] cursor-pointer shadow-sm hover:shadow"
+                  >
+                    {loading ? (
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    ) : (
+                      <Sparkles className="mr-2 h-4 w-4" />
+                    )}
+                    {loading ? 'Đang phân tích...' : 'Giải Mã Riêng Cho Bạn Bằng AI'}
+                  </Button>
+                  <Link
+                    href={`/so-sanh?prefill=${product.id}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex sm:w-auto w-full items-center justify-center gap-2 whitespace-nowrap rounded-lg border border-border bg-background shadow-xs hover:bg-secondary/50 text-muted-foreground hover:text-ink px-4 py-2.5 transition-all duration-300 font-medium active:scale-[0.98] text-sm"
+                  >
+                    <ExternalLink className="h-4 w-4" />
+                    So Sánh & Phân Tích Toàn Bộ Catalog (AI)
+                  </Link>
+                </div>
+                {error && (
+                  <div className="mt-2 rounded-lg border border-bad/30 bg-bad-soft p-3 text-xs text-bad">
+                    {error}
+                  </div>
+                )}
+              </div>
 
               {/* Alternatives */}
               {product.alternatives.length > 0 && (
