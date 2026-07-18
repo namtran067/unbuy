@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { mapProduct, type Product } from '@/lib/types'
+import { performWebSearch } from '@/lib/search'
+import { CATEGORY_LABELS } from '@/lib/format'
 
 export const dynamic = 'force-dynamic'
 export const maxDuration = 30
@@ -95,6 +97,20 @@ export async function POST(req: NextRequest) {
         }
       })
 
+    // Perform a real web search based on user needs and product details
+    let webResults: any[] = []
+    try {
+      const categoryLabel = CATEGORY_LABELS[product.category] || product.category
+      const searchQuery = userNeeds && userNeeds.trim().length > 0
+        ? `${userNeeds} trang sức kim cương PNJ DOJI`
+        : `${product.material} ${categoryLabel} kim cương PNJ DOJI`
+      console.log('[product-analysis] Triggering live search for query:', searchQuery)
+      webResults = await performWebSearch(searchQuery, 5)
+      console.log('[product-analysis] Search returned results:', webResults.map(r => r.name))
+    } catch (e) {
+      console.error('[product-analysis] web search failed', e)
+    }
+
     const apiKey = process.env.OPENROUTER_API_KEY
     if (!apiKey) {
       return NextResponse.json(
@@ -128,14 +144,15 @@ FORMAT JSON BẮT BUỘC:
     { "productId": "id từ catalog SAIGONXUA", "name": "tên", "price": 123456789, "image": "/products/xxx.jpg", "reason": "tại sao phù hợp nhu cầu khách" }
   ],
   "externalAlternatives": [
-    { "name": "tên", "brand": "thương hiệu", "url": "link", "priceRange": "khoảng giá", "whyBetter": "tại sao tốt hơn cho nhu cầu khách", "image": "URL hình ảnh sản phẩm nếu có thể tìm được" }
+    { "name": "tên", "brand": "thương hiệu", "url": "link", "priceRange": "khoảng giá", "whyBetter": "tại sao tốt hơn cho nhu cầu khách" }
   ],
   "summary": "tóm tắt 1-2 câu"
 }
 
 LƯU Ý:
 - "similarProducts" chỉ chứa productId THẬT có trong catalog được cung cấp. PHẢI lấy đúng image từ catalog.
-- "externalAlternatives": Hãy sử dụng các sản phẩm thay thế thực tế được cung cấp trong danh sách DB. Đảm bảo tên thương hiệu (PNJ, DOJI, Jemmia, Lightbox, Charles & Colvard...) và đặc biệt là đường link (URL) phải chính xác 100% từ DB. TUYỆT ĐỐI KHÔNG tự bịa URL hoặc tự chế tác liên kết giả mạo.
+- "externalAlternatives": Bạn BẮT BUỘC phải trích xuất các liên kết thực tế từ danh sách KẾT QUẢ TÌM KIẾM WEB hoặc danh sách sản phẩm DB. Tuyệt đối KHÔNG tự bịa URL.
+- ĐẶC BIỆT: Hãy tinh chỉnh lại tên sản phẩm từ tiêu đề SEO/danh mục của kết quả tìm kiếm để biến chúng thành tên một sản phẩm bán lẻ cụ thể và tự nhiên (ví dụ: từ "Nhẫn Cầu Hôn Đẹp, Cao Cấp, BST Mới Nhất 2026 Tại PNJ" hãy tinh chỉnh thành "Nhẫn cầu hôn Vàng 18K PNJ" hoặc "Nhẫn đính hôn Kim cương PNJ"; từ "Nhẫn đính hôn đẹp, nhẫn cầu hôn kim cương... - DOJI" hãy đổi thành "Nhẫn đính hôn Kim cương DOJI"). Tránh để nguyên tiêu đề danh mục SEO dài dòng, thô kệch.
 - Tiếng Việt, giọng điệu thân thiện, trung thực, không rao bán.}`
 
     const userMessage = `SẢN PHẨM HIỆN TẠI:
@@ -150,6 +167,7 @@ LƯU Ý:
 - Lý do không nên mua (DB): ${JSON.stringify(product.whyNotToBuy)}
 - Khi nào nên mua: ${product.whenToBuy}
 - Các sản phẩm thay thế thực tế sẵn có trong DB (có thật trên Internet): ${JSON.stringify(product.alternatives)}
+- Kết quả tìm kiếm sản phẩm thực tế từ Web (để lấy thông tin thật): ${JSON.stringify(webResults)}
 
 NHU CẦU KHÁCH HÀNG:
 ${userNeeds}
@@ -161,7 +179,7 @@ NHIỆM VỤ:
 1. Viết lại "rewrittenWhyNotToBuy" cho sản phẩm hiện tại dựa trên nhu cầu khách (tối đa 3 lý do).
 2. "honestVerdict": viết lại ngắn gọn (2-3 câu), tích cực, phù hợp với nhu cầu khách.
 3. "similarProducts": chọn tối đa 3 sản phẩm từ catalog SAIGONXUA phù hợp nhất với nhu cầu khách. PHẢI lấy đúng productId, name, price, image từ catalog.
-4. "externalAlternatives": đề xuất tối đa 3 sản phẩm thay thế từ thương hiệu khác. Hãy sử dụng các sản phẩm thay thế có thật từ danh sách DB ở trên để đảm bảo tên sản phẩm, tên thương hiệu, khoảng giá và URL liên kết chính xác 100%. Tuyệt đối không tự bịa link.
+4. "externalAlternatives": đề xuất tối đa 3 sản phẩm thay thế từ thương hiệu khác. BẮT BUỘC phải trích xuất từ KẾT QUẢ TÌM KIẾM WEB hoặc danh sách DB ở trên để lấy liên kết URL thật 100%. Hãy tinh chỉnh tên các sản phẩm lấy từ web để biến chúng thành tên một sản phẩm bán lẻ cụ thể (ví dụ: rút gọn các tiêu đề SEO dài dòng của PNJ/DOJI thành tên sản phẩm cụ thể như "Nhẫn đính hôn Kim cương PNJ").
 5. "summary": 1-2 câu tóm tắt.
 
 Trả về JSON đúng format. KHÔNG kèm markdown, KHÔNG kèm giải thích ngoài JSON.`

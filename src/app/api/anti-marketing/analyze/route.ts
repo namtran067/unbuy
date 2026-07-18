@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import ZAI from 'z-ai-web-dev-sdk'
+import { performWebSearch, type WebSearchResult } from '@/lib/search'
 import { db } from '@/lib/db'
 import { mapProduct, type AnalyzeRequest, type AntiMarketingAnalysis } from '@/lib/types'
 
@@ -63,16 +63,11 @@ FORMAT JSON BẮT BUỘC:
 
 LƯU Ý:
 - "recommendedProducts" và "avoidProducts" chỉ chứa productId THẬT sự tồn tại trong catalog được cung cấp.
-- "alternatives" dùng URL thật từ kết quả tìm kiếm web được cung cấp hoặc từ DB. KHÔNG bịa URL.
+- "alternatives" dùng URL thật từ kết quả tìm kiếm web được cung cấp hoặc từ DB. KHÔNG bịa URL. Hãy tinh chỉnh tên các sản phẩm lấy từ web để biến chúng thành tên một sản phẩm bán lẻ cụ thể (ví dụ: rút gọn các tiêu đề SEO dài dòng, thô kệch của PNJ/DOJI thành tên sản phẩm cụ thể như "Nhẫn đính hôn Kim cương PNJ", "Nhẫn cưới vàng 18K PNJ").
 - "caveat" là optional, chỉ thêm khi có lưu ý thực sự.
 - Không cần đưa TẤT CẢ sản phẩm vào 2 danh sách — chỉ những sản phẩm có lý do rõ ràng (nên mua hoặc không nên mua). Sản phẩm trung lập có thể bỏ qua.`
 
-interface WebSearchResult {
-  url: string
-  name: string
-  snippet: string
-  host_name: string
-}
+// WebSearchResult type imported from @/lib/search
 
 export async function POST(req: NextRequest) {
   try {
@@ -109,7 +104,6 @@ export async function POST(req: NextRequest) {
     // 2. Web search tìm sản phẩm thay thế
     let webResults: WebSearchResult[] = []
     try {
-      const zai = await ZAI.create()
       const queries: string[] = []
       if (needsText && needsText.trim().length > 0) {
         queries.push(`${needsText} trang sức kim cương giá tốt PNJ DOJI Jemmia`)
@@ -121,12 +115,7 @@ export async function POST(req: NextRequest) {
         queries.push(`${first.material} ${first.category} kim cương thay thế PNJ DOJI`)
       }
 
-      const searchPromises = queries.slice(0, 2).map((q) =>
-        zai.functions
-          .invoke('web_search', { query: q, num: 6 })
-          .then((r: unknown) => (Array.isArray(r) ? (r as WebSearchResult[]) : []))
-          .catch(() => [] as WebSearchResult[])
-      )
+      const searchPromises = queries.slice(0, 2).map((q) => performWebSearch(q, 6))
       const settled = await Promise.all(searchPromises)
       webResults = settled.flat().slice(0, 8)
     } catch (e) {
@@ -176,7 +165,7 @@ NHIỆM VỤ:
 - Đối chiếu TỪNG sản phẩm trong catalog với nhu cầu + ngân sách khách.
 - "recommendedProducts": những sản phẩm thực sự phù hợp, xếp hạng theo độ phù hợp (fit cao trước). Tuyệt đối chỉ đề xuất sản phẩm thuộc đúng danh mục khách đang tìm (ví dụ: tìm dây chuyền thì chỉ đề xuất dây chuyền, không đề xuất lắc tay, nhẫn...). Lý do phải cụ thể theo nhu cầu khách.
 - "avoidProducts": Luôn luôn trả về mảng rỗng [] (không phân tích phần này nữa).
-- "alternatives": kết hợp alternativesFromDB + kết quả web (URL thật), gợi ý thay thế phù hợp nhu cầu khách.
+- "alternatives": kết hợp alternativesFromDB + kết quả web (URL thật), gợi ý thay thế phù hợp nhu cầu khách. Hãy tinh chỉnh tên các sản phẩm lấy từ web để biến chúng thành tên một sản phẩm bán lẻ cụ thể (ví dụ: rút gọn các tiêu đề SEO dài dòng của PNJ/DOJI thành tên sản phẩm cụ thể như "Nhẫn đính hôn Kim cương PNJ").
 - "summary" và "finalAdvice": trực tiếp, giúp khách ra quyết định nhanh.
 
 Trả về JSON đúng format. KHÔNG kèm markdown, KHÔNG kèm giải thích ngoài JSON.`

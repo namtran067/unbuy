@@ -1,6 +1,6 @@
 'use client'
 
-import { AlertTriangle, CheckCircle2, ExternalLink, Sparkles, X, Loader2 } from 'lucide-react'
+import { AlertTriangle, CheckCircle2, ExternalLink, Sparkles, X, Loader2, Gem } from 'lucide-react'
 import type { Product } from '@/lib/types'
 import { formatVND, CATEGORY_LABELS } from '@/lib/format'
 import {
@@ -337,12 +337,26 @@ export function ProductDetailDialog({
                         className="group rounded-lg border border-border bg-card p-3 transition-colors hover:border-ink/30"
                       >
                         <div className="flex gap-3">
-                          {alt.image && (
+                          {alt.image && (alt.image.startsWith('http') || alt.image.startsWith('/')) ? (
                             <img
                               src={alt.image}
                               alt={alt.name}
-                              className="h-16 w-16 rounded-md object-cover"
+                              className="h-16 w-16 shrink-0 rounded-md object-cover"
+                              onError={(e) => {
+                                e.currentTarget.style.display = 'none'
+                                const parent = e.currentTarget.parentElement
+                                if (parent) {
+                                  const fallback = document.createElement('div')
+                                  fallback.className = 'flex h-16 w-16 shrink-0 items-center justify-center rounded-md bg-secondary text-gold'
+                                  fallback.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-gem h-6 w-6"><path d="M6 3h12l4 6-10 13L2 9Z"/><path d="M11 3 8 9l3 13"/><path d="M13 3l3 6-3 13"/><path d="M2 9h20"/></svg>`
+                                  parent.appendChild(fallback)
+                                }
+                              }}
                             />
+                          ) : (
+                            <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-md bg-secondary text-gold">
+                              <Gem className="h-6 w-6" />
+                            </div>
                           )}
                           <div className="min-w-0">
                             <div className="flex items-start justify-between gap-2">
