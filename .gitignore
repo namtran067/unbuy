@@ -1,8 +1,6 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
-# dependencies
+# Dependencies
 node_modules
-/.pnp
+.pnp
 .pnp.*
 .yarn/*
 !.yarn/patches
@@ -10,45 +8,48 @@ node_modules
 !.yarn/releases
 !.yarn/versions
 
-# testing
-/coverage
+# Build outputs
+.next/
+out/
+build/
 
-# next.js
-/.next/
-/out/
+# Environment
+.env
+.env.local
+.env.*.local
 
-# production
-/build
-
-# misc
-.DS_Store
-*.pem
-
-# debug
+# Logs
+*.log
+dev.log
+server.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
-.env*
+# OS
+.DS_Store
+Thumbs.db
 
-# vercel
-.vercel
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
 
+# Database
+# db/custom.db được giữ lại để Docker entrypoint copy vào volume lần đầu
+# Nếu muốn giữ DB hoàn toàn local, bỏ comment dòng dưới:
+# db/custom.db
 
-# typescript
-*.tsbuildinfo
-next-env.d.ts
-local-*
-.claude
-.z-ai-config
-*.log
-dev.log
-dev.out.log
-test
-prompt
+# Docker override
+docker-compose.override.yml
 
-server.log
-# Skills directory
-/skills/
+# Misc
+*.pem
+coverage/
+test/
+prompt/
+skills/
+claude.md
+.CLAUDE.md
