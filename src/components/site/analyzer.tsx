@@ -60,9 +60,35 @@ export function Analyzer({
 
   useEffect(() => {
     if (prefillProductId) {
-      onPrefillConsumed?.()
-      const el = document.getElementById('analyzer')
-      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      ;(async () => {
+        try {
+          const res = await fetch(`/api/products/${prefillProductId}`)
+          const data = await res.json()
+          if (data.success && data.product) {
+            const p = data.product
+            setBudget(p.price)
+            
+            // Try to match material option
+            if (p.material) {
+              const matchedMaterial = MATERIAL_OPTIONS.find(
+                (m) => m.toLowerCase().includes(p.material.toLowerCase()) || 
+                       p.material.toLowerCase().includes(m.toLowerCase())
+              )
+              if (matchedMaterial) setMaterial(matchedMaterial)
+            }
+            
+            setNeedsText(
+              `Tôi đang xem sản phẩm "${p.name}" (giá ${p.price.toLocaleString('vi-VN')}đ, chất liệu ${p.material}). Tôi muốn phân tích và tìm các sản phẩm thay thế tối ưu hơn.`
+            )
+          }
+        } catch (e) {
+          console.error('Failed to prefill product data', e)
+        } finally {
+          onPrefillConsumed?.()
+          const el = document.getElementById('analyzer')
+          if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        }
+      })()
     }
   }, [prefillProductId, onPrefillConsumed])
 

@@ -14,6 +14,8 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { useState } from 'react'
+import { toast } from 'sonner'
+import Link from 'next/link'
 
 interface ProductDetailDialogProps {
   product: Product | null
@@ -77,7 +79,12 @@ export function ProductDetailDialog({
     : 0
 
   const handleAIAnalysis = async () => {
-    if (!userNeeds.trim()) return
+    if (!userNeeds.trim()) {
+      toast.warning('Vui lòng nhập nhu cầu của bạn ở ô phía trên nhé!', {
+        description: 'Ví dụ: Cần mua nhẫn cầu hôn đeo hàng ngày, ngân sách 40 triệu...',
+      })
+      return
+    }
     setLoading(true)
     setError(null)
     setAiAnalysis(null)
@@ -193,15 +200,15 @@ export function ProductDetailDialog({
                 />
                 <Button
                   onClick={handleAIAnalysis}
-                  disabled={loading || !userNeeds.trim()}
-                  className="w-full bg-gold text-ink hover:bg-gold/90"
+                  disabled={loading}
+                  className="w-full bg-ink text-background hover:bg-ink/90 font-medium py-2.5 rounded-lg transition-all duration-300 active:scale-[0.98] cursor-pointer shadow-sm hover:shadow"
                 >
                   {loading ? (
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   ) : (
                     <Sparkles className="mr-2 h-4 w-4" />
                   )}
-                  {loading ? 'Đang phân tích...' : 'Phân tích AI theo nhu cầu của tôi'}
+                  {loading ? 'Đang phân tích...' : 'Giải Mã Riêng Cho Bạn Bằng AI'}
                 </Button>
               </div>
 
@@ -212,14 +219,15 @@ export function ProductDetailDialog({
               )}
 
               {/* Original CTA */}
-              <Button
-                onClick={() => onAnalyzeWithProduct(product.id)}
-                variant="outline"
-                className="mt-3 border-border hover:border-ink/30"
+              <Link
+                href={`/so-sanh?prefill=${product.id}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full mt-3 inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg border border-border bg-background shadow-xs hover:bg-secondary/50 text-muted-foreground hover:text-ink py-2.5 transition-all duration-300 font-medium active:scale-[0.98] text-sm"
               >
                 <ExternalLink className="mr-2 h-4 w-4" />
-                Phân tích toàn bộ catalog
-              </Button>
+                So Sánh & Phân Tích Toàn Bộ Catalog (AI)
+              </Link>
             </div>
           </div>
 
@@ -284,7 +292,9 @@ export function ProductDetailDialog({
                     {aiAnalysis.similarProducts.map((sp, i) => (
                       <a
                         key={i}
-                        href={`/products/${sp.productId}`}
+                        href={`/?product=${sp.productId}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="group rounded-lg border border-border bg-card p-3 transition-colors hover:border-ink/30"
                       >
                         <div className="flex gap-3">

@@ -135,8 +135,7 @@ FORMAT JSON BẮT BUỘC:
 
 LƯU Ý:
 - "similarProducts" chỉ chứa productId THẬT có trong catalog được cung cấp. PHẢI lấy đúng image từ catalog.
-- "externalAlternatives" có thể là thương hiệu phổ biến (PNJ, DOJI, Jemmia, Lightbox, Charles & Colvard, Pandora...).
-- KHÔNG bịa URL. Nếu không có URL thật, ghi "(Tìm kiếm trên Google)".
+- "externalAlternatives": Hãy sử dụng các sản phẩm thay thế thực tế được cung cấp trong danh sách DB. Đảm bảo tên thương hiệu (PNJ, DOJI, Jemmia, Lightbox, Charles & Colvard...) và đặc biệt là đường link (URL) phải chính xác 100% từ DB. TUYỆT ĐỐI KHÔNG tự bịa URL hoặc tự chế tác liên kết giả mạo.
 - Tiếng Việt, giọng điệu thân thiện, trung thực, không rao bán.}`
 
     const userMessage = `SẢN PHẨM HIỆN TẠI:
@@ -150,6 +149,7 @@ LƯU Ý:
 - Mô tả: ${product.description}
 - Lý do không nên mua (DB): ${JSON.stringify(product.whyNotToBuy)}
 - Khi nào nên mua: ${product.whenToBuy}
+- Các sản phẩm thay thế thực tế sẵn có trong DB (có thật trên Internet): ${JSON.stringify(product.alternatives)}
 
 NHU CẦU KHÁCH HÀNG:
 ${userNeeds}
@@ -161,7 +161,7 @@ NHIỆM VỤ:
 1. Viết lại "rewrittenWhyNotToBuy" cho sản phẩm hiện tại dựa trên nhu cầu khách (tối đa 3 lý do).
 2. "honestVerdict": viết lại ngắn gọn (2-3 câu), tích cực, phù hợp với nhu cầu khách.
 3. "similarProducts": chọn tối đa 3 sản phẩm từ catalog SAIGONXUA phù hợp nhất với nhu cầu khách. PHẢI lấy đúng productId, name, price, image từ catalog.
-4. "externalAlternatives": đề xuất tối đa 3 sản phẩm thay thế từ thương hiệu khác phù hợp với nhu cầu.
+4. "externalAlternatives": đề xuất tối đa 3 sản phẩm thay thế từ thương hiệu khác. Hãy sử dụng các sản phẩm thay thế có thật từ danh sách DB ở trên để đảm bảo tên sản phẩm, tên thương hiệu, khoảng giá và URL liên kết chính xác 100%. Tuyệt đối không tự bịa link.
 5. "summary": 1-2 câu tóm tắt.
 
 Trả về JSON đúng format. KHÔNG kèm markdown, KHÔNG kèm giải thích ngoài JSON.`

@@ -1,6 +1,7 @@
 'use client'
 
-import { useCallback, useEffect, useState } from 'react'
+import { Suspense, useCallback, useEffect, useState } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { Header } from '@/components/site/header'
 import { Hero } from '@/components/site/hero'
 import { Analyzer } from '@/components/site/analyzer'
@@ -19,7 +20,10 @@ import {
   MessageCircleQuestion,
 } from 'lucide-react'
 
-export default function Home() {
+function HomeContent() {
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const productIdQuery = searchParams.get('product')
   const [products, setProducts] = useState<Product[]>([])
   const [productsLoading, setProductsLoading] = useState(true)
   const [productsError, setProductsError] = useState<string | null>(null)
@@ -29,14 +33,15 @@ export default function Home() {
 
   const [prefillProductId, setPrefillProductId] = useState<string | null>(null)
 
-  // Admin state
+  // Admin state - lazy initialized to avoid hydration issues & linter errors
   const [adminLoginOpen, setAdminLoginOpen] = useState(false)
   const [adminPanelOpen, setAdminPanelOpen] = useState(false)
-  const [adminAuthed, setAdminAuthed] = useState(false)
-
-  useEffect(() => {
-    setAdminAuthed(isAdmin())
-  }, [])
+  const [adminAuthed, setAdminAuthed] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return isAdmin()
+    }
+    return false
+  })
 
   // Fetch products
   useEffect(() => {
@@ -64,6 +69,20 @@ export default function Home() {
     }
   }, [])
 
+  // Auto-open product detail dialog if "product" query param is present
+  useEffect(() => {
+    if (productIdQuery && products.length > 0) {
+      const p = products.find((x) => x.id === productIdQuery)
+      if (p) {
+        const timer = setTimeout(() => {
+          setSelectedProduct(p)
+          setDetailOpen(true)
+        }, 0)
+        return () => clearTimeout(timer)
+      }
+    }
+  }, [productIdQuery, products])
+
   // Open detail dialog by product id
   const openProduct = useCallback(
     (id: string) => {
@@ -90,11 +109,9 @@ export default function Home() {
   const handleAnalyzeWithProduct = useCallback(
     (id: string) => {
       setDetailOpen(false)
-      setPrefillProductId(id)
-      // scroll to analyzer
-      setTimeout(() => scrollTo('analyzer'), 150)
+      router.push(`/so-sanh?prefill=${id}`)
     },
-    [scrollTo]
+    [router]
   )
 
   // Admin click — if already authed, open panel; else open login
@@ -279,5 +296,20 @@ function HowItWorks() {
         </div>
       </div>
     </section>
+  )
+}
+
+export default function Home() {
+  return (
+    <Suspense fallback={
+      <div className="flex min-h-screen items-center justify-center bg-background">
+        <div className="text-center">
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-gold border-t-transparent mx-auto"></div>
+          <p className="mt-4 text-sm text-muted-foreground font-medium">Đang tải trang chủ...</p>
+        </div>
+      </div>
+    }>
+      <HomeContent />
+    </Suspense>
   )
 }

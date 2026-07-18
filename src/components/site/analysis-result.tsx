@@ -15,7 +15,6 @@ import {
 import type {
   AntiMarketingAnalysis,
   RecommendedProduct,
-  AvoidedProduct,
 } from '@/lib/types'
 import { formatVND, CATEGORY_LABELS } from '@/lib/format'
 import { Button } from '@/components/ui/button'
@@ -134,30 +133,7 @@ export function AnalysisResult({
         </div>
       </div>
 
-      {/* === KHÔNG NÊN MUA — red/amber === */}
-      {analysis.avoidProducts.length > 0 && (
-        <div className="overflow-hidden rounded-xl border border-bad/30 bg-card shadow-soft">
-          <div className="flex items-center gap-2 border-b border-bad/20 bg-bad-soft px-5 py-3.5">
-            <XCircle className="h-5 w-5 text-bad" />
-            <h3 className="font-serif text-lg font-semibold text-bad">
-              Sản phẩm KHÔNG NÊN MUA
-            </h3>
-            <Badge className="ml-1 border-bad/30 bg-background text-bad">
-              {analysis.avoidProducts.length}
-            </Badge>
-          </div>
-          <div className="space-y-2.5 p-4 sm:p-5">
-            {analysis.avoidProducts.map((av) => (
-              <AvoidCard
-                key={av.productId}
-                av={av}
-                product={productMap.get(av.productId)}
-                onPick={onPickProduct}
-              />
-            ))}
-          </div>
-        </div>
-      )}
+      {/* KHÔNG NÊN MUA section completely removed */}
 
       {/* Budget + Material analysis */}
       <div className="grid gap-4 lg:grid-cols-2">
@@ -317,52 +293,7 @@ function RecommendedCard({
   )
 }
 
-function AvoidCard({
-  av,
-  product,
-  onPick,
-}: {
-  av: AvoidedProduct
-  product?: { id: string; name: string; price: number; image: string; material: string; category: string }
-  onPick: (id: string) => void
-}) {
-  const sev = SEVERITY_STYLE[av.severity] ?? SEVERITY_STYLE.medium
-  if (!product) return null
-  return (
-    <button
-      onClick={() => onPick(product.id)}
-      className="group flex w-full items-start gap-3 rounded-lg border border-border bg-background p-3 text-left transition-colors hover:border-bad/30 hover:bg-bad-soft/20"
-    >
-      <img
-        src={product.image}
-        alt=""
-        className="h-14 w-14 shrink-0 rounded-md object-cover grayscale-[40%]"
-      />
-      <div className="min-w-0 flex-1">
-        <div className="flex flex-wrap items-center gap-2">
-          <h4 className="text-sm font-semibold text-ink line-through decoration-bad/40">
-            {product.name}
-          </h4>
-          <span
-            className={`rounded-full border ${sev.border} ${sev.bg} px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wider ${sev.color}`}
-          >
-            {sev.label}
-          </span>
-          <span className="text-xs text-muted-foreground">
-            {formatVND(product.price)}
-          </span>
-        </div>
-        <p className="mt-1 text-xs font-medium text-bad">
-          <XCircle className="mr-1 inline h-3 w-3" />
-          {av.reason}
-        </p>
-        <p className="mt-0.5 text-xs leading-relaxed text-muted-foreground">
-          {av.detail}
-        </p>
-      </div>
-    </button>
-  )
-}
+// AvoidCard component removed
 
 function Card({
   icon: Icon,
