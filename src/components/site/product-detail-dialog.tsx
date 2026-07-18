@@ -1,14 +1,6 @@
 'use client'
 
-import {
-  AlertTriangle,
-  Gem,
-  CheckCircle2,
-  ExternalLink,
-  Wand2,
-  ShieldCheck,
-  X,
-} from 'lucide-react'
+import { AlertTriangle, CheckCircle2, ExternalLink, Wand2, ShieldCheck, Sparkles, X, Loader2 } from 'lucide-react'
 import type { Product } from '@/lib/types'
 import { formatVND, CATEGORY_LABELS } from '@/lib/format'
 import {
@@ -21,6 +13,7 @@ import {
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { ScrollArea } from '@/components/ui/scroll-area'
+import { useState } from 'react'
 
 interface ProductDetailDialogProps {
   product: Product | null
@@ -35,17 +28,73 @@ const SEVERITY_STYLE = {
   low: { color: 'text-muted-foreground', bg: 'bg-muted', border: 'border-border', label: 'Nhẹ' },
 } as const
 
+interface AIWhyNotToBuy {
+  reason: string
+  detail: string
+  severity: 'high' | 'medium' | 'low'
+}
+
+interface AIAlternative {
+  name: string
+  brand: string
+  url: string
+  priceRange: string
+  whyBetter: string
+}
+
+interface AIRecommendedProduct {
+  productId: string
+  reason: string
+}
+
+interface AIAnalysis {
+  rewrittenWhyNotToBuy: AIWhyNotToBuy[]
+  honestVerdict: string
+  recommendedProducts: AIRecommendedProduct[]
+  alternatives: AIAlternative[]
+  summary: string
+}
+
 export function ProductDetailDialog({
   product,
   open,
   onOpenChange,
   onAnalyzeWithProduct,
 }: ProductDetailDialogProps) {
+  const [userNeeds, setUserNeeds] = useState('')
+  const [aiAnalysis, setAiAnalysis] = useState<AIAnalysis | null>(null)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+
   if (!product) return null
 
   const discount = product.oldPrice
     ? Math.round((1 - product.price / product.oldPrice) * 100)
     : 0
+
+  const handleAIAnalysis = async () => {
+    if (!userNeeds.trim()) return
+    setLoading(true)
+    setError(null)
+    setAiAnalysis(null)
+    try {
+      const res = await fetch('/api/ai/product-analysis', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ productId: product.id, userNeeds }),
+      })
+      const data = await res.json()
+      if (!data.success) {
+        setError(data.error || 'Không thể phân tích')
+        return
+      }
+      setAiAnalysis(data.analysis)
+    } catch {
+      setError('Không thể kết nối AI')
+    } finally {
+      setLoading(false)
+    }
+  }
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -89,7 +138,7 @@ export function ProductDetailDialog({
             {/* Info */}
             <div className="flex flex-col p-6">
               <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
-                <Gem className="h-3 w-3 text-gold" />
+                <Sparkles className="h-3 w-3 text-gold" />
                 {CATEGORY_LABELS[product.category] ?? product.category}
                 <span className="text-border">•</span>
                 <span>{product.material}</span>
@@ -125,21 +174,178 @@ export function ProductDetailDialog({
                 <Spec label="Chất liệu" value={product.material} />
               </div>
 
-              {/* CTA */}
+              {/* AI needs input */}
+              <div className="mt-5 space-y-2">
+                <label className="text-xs font-medium text-muted-foreground">
+                  Nhu cầu của bạn (để AI tư vấn riêng cho bạn)
+                </label>
+                <textarea
+                  value={userNeeds}
+                  onChange={(e) => setUserNeeds(e.target.value)}
+                  placeholder="Ví dụ: Tôi cần nhẫn cầu hôn, bạn gái thích kim cương to, đeo hàng ngày, ngân sách 50tr..."
+                  className="h-24 w-full rounded-lg border border-border bg-secondary/40 p-3 text-sm text-ink placeholder:text-muted-foreground/70 focus:border-ink/30 focus:outline-none"
+                />
+                <Button
+                  onClick={handleAIAnalysis}
+                  disabled={loading || !userNeeds.trim()}
+                  className="w-full bg-gold text-ink hover:bg-gold/90"
+                >
+                  {loading ? (
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  ) : (
+                    <Sparkles className="mr-2 h-4 w-4" />
+                  )}
+                  {loading ? 'Đang phân tích...' : 'Phân tích AI theo nhu cầu của tôi'}
+                </Button>
+              </div>
+
+              {error && (
+                <div className="mt-2 rounded-lg border border-bad/30 bg-bad-soft p-3 text-xs text-bad">
+                  {error}
+                </div>
+              )}
+
+              {/* Original CTA */}
               <Button
                 onClick={() => onAnalyzeWithProduct(product.id)}
-                className="mt-5 bg-ink text-background hover:bg-ink/90"
+                variant="outline"
+                className="mt-3 border-border hover:border-ink/30"
               >
                 <Wand2 className="mr-2 h-4 w-4" />
-                Phân tích AI theo nhu cầu của tôi
+                Phân tích toàn bộ catalog
               </Button>
-              <p className="mt-1.5 text-center text-xs text-muted-foreground">
-                Nhập ngân sách &amp; nhu cầu để AI khuyến nghị chính xác hơn
-              </p>
             </div>
           </div>
 
-          {/* Anti-marketing sections */}
+          {/* AI Results */}
+          {aiAnalysis && (
+            <div className="space-y-6 border-t border-border/70 p-6">
+              {/* Summary */}
+              {aiAnalysis.summary && (
+                <div className="rounded-xl border border-gold/30 bg-gold/5 p-5">
+                  <div className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.15em] text-gold">
+                    <Sparkles className="h-4 w-4" />
+                    Tóm tắt AI
+                  </div>
+                  <p className="font-serif text-base leading-relaxed text-ink">
+                    {aiAnalysis.summary}
+                  </p>
+                </div>
+              )}
+
+              {/* AI Honest Verdict */}
+              {aiAnalysis.honestVerdict && (
+                <div className="rounded-xl border border-border bg-secondary/40 p-5">
+                  <div className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.15em] text-ink">
+                    <ShieldCheck className="h-4 w-4 text-gold" />
+                    Đánh giá cho nhu cầu của bạn
+                  </div>
+                  <p className="font-serif text-base leading-relaxed text-ink">
+                    {aiAnalysis.honestVerdict}
+                  </p>
+                </div>
+              )}
+
+              {/* AI Rewritten Why Not To Buy */}
+              {aiAnalysis.rewrittenWhyNotToBuy?.length > 0 && (
+                <div className="space-y-2.5">
+                  <h3 className="font-serif text-base font-semibold text-ink">
+                    Lý do cân nhắc kỹ
+                  </h3>
+                  {aiAnalysis.rewrittenWhyNotToBuy.map((r, i) => {
+                    const s =
+                      SEVERITY_STYLE[r.severity] ?? SEVERITY_STYLE.medium
+                    return (
+                      <div
+                        key={i}
+                        className={`rounded-lg border ${s.border} ${s.bg} p-3`}
+                      >
+                        <div className="flex flex-wrap items-center gap-2">
+                          <span className={`text-sm font-semibold ${s.color}`}>
+                            {r.reason}
+                          </span>
+                          <span
+                            className={`rounded-full border ${s.border} px-1.5 py-0.5 text-[9px] font-medium uppercase tracking-wider ${s.color}`}
+                          >
+                            {s.label}
+                          </span>
+                        </div>
+                        <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+                          {r.detail}
+                        </p>
+                      </div>
+                    )
+                  })}
+                </div>
+              )}
+
+              {/* AI Recommended Products */}
+              {aiAnalysis.recommendedProducts?.length > 0 && (
+                <div className="space-y-3">
+                  <h3 className="font-serif text-base font-semibold text-ink">
+                    Sản phẩm trong catalog phù hợp với bạn
+                  </h3>
+                  <div className="grid gap-2.5 sm:grid-cols-2">
+                    {aiAnalysis.recommendedProducts.map((rec, i) => (
+                      <div
+                        key={i}
+                        className="rounded-lg border border-border bg-card p-3"
+                      >
+                        <div className="text-sm font-semibold text-ink">
+                          {rec.productId === product.id
+                            ? product.name
+                            : `Sản phẩm #${rec.productId.slice(-6)}`}
+                        </div>
+                        <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+                          {rec.reason}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* AI Alternatives */}
+              {aiAnalysis.alternatives?.length > 0 && (
+                <div className="space-y-3">
+                  <h3 className="font-serif text-base font-semibold text-ink">
+                    Gợi ý thêm từ thương hiệu khác
+                  </h3>
+                  <div className="grid gap-2.5 sm:grid-cols-2">
+                    {aiAnalysis.alternatives.map((alt, i) => (
+                      <a
+                        key={i}
+                        href={alt.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group rounded-lg border border-border bg-card p-3 transition-colors hover:border-ink/30"
+                      >
+                        <div className="flex items-start justify-between gap-2">
+                          <div className="min-w-0">
+                            <div className="truncate text-sm font-semibold text-ink group-hover:text-gold">
+                              {alt.name}
+                            </div>
+                            <div className="mt-0.5 text-xs font-medium text-gold">
+                              {alt.brand}
+                            </div>
+                          </div>
+                          <ExternalLink className="h-3.5 w-3.5 shrink-0 text-muted-foreground group-hover:text-gold" />
+                        </div>
+                        <div className="mt-1.5 text-xs text-ink/70">
+                          {alt.priceRange}
+                        </div>
+                        <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground">
+                          {alt.whyBetter}
+                        </p>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Original DB content (always shown) */}
           <div className="space-y-6 border-t border-border/70 p-6">
             {/* Honest verdict — top highlight */}
             <div className="rounded-xl border border-border bg-secondary/40 p-5">
@@ -154,11 +360,10 @@ export function ProductDetailDialog({
 
             {/* Reasons not to buy */}
             {product.whyNotToBuy.length > 0 && (
-              <Section
-                icon={AlertTriangle}
-                title="Lý do tại sao KHÔNG nên mua"
-                accent="warn"
-              >
+              <div className="space-y-3">
+                <h3 className="font-serif text-base font-semibold text-ink">
+                  Lý do tại sao KHÔNG nên mua
+                </h3>
                 <div className="space-y-2.5">
                   {product.whyNotToBuy.map((r, i) => {
                     const s =
@@ -185,29 +390,28 @@ export function ProductDetailDialog({
                     )
                   })}
                 </div>
-              </Section>
+              </div>
             )}
 
             {/* When to buy */}
             {product.whenToBuy && (
-              <Section
-                icon={CheckCircle2}
-                title="Khi nào sản phẩm này đáng mua?"
-                accent="good"
-              >
+              <div className="rounded-xl border border-good/30 bg-good/5 p-5">
+                <div className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.15em] text-good">
+                  <CheckCircle2 className="h-4 w-4" />
+                  Khi nào sản phẩm này đáng mua?
+                </div>
                 <p className="text-sm leading-relaxed text-muted-foreground">
                   {product.whenToBuy}
                 </p>
-              </Section>
+              </div>
             )}
 
             {/* Alternatives */}
             {product.alternatives.length > 0 && (
-              <Section
-                icon={ExternalLink}
-                title="Sản phẩm thay thế từ thương hiệu khác"
-                accent="gold"
-              >
+              <div className="space-y-3">
+                <h3 className="font-serif text-base font-semibold text-ink">
+                  Sản phẩm thay thế từ thương hiệu khác
+                </h3>
                 <div className="grid gap-2.5 sm:grid-cols-2">
                   {product.alternatives.map((alt, i) => (
                     <a
@@ -237,7 +441,7 @@ export function ProductDetailDialog({
                     </a>
                   ))}
                 </div>
-              </Section>
+              </div>
             )}
           </div>
         </ScrollArea>
@@ -253,36 +457,6 @@ function Spec({ label, value }: { label: string; value: string }) {
         {label}
       </div>
       <div className="mt-0.5 font-medium text-ink">{value}</div>
-    </div>
-  )
-}
-
-function Section({
-  icon: Icon,
-  title,
-  children,
-  accent = 'gold',
-}: {
-  icon: React.ElementType
-  title: string
-  children: React.ReactNode
-  accent?: 'gold' | 'warn' | 'good'
-}) {
-  const color =
-    accent === 'warn' ? 'text-warn' : accent === 'good' ? 'text-good' : 'text-gold'
-  return (
-    <div>
-      <div className="mb-3 flex items-center gap-2">
-        <span
-          className={`grid h-7 w-7 place-items-center rounded-md bg-secondary ${color}`}
-        >
-          <Icon className="h-3.5 w-3.5" />
-        </span>
-        <h3 className="font-serif text-base font-semibold text-ink">
-          {title}
-        </h3>
-      </div>
-      {children}
     </div>
   )
 }
