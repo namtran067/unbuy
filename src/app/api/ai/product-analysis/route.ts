@@ -111,15 +111,7 @@ export async function POST(req: NextRequest) {
       console.error('[product-analysis] web search failed', e)
     }
 
-    const apiKey = process.env.OPENROUTER_API_KEY
-    if (!apiKey) {
-      return NextResponse.json(
-        { success: false, error: 'Chưa cấu hình OPENROUTER_API_KEY' },
-        { status: 500 }
-      )
-    }
-
-    const model = process.env.OPENROUTER_MODEL || 'google/gemini-2.5-flash-lite'
+    // Removed direct OpenRouter apiKey/model validation in favor of getAICompletion helper
 
     const systemPrompt = `Bạn là "NGƯỜI TƯ VẤN TRANG SỨC TRUNG THỰC" của SAIGONXUA.
 
@@ -184,34 +176,16 @@ NHIỆM VỤ:
 
 Trả về JSON đúng format. KHÔNG kèm markdown, KHÔNG kèm giải thích ngoài JSON.`
 
-    const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${apiKey}`,
-      },
-      body: JSON.stringify({
-        model,
-        messages: [
-          { role: 'system', content: systemPrompt },
-          { role: 'user', content: userMessage },
-        ],
-        temperature: 0.7,
-        max_tokens: 2000,
-      }),
-    })
-
-    if (!response.ok) {
-      const errorText = await response.text()
-      console.error('[OpenRouter] error', response.status, errorText)
+    let raw = ''
+    try {
+      raw = await getAICompletion(systemPrompt, userMessage, true)
+    } catch (e) {
+      console.error('[product-analysis] AI completion failed', e)
       return NextResponse.json(
-        { success: false, error: 'AI service error', detail: errorText },
+        { success: false, error: 'AI service error', detail: e instanceof Error ? e.message : String(e) },
         { status: 502 }
       )
     }
-
-    const data = await response.json()
-    const raw = data.choices?.[0]?.message?.content ?? ''
 
     let analysis: AIProductAnalysisResponse | null = null
     try {

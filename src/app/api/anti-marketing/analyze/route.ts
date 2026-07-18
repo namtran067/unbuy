@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { performWebSearch, type WebSearchResult } from '@/lib/search'
+import { getAICompletion } from '@/lib/ai'
 import { db } from '@/lib/db'
 import { mapProduct, type AnalyzeRequest, type AntiMarketingAnalysis } from '@/lib/types'
 
@@ -170,44 +171,17 @@ NHIỆM VỤ:
 
 Trả về JSON đúng format. KHÔNG kèm markdown, KHÔNG kèm giải thích ngoài JSON.`
 
-    // 4. Gọi LLM via OpenRouter
-    const apiKey = process.env.OPENROUTER_API_KEY
-    if (!apiKey) {
+    // 4. Gọi LLM
+    let raw = ''
+    try {
+      raw = await getAICompletion(SYSTEM_PROMPT, userMessage, false)
+    } catch (e) {
+      console.error('[anti-marketing] AI completion failed', e)
       return NextResponse.json(
-        { success: false, error: 'Chưa cấu hình OPENROUTER_API_KEY' },
-        { status: 500 }
-      )
-    }
-    const model = process.env.OPENROUTER_MODEL || 'google/gemini-2.5-flash-lite'
-
-    const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${apiKey}`,
-      },
-      body: JSON.stringify({
-        model,
-        messages: [
-          { role: 'assistant', content: SYSTEM_PROMPT },
-          { role: 'user', content: userMessage },
-        ],
-        temperature: 0.7,
-        max_tokens: 2000,
-      }),
-    })
-
-    if (!response.ok) {
-      const errorText = await response.text()
-      console.error('[OpenRouter anti-marketing] error', response.status, errorText)
-      return NextResponse.json(
-        { success: false, error: 'Lỗi dịch vụ AI từ OpenRouter', detail: errorText },
+        { success: false, error: 'Lỗi dịch vụ AI', detail: e instanceof Error ? e.message : String(e) },
         { status: 502 }
       )
     }
-
-    const data = await response.json()
-    const raw = data.choices?.[0]?.message?.content ?? ''
 
     // 5. Parse JSON
     const analysis = parseJsonLoose<AntiMarketingAnalysis>(raw)
