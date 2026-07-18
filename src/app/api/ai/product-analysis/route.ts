@@ -128,7 +128,7 @@ FORMAT JSON BẮT BUỘC:
     { "productId": "id từ catalog SAIGONXUA", "name": "tên", "price": 123456789, "image": "/products/xxx.jpg", "reason": "tại sao phù hợp nhu cầu khách" }
   ],
   "externalAlternatives": [
-    { "name": "tên", "brand": "thương hiệu", "url": "link", "priceRange": "khoảng giá", "whyBetter": "tại sao tốt hơn cho nhu cầu khách", "image": "URL hình ảnh nếu có" }
+    { "name": "tên", "brand": "thương hiệu", "url": "link", "priceRange": "khoảng giá", "whyBetter": "tại sao tốt hơn cho nhu cầu khách", "image": "URL hình ảnh sản phẩm nếu có thể tìm được" }
   ],
   "summary": "tóm tắt 1-2 câu"
 }

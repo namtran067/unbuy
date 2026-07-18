@@ -100,7 +100,7 @@ export function ProductDetailDialog({
     }
   }
 
-  const showAIWhyNot = aiAnalysis?.rewrittenWhyNotToBuy?.length > 0
+  const showAIWhyNot = (aiAnalysis?.rewrittenWhyNotToBuy?.length ?? 0) > 0
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -233,7 +233,7 @@ export function ProductDetailDialog({
                     Lý do tại sao KHÔNG nên mua
                   </h3>
                   <div className="space-y-2.5">
-                    {aiAnalysis.rewrittenWhyNotToBuy.map((r, i) => {
+                    {(aiAnalysis.rewrittenWhyNotToBuy || []).map((r, i) => {
                       const s =
                         SEVERITY_STYLE[r.severity] ?? SEVERITY_STYLE.medium
                       return (
@@ -258,6 +258,19 @@ export function ProductDetailDialog({
                       )
                     })}
                   </div>
+                </div>
+              )}
+
+              {/* When to buy - always show after why-not-to-buy */}
+              {product.whenToBuy && (
+                <div className="rounded-xl border border-good/30 bg-good/5 p-5">
+                  <div className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.15em] text-good">
+                    <CheckCircle2 className="h-4 w-4" />
+                    Khi nào sản phẩm này đáng mua?
+                  </div>
+                  <p className="text-sm leading-relaxed text-muted-foreground">
+                    {product.whenToBuy}
+                  </p>
                 </div>
               )}
 
@@ -298,7 +311,7 @@ export function ProductDetailDialog({
                 </div>
               )}
 
-              {/* External Alternatives */}
+              {/* External Alternatives with images */}
               {aiAnalysis.externalAlternatives?.length > 0 && (
                 <div className="space-y-3">
                   <h3 className="font-serif text-base font-semibold text-ink">
@@ -306,6 +319,106 @@ export function ProductDetailDialog({
                   </h3>
                   <div className="grid gap-2.5 sm:grid-cols-2">
                     {aiAnalysis.externalAlternatives.map((alt, i) => (
+                      <a
+                        key={i}
+                        href={alt.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group rounded-lg border border-border bg-card p-3 transition-colors hover:border-ink/30"
+                      >
+                        <div className="flex gap-3">
+                          {alt.image && (
+                            <img
+                              src={alt.image}
+                              alt={alt.name}
+                              className="h-16 w-16 rounded-md object-cover"
+                            />
+                          )}
+                          <div className="min-w-0">
+                            <div className="flex items-start justify-between gap-2">
+                              <div className="truncate text-sm font-semibold text-ink group-hover:text-gold">
+                                {alt.name}
+                              </div>
+                              <ExternalLink className="h-3.5 w-3.5 shrink-0 text-muted-foreground group-hover:text-gold" />
+                            </div>
+                            <div className="mt-0.5 text-xs font-medium text-gold">
+                              {alt.brand}
+                            </div>
+                            <div className="mt-1.5 text-xs text-ink/70">
+                              {alt.priceRange}
+                            </div>
+                            <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground">
+                              {alt.whyBetter}
+                            </p>
+                          </div>
+                        </div>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Original DB content (shown when no AI analysis yet) */}
+          {!aiAnalysis && (
+            <div className="space-y-6 border-t border-border/70 p-6">
+              {/* Reasons not to buy */}
+              {product.whyNotToBuy.length > 0 && (
+                <div className="space-y-3">
+                  <h3 className="font-serif text-base font-semibold text-ink">
+                    Lý do tại sao KHÔNG nên mua
+                  </h3>
+                  <div className="space-y-2.5">
+                    {product.whyNotToBuy.map((r, i) => {
+                      const s =
+                        SEVERITY_STYLE[r.severity] ?? SEVERITY_STYLE.medium
+                      return (
+                        <div
+                          key={i}
+                          className={`rounded-lg border ${s.border} ${s.bg} p-3`}
+                        >
+                          <div className="flex flex-wrap items-center gap-2">
+                            <span className={`text-sm font-semibold ${s.color}`}>
+                              {r.reason}
+                            </span>
+                            <span
+                              className={`rounded-full border ${s.border} px-1.5 py-0.5 text-[9px] font-medium uppercase tracking-wider ${s.color}`}
+                            >
+                              {s.label}
+                            </span>
+                          </div>
+                          <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+                            {r.detail}
+                          </p>
+                        </div>
+                      )
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {/* When to buy */}
+              {product.whenToBuy && (
+                <div className="rounded-xl border border-good/30 bg-good/5 p-5">
+                  <div className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.15em] text-good">
+                    <CheckCircle2 className="h-4 w-4" />
+                    Khi nào sản phẩm này đáng mua?
+                  </div>
+                  <p className="text-sm leading-relaxed text-muted-foreground">
+                    {product.whenToBuy}
+                  </p>
+                </div>
+              )}
+
+              {/* Alternatives */}
+              {product.alternatives.length > 0 && (
+                <div className="space-y-3">
+                  <h3 className="font-serif text-base font-semibold text-ink">
+                    Gợi ý thêm từ thương hiệu khác
+                  </h3>
+                  <div className="grid gap-2.5 sm:grid-cols-2">
+                    {product.alternatives.map((alt, i) => (
                       <a
                         key={i}
                         href={alt.url}
@@ -337,95 +450,6 @@ export function ProductDetailDialog({
               )}
             </div>
           )}
-
-          {/* Original DB content (always shown) */}
-          <div className="space-y-6 border-t border-border/70 p-6">
-            {/* Reasons not to buy - hide if AI has rewritten it */}
-            {!showAIWhyNot && product.whyNotToBuy.length > 0 && (
-              <div className="space-y-3">
-                <h3 className="font-serif text-base font-semibold text-ink">
-                  Lý do tại sao KHÔNG nên mua
-                </h3>
-                <div className="space-y-2.5">
-                  {product.whyNotToBuy.map((r, i) => {
-                    const s =
-                      SEVERITY_STYLE[r.severity] ?? SEVERITY_STYLE.medium
-                    return (
-                      <div
-                        key={i}
-                        className={`rounded-lg border ${s.border} ${s.bg} p-3`}
-                      >
-                        <div className="flex flex-wrap items-center gap-2">
-                          <span className={`text-sm font-semibold ${s.color}`}>
-                            {r.reason}
-                          </span>
-                          <span
-                            className={`rounded-full border ${s.border} px-1.5 py-0.5 text-[9px] font-medium uppercase tracking-wider ${s.color}`}
-                          >
-                            {s.label}
-                          </span>
-                        </div>
-                        <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
-                          {r.detail}
-                        </p>
-                      </div>
-                    )
-                  })}
-                </div>
-              </div>
-            )}
-
-            {/* When to buy */}
-            {product.whenToBuy && (
-              <div className="rounded-xl border border-good/30 bg-good/5 p-5">
-                <div className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.15em] text-good">
-                  <CheckCircle2 className="h-4 w-4" />
-                  Khi nào sản phẩm này đáng mua?
-                </div>
-                <p className="text-sm leading-relaxed text-muted-foreground">
-                  {product.whenToBuy}
-                </p>
-              </div>
-            )}
-
-            {/* Alternatives - hide if AI has shown similar products */}
-            {!aiAnalysis && product.alternatives.length > 0 && (
-              <div className="space-y-3">
-                <h3 className="font-serif text-base font-semibold text-ink">
-                  Sản phẩm tương tự bạn có thể thích
-                </h3>
-                <div className="grid gap-2.5 sm:grid-cols-2">
-                  {product.alternatives.map((alt, i) => (
-                    <a
-                      key={i}
-                      href={alt.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group rounded-lg border border-border bg-card p-3 transition-colors hover:border-ink/30"
-                    >
-                      <div className="flex items-start justify-between gap-2">
-                        <div className="min-w-0">
-                          <div className="truncate text-sm font-semibold text-ink group-hover:text-gold">
-                            {alt.name}
-                          </div>
-                          <div className="mt-0.5 text-xs font-medium text-gold">
-                            {alt.brand}
-                          </div>
-                        </div>
-                        <ExternalLink className="h-3.5 w-3.5 shrink-0 text-muted-foreground group-hover:text-gold" />
-                      </div>
-                      <div className="mt-1.5 text-xs text-ink/70">
-                        {alt.priceRange}
-                      </div>
-                      <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground">
-                        {alt.whyBetter}
-                      </p>
-                    </a>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
         </ScrollArea>
       </DialogContent>
     </Dialog>
