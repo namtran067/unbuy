@@ -16,24 +16,28 @@ interface AIWhyNotToBuy {
   severity: 'high' | 'medium' | 'low'
 }
 
-interface AIAlternative {
+interface AISimilarProduct {
+  productId: string
+  name: string
+  price: number
+  image: string
+  reason: string
+}
+
+interface AIExternalAlternative {
   name: string
   brand: string
   url: string
   priceRange: string
   whyBetter: string
-}
-
-interface AIRecommendedProduct {
-  productId: string
-  reason: string
+  image?: string
 }
 
 interface AIProductAnalysisResponse {
   rewrittenWhyNotToBuy: AIWhyNotToBuy[]
   honestVerdict: string
-  recommendedProducts: AIRecommendedProduct[]
-  alternatives: AIAlternative[]
+  similarProducts: AISimilarProduct[]
+  externalAlternatives: AIExternalAlternative[]
   summary: string
 }
 
@@ -85,6 +89,7 @@ export async function POST(req: NextRequest) {
           badge: mapped.badge,
           description: mapped.description,
           targetBudget: mapped.targetBudget,
+          image: mapped.image,
           whyNotToBuy: mapped.whyNotToBuy,
           alternatives: mapped.alternatives,
         }
@@ -119,18 +124,18 @@ FORMAT JSON BẮT BUỘC:
     { "reason": "string", "detail": "string", "severity": "high" | "medium" | "low" }
   ],
   "honestVerdict": "string",
-  "recommendedProducts": [
-    { "productId": "id", "reason": "tại sao phù hợp nhu cầu khách" }
+  "similarProducts": [
+    { "productId": "id từ catalog SAIGONXUA", "name": "tên", "price": 123456789, "image": "/products/xxx.jpg", "reason": "tại sao phù hợp nhu cầu khách" }
   ],
-  "alternatives": [
-    { "name": "tên", "brand": "thương hiệu", "url": "link", "priceRange": "khoảng giá", "whyBetter": "tại sao tốt hơn cho nhu cầu khách" }
+  "externalAlternatives": [
+    { "name": "tên", "brand": "thương hiệu", "url": "link", "priceRange": "khoảng giá", "whyBetter": "tại sao tốt hơn cho nhu cầu khách", "image": "URL hình ảnh nếu có" }
   ],
   "summary": "tóm tắt 1-2 câu"
 }
 
 LƯU Ý:
-- "recommendedProducts" chỉ chứa productId THẬT có trong catalog được cung cấp.
-- "alternatives" có thể lấy từ DB hoặc gợi ý thương hiệu phổ biến (PNJ, DOJI, Jemmia, Lightbox, Charles & Colvard, Pandora...).
+- "similarProducts" chỉ chứa productId THẬT có trong catalog được cung cấp. PHẢI lấy đúng image từ catalog.
+- "externalAlternatives" có thể là thương hiệu phổ biến (PNJ, DOJI, Jemmia, Lightbox, Charles & Colvard, Pandora...).
 - KHÔNG bịa URL. Nếu không có URL thật, ghi "(Tìm kiếm trên Google)".
 - Tiếng Việt, giọng điệu thân thiện, trung thực, không rao bán.}`
 
@@ -145,19 +150,18 @@ LƯU Ý:
 - Mô tả: ${product.description}
 - Lý do không nên mua (DB): ${JSON.stringify(product.whyNotToBuy)}
 - Khi nào nên mua: ${product.whenToBuy}
-- Sản phẩm thay thế (DB): ${JSON.stringify(product.alternatives)}
 
 NHU CẦU KHÁCH HÀNG:
 ${userNeeds}
 
-CATALOG SẢN PHẨM KHÁC CỦA SAIGONXUA (đề xuất tối đa 3 sản phẩm phù hợp nhất):
-${JSON.stringify(catalog.slice(0, 20))}
+CATALOG SẢN PHẨM KHÁC CỦA SAIGONXUA (đề xuất tối đa 4 sản phẩm phù hợp nhất, lấy đúng id và image):
+${JSON.stringify(catalog.slice(0, 30))}
 
 NHIỆM VỤ:
 1. Viết lại "rewrittenWhyNotToBuy" cho sản phẩm hiện tại dựa trên nhu cầu khách (tối đa 3 lý do).
 2. "honestVerdict": viết lại ngắn gọn (2-3 câu), tích cực, phù hợp với nhu cầu khách.
-3. "recommendedProducts": chọn tối đa 3 sản phẩm từ catalog phù hợp nhất với nhu cầu khách (ưu tiên sản phẩm của SAIGONXUA).
-4. "alternatives": đề xuất tối đa 2 sản phẩm thay thế từ thương hiệu khác phù hợp với nhu cầu.
+3. "similarProducts": chọn tối đa 3 sản phẩm từ catalog SAIGONXUA phù hợp nhất với nhu cầu khách. PHẢI lấy đúng productId, name, price, image từ catalog.
+4. "externalAlternatives": đề xuất tối đa 3 sản phẩm thay thế từ thương hiệu khác phù hợp với nhu cầu.
 5. "summary": 1-2 câu tóm tắt.
 
 Trả về JSON đúng format. KHÔNG kèm markdown, KHÔNG kèm giải thích ngoài JSON.`
@@ -213,7 +217,7 @@ Trả về JSON đúng format. KHÔNG kèm markdown, KHÔNG kèm giải thích n
     }
 
     const validIds = new Set(catalog.map((p) => p.id))
-    analysis.recommendedProducts = (analysis.recommendedProducts || []).filter((r) =>
+    analysis.similarProducts = (analysis.similarProducts || []).filter((r) =>
       validIds.has(r.productId)
     )
 

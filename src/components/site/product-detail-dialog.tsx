@@ -1,6 +1,6 @@
 'use client'
 
-import { AlertTriangle, CheckCircle2, ExternalLink, Wand2, Sparkles, X, Loader2 } from 'lucide-react'
+import { AlertTriangle, CheckCircle2, ExternalLink, Sparkles, X, Loader2 } from 'lucide-react'
 import type { Product } from '@/lib/types'
 import { formatVND, CATEGORY_LABELS } from '@/lib/format'
 import {
@@ -34,24 +34,28 @@ interface AIWhyNotToBuy {
   severity: 'high' | 'medium' | 'low'
 }
 
-interface AIAlternative {
+interface AISimilarProduct {
+  productId: string
+  name: string
+  price: number
+  image: string
+  reason: string
+}
+
+interface AIExternalAlternative {
   name: string
   brand: string
   url: string
   priceRange: string
   whyBetter: string
-}
-
-interface AIRecommendedProduct {
-  productId: string
-  reason: string
+  image?: string
 }
 
 interface AIAnalysis {
   rewrittenWhyNotToBuy: AIWhyNotToBuy[]
   honestVerdict: string
-  recommendedProducts: AIRecommendedProduct[]
-  alternatives: AIAlternative[]
+  similarProducts: AISimilarProduct[]
+  externalAlternatives: AIExternalAlternative[]
   summary: string
 }
 
@@ -95,6 +99,8 @@ export function ProductDetailDialog({
       setLoading(false)
     }
   }
+
+  const showAIWhyNot = aiAnalysis?.rewrittenWhyNotToBuy?.length > 0
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -211,108 +217,95 @@ export function ProductDetailDialog({
                 variant="outline"
                 className="mt-3 border-border hover:border-ink/30"
               >
-                <Wand2 className="mr-2 h-4 w-4" />
+                <ExternalLink className="mr-2 h-4 w-4" />
                 Phân tích toàn bộ catalog
               </Button>
             </div>
           </div>
 
-          {/* AI Results */}
+          {/* AI Results - only shows AI-rewritten whyNotToBuy and alternatives */}
           {aiAnalysis && (
             <div className="space-y-6 border-t border-border/70 p-6">
-              {/* Summary */}
-              {aiAnalysis.summary && (
-                <div className="rounded-xl border border-gold/30 bg-gold/5 p-5">
-                  <div className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.15em] text-gold">
-                    <Sparkles className="h-4 w-4" />
-                    Tóm tắt AI
-                  </div>
-                  <p className="font-serif text-base leading-relaxed text-ink">
-                    {aiAnalysis.summary}
-                  </p>
-                </div>
-              )}
-
-              {/* AI Honest Verdict */}
-              {aiAnalysis.honestVerdict && (
-                <div className="rounded-xl border border-border bg-secondary/40 p-5">
-                  <div className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.15em] text-ink">
-                    <ShieldCheck className="h-4 w-4 text-gold" />
-                    Đánh giá cho nhu cầu của bạn
-                  </div>
-                  <p className="font-serif text-base leading-relaxed text-ink">
-                    {aiAnalysis.honestVerdict}
-                  </p>
-                </div>
-              )}
-
-              {/* AI Rewritten Why Not To Buy */}
-              {aiAnalysis.rewrittenWhyNotToBuy?.length > 0 && (
-                <div className="space-y-2.5">
-                  <h3 className="font-serif text-base font-semibold text-ink">
-                    Lý do cân nhắc kỹ
-                  </h3>
-                  {aiAnalysis.rewrittenWhyNotToBuy.map((r, i) => {
-                    const s =
-                      SEVERITY_STYLE[r.severity] ?? SEVERITY_STYLE.medium
-                    return (
-                      <div
-                        key={i}
-                        className={`rounded-lg border ${s.border} ${s.bg} p-3`}
-                      >
-                        <div className="flex flex-wrap items-center gap-2">
-                          <span className={`text-sm font-semibold ${s.color}`}>
-                            {r.reason}
-                          </span>
-                          <span
-                            className={`rounded-full border ${s.border} px-1.5 py-0.5 text-[9px] font-medium uppercase tracking-wider ${s.color}`}
-                          >
-                            {s.label}
-                          </span>
-                        </div>
-                        <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
-                          {r.detail}
-                        </p>
-                      </div>
-                    )
-                  })}
-                </div>
-              )}
-
-              {/* AI Recommended Products */}
-              {aiAnalysis.recommendedProducts?.length > 0 && (
+              {/* AI Rewritten Why Not To Buy - replaces DB version */}
+              {showAIWhyNot && (
                 <div className="space-y-3">
                   <h3 className="font-serif text-base font-semibold text-ink">
-                    Sản phẩm trong catalog phù hợp với bạn
+                    Lý do tại sao KHÔNG nên mua
+                  </h3>
+                  <div className="space-y-2.5">
+                    {aiAnalysis.rewrittenWhyNotToBuy.map((r, i) => {
+                      const s =
+                        SEVERITY_STYLE[r.severity] ?? SEVERITY_STYLE.medium
+                      return (
+                        <div
+                          key={i}
+                          className={`rounded-lg border ${s.border} ${s.bg} p-3`}
+                        >
+                          <div className="flex flex-wrap items-center gap-2">
+                            <span className={`text-sm font-semibold ${s.color}`}>
+                              {r.reason}
+                            </span>
+                            <span
+                              className={`rounded-full border ${s.border} px-1.5 py-0.5 text-[9px] font-medium uppercase tracking-wider ${s.color}`}
+                            >
+                              {s.label}
+                            </span>
+                          </div>
+                          <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+                            {r.detail}
+                          </p>
+                        </div>
+                      )
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {/* Similar Products - own catalog */}
+              {aiAnalysis.similarProducts?.length > 0 && (
+                <div className="space-y-3">
+                  <h3 className="font-serif text-base font-semibold text-ink">
+                    Sản phẩm tương tự bạn có thể thích
                   </h3>
                   <div className="grid gap-2.5 sm:grid-cols-2">
-                    {aiAnalysis.recommendedProducts.map((rec, i) => (
-                      <div
+                    {aiAnalysis.similarProducts.map((sp, i) => (
+                      <a
                         key={i}
-                        className="rounded-lg border border-border bg-card p-3"
+                        href={`/products/${sp.productId}`}
+                        className="group rounded-lg border border-border bg-card p-3 transition-colors hover:border-ink/30"
                       >
-                        <div className="text-sm font-semibold text-ink">
-                          {rec.productId === product.id
-                            ? product.name
-                            : `Sản phẩm #${rec.productId.slice(-6)}`}
+                        <div className="flex gap-3">
+                          <img
+                            src={sp.image}
+                            alt={sp.name}
+                            className="h-16 w-16 rounded-md object-cover"
+                          />
+                          <div className="min-w-0">
+                            <div className="truncate text-sm font-semibold text-ink group-hover:text-gold">
+                              {sp.name}
+                            </div>
+                            <div className="mt-0.5 text-xs font-medium text-gold">
+                              {formatVND(sp.price)}
+                            </div>
+                            <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+                              {sp.reason}
+                            </p>
+                          </div>
                         </div>
-                        <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
-                          {rec.reason}
-                        </p>
-                      </div>
+                      </a>
                     ))}
                   </div>
                 </div>
               )}
 
-              {/* AI Alternatives */}
-              {aiAnalysis.alternatives?.length > 0 && (
+              {/* External Alternatives */}
+              {aiAnalysis.externalAlternatives?.length > 0 && (
                 <div className="space-y-3">
                   <h3 className="font-serif text-base font-semibold text-ink">
                     Gợi ý thêm từ thương hiệu khác
                   </h3>
                   <div className="grid gap-2.5 sm:grid-cols-2">
-                    {aiAnalysis.alternatives.map((alt, i) => (
+                    {aiAnalysis.externalAlternatives.map((alt, i) => (
                       <a
                         key={i}
                         href={alt.url}
@@ -347,8 +340,8 @@ export function ProductDetailDialog({
 
           {/* Original DB content (always shown) */}
           <div className="space-y-6 border-t border-border/70 p-6">
-            {/* Reasons not to buy */}
-            {product.whyNotToBuy.length > 0 && (
+            {/* Reasons not to buy - hide if AI has rewritten it */}
+            {!showAIWhyNot && product.whyNotToBuy.length > 0 && (
               <div className="space-y-3">
                 <h3 className="font-serif text-base font-semibold text-ink">
                   Lý do tại sao KHÔNG nên mua
@@ -395,11 +388,11 @@ export function ProductDetailDialog({
               </div>
             )}
 
-            {/* Alternatives */}
-            {product.alternatives.length > 0 && (
+            {/* Alternatives - hide if AI has shown similar products */}
+            {!aiAnalysis && product.alternatives.length > 0 && (
               <div className="space-y-3">
                 <h3 className="font-serif text-base font-semibold text-ink">
-                  Sản phẩm thay thế từ thương hiệu khác
+                  Sản phẩm tương tự bạn có thể thích
                 </h3>
                 <div className="grid gap-2.5 sm:grid-cols-2">
                   {product.alternatives.map((alt, i) => (
