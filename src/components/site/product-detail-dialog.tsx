@@ -1,6 +1,6 @@
 'use client'
 
-import { AlertTriangle, CheckCircle2, ExternalLink, Wand2, ShieldCheck, Sparkles, X, Loader2 } from 'lucide-react'
+import { AlertTriangle, CheckCircle2, ExternalLink, Sparkles, X, Loader2 } from 'lucide-react'
 import type { Product } from '@/lib/types'
 import { formatVND, CATEGORY_LABELS } from '@/lib/format'
 import {
@@ -347,17 +347,6 @@ export function ProductDetailDialog({
 
           {/* Original DB content (always shown) */}
           <div className="space-y-6 border-t border-border/70 p-6">
-            {/* Honest verdict — top highlight */}
-            <div className="rounded-xl border border-border bg-secondary/40 p-5">
-              <div className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.15em] text-ink">
-                <ShieldCheck className="h-4 w-4 text-gold" />
-                Đánh giá trung thực
-              </div>
-              <p className="font-serif text-base leading-relaxed text-ink">
-                {product.honestVerdict}
-              </p>
-            </div>
-
             {/* Reasons not to buy */}
             {product.whyNotToBuy.length > 0 && (
               <div className="space-y-3">
